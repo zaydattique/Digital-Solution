@@ -16,7 +16,15 @@ import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/d
 type ServiceDetailViewProps = { detail: ServiceDetail; heroImage?: string };
 
 export function ServiceDetailView({ detail, heroImage = "/assets/images/home/hero-workflow.jpg" }: ServiceDetailViewProps) {
-  const currentGroup = serviceMenuGroups.find((group) => group.services.includes(detail.title));
+  const currentGroup = serviceMenuGroups.find((group) =>
+    group.services.some((name) => getServiceItemHref(name, group.id).endsWith(`/${detail.slug}`)),
+  );
+  const serviceLabel = currentGroup?.services.find((name) =>
+    getServiceItemHref(name, currentGroup.id).endsWith(`/${detail.slug}`),
+  );
+  const contactHref = currentGroup
+    ? `/book-a-demo?service=${encodeURIComponent(currentGroup.id)}${serviceLabel ? `&focus=${encodeURIComponent(serviceLabel)}` : ""}`
+    : "/book-a-demo";
   const relatedServices = currentGroup?.services.filter((service) => service !== detail.title).slice(0, 4) ?? [];
 
   useEffect(() => {
@@ -53,7 +61,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
           <p className="ds-service-hero-lede">{detail.heroSubtitle || detail.headline}</p>
           <p className="ds-service-hero-description">{detail.shortDescription || detail.description}</p>
           <div className="ds-service-actions">
-            <a href="/book-a-demo" className="ds-service-primary">Discuss your project <ArrowRight size={16} /></a>
+            <a href={contactHref} className="ds-service-primary">Discuss your project <ArrowRight size={16} /></a>
             <a href="#deliverables" className="ds-service-secondary">View deliverables</a>
           </div>
         </div>
@@ -146,7 +154,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
           <h2>Need help with {detail.title.toLowerCase()}?</h2>
           <p>Talk with a Digital Solutions specialist about the right scope, sequence, and next step for your team.</p>
         </div>
-        <a href="/book-a-demo" className="ds-service-primary">Discuss your project <ArrowUpRight size={16} /></a>
+        <a href={contactHref} className="ds-service-primary">Discuss your project <ArrowUpRight size={16} /></a>
       </section>
 
       <AgencyFooter />
