@@ -25,7 +25,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
   const contactHref = currentGroup
     ? `/book-a-demo?service=${encodeURIComponent(currentGroup.id)}${serviceLabel ? `&focus=${encodeURIComponent(serviceLabel)}` : ""}`
     : "/book-a-demo";
-  const relatedServices = currentGroup?.services.filter((service) => service !== detail.title).slice(0, 4) ?? [];
+  const relatedServices = currentGroup?.services.filter((service) => service !== serviceLabel).slice(0, 4) ?? [];
 
   useEffect(() => {
     document.documentElement.classList.add("ds-motion-ready");
@@ -158,8 +158,6 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
       </section>
 
       <AgencyFooter />
-
-
     </div>
   );
 }
