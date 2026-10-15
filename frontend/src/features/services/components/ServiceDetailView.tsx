@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   ArrowRight,
   ArrowUpRight,
   HelpCircle,
 } from "lucide-react";
-import type { FAQItem, ServiceDetail } from "@/src/features/services/types";
+import type { ServiceDetail } from "@/src/features/services/types";
 import { ServiceDeliverables, ServiceTimeline } from "./ServiceContent";
 import { ServicePageHeader } from "./ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
@@ -16,25 +16,8 @@ import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/d
 type ServiceDetailViewProps = { detail: ServiceDetail; heroImage?: string };
 
 export function ServiceDetailView({ detail, heroImage = "/assets/images/home/hero-workflow.jpg" }: ServiceDetailViewProps) {
-  const [activeFaq, setActiveFaq] = useState<FAQItem | null>(null);
-  // Related links use the current service catalog, not a second hard-coded sitemap.
   const currentGroup = serviceMenuGroups.find((group) => group.services.includes(detail.title));
   const relatedServices = currentGroup?.services.filter((service) => service !== detail.title).slice(0, 4) ?? [];
-
-
-  useEffect(() => {
-    if (!activeFaq) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setActiveFaq(null);
-    };
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", closeOnEscape);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", closeOnEscape);
-    };
-  }, [activeFaq]);
 
   useEffect(() => {
     document.documentElement.classList.add("ds-motion-ready");
@@ -116,11 +99,14 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
             <span className="ds-service-section-kicker">Common questions</span>
             <h2>What to know before we begin.</h2>
             <div className="ds-service-faq" aria-label="Frequently asked questions">
-              {detail.faq.map((q) => (
-                <button key={q.question} type="button" className="ds-service-faq-trigger" onClick={() => setActiveFaq(q)}>
-                  <span><HelpCircle size={15} /> {q.question}</span>
-                  <ArrowUpRight size={16} aria-hidden="true" />
-                </button>
+              {detail.faq.map((item) => (
+                <details key={item.question} className="ds-service-faq-item">
+                  <summary className="ds-service-faq-trigger">
+                    <span><HelpCircle size={15} aria-hidden="true" /> {item.question}</span>
+                    <ArrowUpRight size={16} aria-hidden="true" />
+                  </summary>
+                  <p className="ds-service-faq-answer">{item.answer}</p>
+                </details>
               ))}
             </div>
           </div>
@@ -165,19 +151,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
 
       <AgencyFooter />
 
-      {activeFaq && (
-        <div className="ds-service-modal-backdrop" role="presentation">
-          <div className="ds-service-modal" role="dialog" aria-modal="true" aria-labelledby="service-faq-title">
-            <div className="ds-service-modal-topline">
-              <span className="ds-service-section-kicker">Answer</span>
-              <button type="button" className="ds-service-modal-close" onClick={() => setActiveFaq(null)} aria-label="Close answer">×</button>
-            </div>
-            <h2 id="service-faq-title">{activeFaq.question}</h2>
-            <p>{activeFaq.answer}</p>
-            <button type="button" className="ds-service-primary ds-service-modal-action" onClick={() => setActiveFaq(null)}>Close answer</button>
-          </div>
-        </div>
-      )}
+
     </div>
   );
 }
