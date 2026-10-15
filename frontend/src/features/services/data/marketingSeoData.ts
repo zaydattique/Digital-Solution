@@ -4,7 +4,6 @@ export type SubServiceDetail = {
   eyebrow: string;
   headline: string;
   description: string;
-  metrics: readonly { value: string; label: string }[];
   deliverables: readonly { title: string; desc: string; iconName: string }[];
   workflowSteps: readonly { step: string; title: string; desc: string }[];
   techStack: readonly string[];
@@ -18,11 +17,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Search Engine Optimization",
     headline: "Engineering search architecture for maximum indexability and speed.",
     description: "We optimize crawl budgets, structured schema data, Core Web Vitals, and server-side rendering to turn your platform into an organic search authority.",
-    metrics: [
-      { value: "99+", label: "Core Web Vitals Score" },
-      { value: "3.4×", label: "Organic Crawl Frequency" },
-      { value: "+180%", label: "Indexed Landing Pages" },
-    ],
     deliverables: [
       { title: "Core Web Vitals & Speed Optimization", desc: "Sub-second LCP and zero Cumulative Layout Shift across desktop and mobile browsers.", iconName: "Zap" },
       { title: "JSON-LD & Structured Schema", desc: "Custom Rich Snippets schema for products, services, FAQs, organizations, and knowledge graphs.", iconName: "Code2" },
@@ -47,11 +41,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Content Automation",
     headline: "Scaling search content creation with brand-governed AI workflows.",
     description: "Build automated content engines that research, draft, fact-check, and publish SEO-optimized articles, product landing pages, and documentation at scale.",
-    metrics: [
-      { value: "10×", label: "Faster Content Output" },
-      { value: "100%", label: "Brand Voice Alignment" },
-      { value: "+240%", label: "Organic Search Traffic" },
-    ],
     deliverables: [
       { title: "Programmatic SEO Engines", desc: "Dynamic page generation templates driven by structured datasets for long-tail search dominance.", iconName: "Cpu" },
       { title: "Brand Voice AI Fine-Tuning", desc: "Custom LLM prompts and style rules ensuring every piece matches your corporate tone.", iconName: "FileText" },
@@ -76,11 +65,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Paid Growth & Advertising",
     headline: "Data-driven ad campaigns optimized for maximum return on ad spend.",
     description: "Combine AI bid management, dynamic creative optimization, and conversion-focused landing pages to turn paid search and social into predictable growth.",
-    metrics: [
-      { value: "4.2×", label: "Average ROAS" },
-      { value: "-35%", label: "Lower Cost Per Acquisition" },
-      { value: "24/7", label: "Algorithmic Bid Tuning" },
-    ],
     deliverables: [
       { title: "Google & Meta Ads Automation", desc: "Structure-driven campaign setups with continuous creative testing and smart bidding.", iconName: "Target" },
       { title: "Dynamic Landing Page Experience", desc: "Personalized landing page variants aligned with visitor search keywords for max conversions.", iconName: "Layout" },
@@ -105,11 +89,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Retention & Customer Journeys",
     headline: "Automating customer communication from first touch to long-term retention.",
     description: "We connect your CRM, email, SMS, and product data into unified automation flows that nurture prospects and drive repeat customer lifetime value.",
-    metrics: [
-      { value: "+65%", label: "Email Revenue Growth" },
-      { value: "85%", label: "Automated Lead Qualification" },
-      { value: "3.8×", label: "Higher Repeat Purchase Rate" },
-    ],
     deliverables: [
       { title: "Omnichannel Lifecycle Flows", desc: "Automated welcome series, abandoned cart, post-purchase, and win-back email/SMS sequences.", iconName: "Mail" },
       { title: "CRM Architecture & Lead Scoring", desc: "Structuring Hubspot, Salesforce, or Klaviyo with intelligent lead scoring and routing.", iconName: "Users" },
@@ -134,11 +113,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Data & Revenue Intelligence",
     headline: "Clarity on where every dollar comes from and which channels drive profit.",
     description: "Eliminate dark social and channel attribution guesswork with custom data pipelines, executive dashboards, and first-party tracking infrastructure.",
-    metrics: [
-      { value: "100%", label: "First-Party Data Ownership" },
-      { value: "0", label: "Attribution Blindspots" },
-      { value: "Realtime", label: "Revenue Dashboards" },
-    ],
     deliverables: [
       { title: "First-Party Server-Side Tracking", desc: "Bypass ad-blockers and iOS privacy restrictions with server-side GTM and custom domain tracking.", iconName: "Database" },
       { title: "Multi-Touch Attribution Modeling", desc: "First-touch, last-touch, linear, and data-driven models to understand the entire buying path.", iconName: "BarChart3" },
