@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 const config: HubPageConfig = {
   title: "Development Services — Digital Solutions",
-  eyebrow: "Production Engineering",
-  heading: "Development Services Built for Scale",
+  eyebrow: "Web and development",
+  heading: "Websites and Development Services",
   description:
-    "Secure digital products, integrations, and platforms engineered for performance, maintainability, and enterprise reliability.",
+    "Websites, applications and integrations designed around your business needs, customer journeys and long-term maintenance.",
   groupSlug: "development",
   services: webDevServices,
   icons: {
@@ -24,10 +24,10 @@ const config: HubPageConfig = {
     "cloud-devops": Cloud,
     "quality-automation": CheckCircle2,
   },
-  ctaHeading: "Scale Your Digital Products",
+  ctaHeading: "Build your next digital experience",
   ctaDescription:
-    "Build secure, performant, and maintainable applications with our expert development teams.",
-  ctaButtonText: "Start Growth Strategy",
+    "Tell us about your website, platform or integration requirements.",
+  ctaButtonText: "Discuss a project",
 };
 
 export default function DevelopmentHubPage() {
