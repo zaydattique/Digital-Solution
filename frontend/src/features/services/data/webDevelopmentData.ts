@@ -26,7 +26,7 @@ export const webDevServices: readonly WebDevService[] = [
     faq: [
       { question: "Do you build native mobile apps too?", answer: "Yes — we deliver native iOS/Android or cross‑platform apps with React Native and Flutter." },
       { question: "Can you work with our existing design system?", answer: "Absolutely. We can adopt, extend, or build a new design system from scratch." },
-      { question: "How do you handle SEO for SPAs?", answer: "We use SSR/SSG with Next.js to ensure full crawlability and top Lighthouse scores." },
+      { question: "How do you handle SEO for SPAs?", answer: "We select appropriate rendering strategies and validate HTML, indexing signals and performance in the deployed application." },
     ],
   },
 
@@ -79,7 +79,7 @@ export const webDevServices: readonly WebDevService[] = [
     techStack: ["Node.js", "Express", "GraphQL", "Kafka", "RabbitMQ", "PostgreSQL", "Redis", "Docker"],
     faq: [
       { question: "Can you integrate with our legacy ERP?", answer: "Yes — we build adapter layers and APIs around legacy systems without touching core logic." },
-      { question: "Do you support real‑time data sync?", answer: "Absolutely. We use event‑driven patterns for sub‑second data propagation." },
+      { question: "Do you support real‑time data sync?", answer: "We assess integration requirements and choose appropriate synchronization methods, including event-driven patterns where suitable." },
       { question: "How do you handle API security?", answer: "OAuth2, API keys, rate limiting, request signing, and comprehensive audit logging." },
     ],
   },
@@ -89,7 +89,7 @@ export const webDevServices: readonly WebDevService[] = [
     title: "Cloud & DevOps",
     slug: "cloud-devops",
     shortDescription:
-      "Scalable cloud infrastructure, CI/CD pipelines, container orchestration, and infrastructure‑as‑code to ship faster with zero downtime.",
+      "Cloud deployment, CI/CD automation and infrastructure planning with practical reliability and rollback considerations.",
     heroSubtitle: "Ship faster. Scale infinitely. Sleep soundly.",
     deliverables: [
       { title: "CI/CD Pipeline Engineering", desc: "Automated build, test, and deploy pipelines with GitHub Actions, GitLab CI, or Jenkins.", iconName: "Code2" },
@@ -107,7 +107,7 @@ export const webDevServices: readonly WebDevService[] = [
     faq: [
       { question: "Which cloud providers do you work with?", answer: "AWS, Azure, GCP, and multi‑cloud / hybrid setups." },
       { question: "Can you migrate our on‑prem infrastructure?", answer: "Yes — we plan and execute lift‑and‑shift, re‑platform, or re‑architect migrations." },
-      { question: "Do you provide 24/7 support?", answer: "We offer managed SRE packages with on‑call rotations and incident response." },
+      { question: "Do you provide 24/7 support?", answer: "Support arrangements depend on project scope and must be confirmed before an engagement." },
     ],
   },
 
