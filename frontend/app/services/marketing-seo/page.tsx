@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 
 const config: HubPageConfig = {
   title: "Marketing & SEO Services — Digital Solutions",
-  eyebrow: "Measurable Growth Engine",
-  heading: "Marketing & SEO Systems Designed for Scale",
+  eyebrow: "Marketing and search",
+  heading: "Digital Marketing and SEO Services",
   description:
-    "Connected technical search, AI content pipelines, algorithmic paid media, and customer lifecycle automation built for high ROI.",
+    "Plan and improve your search visibility, content workflows, paid campaigns, customer journeys and marketing analytics.",
   groupSlug: "marketing-seo",
   services: Object.values(marketingSeoSubServices),
   icons: {
@@ -25,10 +25,10 @@ const config: HubPageConfig = {
     "crm-lifecycle-automation": Mail,
     "analytics-attribution": BarChart3,
   },
-  ctaHeading: "Scale Your Marketing & Search Growth",
+  ctaHeading: "Discuss your marketing goals",
   ctaDescription:
-    "Get an expert technical SEO audit, AI content roadmap, or performance marketing plan tailored to your product.",
-  ctaButtonText: "Start Growth Strategy",
+    "Tell us about your audience, current channels and the results you want to improve.",
+  ctaButtonText: "Discuss a project",
 };
 
 export default function MarketingSeoHubPage() {
