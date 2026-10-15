@@ -18,20 +18,20 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     headline: "Engineering search architecture for maximum indexability and speed.",
     description: "We optimize crawl budgets, structured schema data, Core Web Vitals, and server-side rendering to turn your platform into an organic search authority.",
     deliverables: [
-      { title: "Core Web Vitals & Speed Optimization", desc: "Sub-second LCP and zero Cumulative Layout Shift across desktop and mobile browsers.", iconName: "Zap" },
+      { title: "Core Web Vitals & Speed Optimization", desc: "Improve loading, layout stability and responsive behavior based on measured Core Web Vitals.", iconName: "Zap" },
       { title: "JSON-LD & Structured Schema", desc: "Custom Rich Snippets schema for products, services, FAQs, organizations, and knowledge graphs.", iconName: "Code2" },
       { title: "Crawl Budget & Indexing Control", desc: "Robots.txt, sitemap management, canonical URL enforcement, and rendering log analysis.", iconName: "Search" },
       { title: "International SEO & Hreflang", desc: "Multi-region, multi-language URL routing and geotargeted search signaling.", iconName: "Globe" },
     ],
     workflowSteps: [
-      { step: "01", title: "Comprehensive Tech Audit", desc: "Deep log analysis, crawling 100k+ URLs to identify indexing barriers and latency spikes." },
+      { step: "01", title: "Comprehensive Tech Audit", desc: "Audit relevant site pages, crawl signals and indexing barriers within the agreed project scope." },
       { step: "02", title: "Architecture Refactoring", desc: "Fixing JS rendering bottlenecks, canonical conflicts, and broken URL structures." },
-      { step: "03", title: "Schema & Speed Deployment", desc: "Injecting structured JSON-LD schema and optimizing image/code bundles for instant load." },
-      { step: "04", title: "Monitoring & Maintenance", desc: "Automated Search Console monitoring to instantly catch indexation anomalies." },
+      { step: "03", title: "Schema & Speed Deployment", desc: "Implement supported structured data and prioritize measured front-end performance improvements." },
+      { step: "04", title: "Monitoring & Maintenance", desc: "Review Search Console indexing reports and investigate meaningful changes." },
     ],
     techStack: ["Next.js / Vinext", "JSON-LD Schema", "Cloudflare Workers", "Screaming Frog", "Google Search Console API"],
     faq: [
-      { question: "How quickly can technical SEO improvements boost rankings?", answer: "Technical fixes like Core Web Vitals and Schema rendering typically reflect in Google indexation within 2 to 4 weeks." },
+      { question: "How quickly can technical SEO improvements boost rankings?", answer: "Crawl and ranking changes depend on the site, competition and search engines. We monitor indexing and technical outcomes without promising a fixed timeline." },
       { question: "Do you handle JavaScript rendering SEO?", answer: "Yes, we specialize in SSR and RSC (React Server Components) so search bots receive fully pre-rendered HTML." },
     ],
   },
@@ -51,7 +51,7 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
       { step: "01", title: "Search Intent Mapping", desc: "Keyword research and entity mapping to discover high-value search clusters." },
       { step: "02", title: "Engine & Prompt Design", desc: "Building modular AI prompts and formatting templates for your CMS." },
       { step: "03", title: "Human-in-the-Loop Review", desc: "Setting up approval dashboards for rapid editor review and publishing." },
-      { step: "04", title: "Programmatic Scaling", desc: "Launching hundreds of target pages with automated sitemap updates." },
+      { step: "04", title: "Programmatic Scaling", desc: "Publish approved, original pages when each serves a distinct search intent, keeping the sitemap accurate." },
     ],
     techStack: ["OpenAI API / Claude", "Headless CMS", "Programmatic SEO Data Pipelines", "Grammarly & Style Validation"],
     faq: [
@@ -73,14 +73,14 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     ],
     workflowSteps: [
       { step: "01", title: "Audience & Competitor Audit", desc: "Analyze high-performing keywords, ad creatives, and competitor positioning." },
-      { step: "02", title: "Campaign & Landing Page Build", desc: "Engineered campaigns paired with high-converting, sub-second landing pages." },
+      { step: "02", title: "Campaign & Landing Page Build", desc: "Align campaigns with relevant landing pages and measure the resulting performance." },
       { step: "03", title: "AI Bidding Activation", desc: "Connecting offline conversion tracking to guide ad platform algorithms towards high-value leads." },
       { step: "04", title: "Creative & Copy Testing", desc: "Weekly creative refreshes to eliminate ad fatigue and drive down CPA." },
     ],
     techStack: ["Google Ads API", "Meta Ads Manager", "Vite / Next.js CRO Pages", "PostHog & Hotjar", "GA4 Premier"],
     faq: [
       { question: "What ad channels do you manage?", answer: "We focus on Google Search, Performance Max, Meta Ads (Instagram/Facebook), LinkedIn Ads, and YouTube Ads." },
-      { question: "How do you handle conversion tracking with privacy updates?", answer: "We implement Server-Side Google Tag Manager and Conversions API (CAPI) to preserve 100% data accuracy." },
+      { question: "How do you handle conversion tracking with privacy updates?", answer: "We assess consent-aware tracking options and document measurement gaps rather than claiming complete attribution." },
     ],
   },
   "crm-lifecycle-automation": {
@@ -104,7 +104,7 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     techStack: ["HubSpot", "Klaviyo", "Salesforce", "Zapier / Make", "Segment", "Twilio SMS"],
     faq: [
       { question: "Which CRM platforms do you support?", answer: "We specialize in HubSpot, Klaviyo, Salesforce, ActiveCampaign, and custom database webhooks." },
-      { question: "Can you help migrate our existing email list and automations?", answer: "Yes, we handle seamless data migration without downtime or deliverability loss." },
+      { question: "Can you help migrate our existing email list and automations?", answer: "We review migration scope and data quality, then plan staged validation to reduce interruption and deliverability risk." },
     ],
   },
   "analytics-attribution": {
