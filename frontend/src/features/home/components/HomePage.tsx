@@ -18,7 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { Brand } from "@/src/components/brand/Brand";
-import { BrandBar } from "@/src/components/brand/BrandBar";
+
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
 import { clientReviews, heroImages } from "@/src/features/home/data/content";
@@ -453,7 +453,7 @@ export default function HomePage() {
       <main className="vx-frame" id="top">
         <section
           className="vx-hero"
-          aria-label="Digital Solutions AI automation services"
+          aria-label="Digital Solutions digital marketing and creative services"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
@@ -757,12 +757,12 @@ export default function HomePage() {
 
           <div className="vx-frost-content">
             <div className="vx-frost-copy">
-              <span>ENTERPRISE DIGITAL AGENCY &amp; AUTOMATION LAB</span>
-              <h1><i>Smart Solutions.</i><i>Digital Growth.</i></h1>
-              <p>We architect full-stack digital solutions—from autonomous AI agents and enterprise web applications to conversion-focused UI/UX design and high-ROAS Meta &amp; Google marketing funnels.</p>
+              <span>DIGITAL MARKETING &amp; CREATIVE SERVICES</span>
+              <h1><i>Make your brand</i><i>impossible to miss.</i></h1>
+              <p>We help businesses build stronger visibility, better digital experiences and clearer customer journeys through marketing, design and development.</p>
               <div className="vx-frost-actions">
-                <a href="#services" className="vx-frost-actions"><span>Explore Our Services </span><ArrowRight size={15} aria-hidden="true" /></a>
-                <a href="/book-a-demo" className="vx-frost-actions"><span>Contact Us </span><ArrowRight size={15} aria-hidden="true" /></a>
+                <a href="#services" className="vx-frost-actions"><span>Explore services </span><ArrowRight size={15} aria-hidden="true" /></a>
+                <a href="/book-a-demo" className="vx-frost-actions"><span>Discuss a project </span><ArrowRight size={15} aria-hidden="true" /></a>
               </div>
             </div>
 
@@ -789,7 +789,7 @@ export default function HomePage() {
         </section>
 
         {/* Agency Brand & Ecosystem Marquee Bar */}
-        <div data-home-reveal className="vx-home-reveal"><BrandBar /></div>
+        
 
         <section
           className="vx-philosophy"
@@ -806,8 +806,8 @@ export default function HomePage() {
           <div className="vx-philosophy-content">
             <p className="vx-philosophy-eyebrow"><span aria-hidden="true" /> OUR PHILOSOPHY</p>
             <h2 id="philosophy-title">
-              <span>Human intelligence,</span>
-              <em>amplified by systems.</em>
+              <span>Clear strategy.</span>
+              <em>Better customer experiences.</em>
             </h2>
 
             <div
@@ -832,7 +832,7 @@ export default function HomePage() {
             </div>
 
             <p className="vx-philosophy-mission">
-              Our mission is not to replace the people behind the work. <strong>It&apos;s to help them move further.</strong>
+              We focus on the work that connects your marketing to measurable business goals. <strong>From the first brief through launch and improvement.</strong>
             </p>
           </div>
         </section>
@@ -1030,7 +1030,7 @@ export default function HomePage() {
         <section className="vx-deck" id="services" data-home-reveal>
           <div className="vx-services-showcase">
             <div className="vx-services-showcase-heading">
-              <span>What We Deliver</span>
+              <span>What we do</span>
               <h2>Marketing and Digital Services</h2>
               <p>Explore the services behind stronger visibility, clearer customer experiences and reliable digital delivery.</p>
             </div>
