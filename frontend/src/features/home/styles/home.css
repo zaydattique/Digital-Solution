@@ -2,12 +2,12 @@
    DESIGN TOKENS
 ═══════════════════════════════════════════════════════════ */
 :root {
-  --vx-blue:        #0e60c9;
-  --vx-blue-bright: #2d89ff;
-  --vx-blue-deep:   #0a3f8f;
+  --vx-blue:        #2779f5;
+  --vx-blue-bright: #3b8bff;
+  --vx-blue-deep:   #102b55;
   --vx-blue-light:  #dbeafe;
-  --vx-black:       #050b14;
-  --vx-black-soft:  #0a1b33;
+  --vx-black:       #050d20;
+  --vx-black-soft:  #102b55;
   --vx-paper:       #ffffff;
   --vx-canvas:      #f0f7ff;
   --vx-sky:         #0ea5e9;
@@ -15,8 +15,8 @@
   --vx-sky-deep:    #0284c7;
   --vx-sky-light:   #e0f2fe;
   --vx-lime:        #38bdf8;
-  --vx-midnight:    #040d20;
-  --vx-midnight-soft: #080b16;
+  --vx-midnight:    #050d20;
+  --vx-midnight-soft: #09162b;
   --vx-midnight-surface: rgba(26, 30, 44, .9);
   --vx-midnight-muted: rgba(190, 199, 224, .67);
   --vx-midnight-line: rgba(166, 181, 211, .2);
@@ -40,7 +40,7 @@ body {
   overflow-x: hidden;
   background: var(--vx-canvas);
   color: var(--vx-black);
-  font-family: var(--font-roboto), Arial, sans-serif;
+  font-family: var(--font-nunito-sans), Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -3431,7 +3431,7 @@ button:focus-visible {
   align-items: center;
   gap: 16px;
   color: var(--vx-sky-bright);
-  font-family: var(--font-geist-mono), monospace;
+  font-family: var(--font-nunito-sans), Arial, sans-serif;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: .34em;
