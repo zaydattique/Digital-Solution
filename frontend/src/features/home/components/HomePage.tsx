@@ -1039,7 +1039,7 @@ export default function HomePage() {
               {serviceMenuGroups.map((group, index) => (
                 <article className="vx-service-card-main" style={{ animationDelay: `${index * 90}ms` }} key={group.id}>
                   <div>
-                    {<div className="vx-service-card-image">
+                    <div className="vx-service-card-image">
                         <ResponsiveImage
                           source={group.image}
                           widths={[480, 768, 1280]}
@@ -1049,7 +1049,7 @@ export default function HomePage() {
                           loading="lazy"
                           decoding="async"
                         />
-                      </div>}
+                      </div>
                     <span className="vx-service-card-eyebrow">{group.eyebrow}</span>
                     <h3>{group.title}</h3>
                     <p>{group.description}</p>
