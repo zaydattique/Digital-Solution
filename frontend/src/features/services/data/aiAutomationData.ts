@@ -4,7 +4,6 @@ export type AIAutomationService = {
   slug: string;
   shortDescription: string;
   heroSubtitle: string;
-  metrics: { label: string; value: string }[];
   deliverables: { title: string; desc: string; iconName: string }[];
   workflowSteps: { step: string; title: string; desc: string }[];
   techStack: string[];
@@ -19,11 +18,6 @@ export const aiAutomationServices: readonly AIAutomationService[] = [
     shortDescription:
       "Connect disparate business systems into continuous, autonomous workflows that eliminate repetitive manual handoffs and operational drag.",
     heroSubtitle: "Turn fragmented manual tasks into hands-off automated workflows.",
-    metrics: [
-      { label: "Operational Speed", value: "10x Faster" },
-      { label: "Cost Reduction", value: "48%" },
-      { label: "Error Elimination", value: "99.9%" },
-    ],
     deliverables: [
       { title: "End-to-End Workflow Orchestration", desc: "Automate cross-platform handoffs between ERPs, CRMs, financial systems, and communication tools.", iconName: "Zap" },
       { title: "Smart Routing & Decision Engines", desc: "Conditional AI logic paths that triage incoming leads, support tickets, and work orders autonomously.", iconName: "Cpu" },
@@ -51,11 +45,6 @@ export const aiAutomationServices: readonly AIAutomationService[] = [
     shortDescription:
       "Autonomous goal-seeking agents and internal conversational copilots equipped with domain memory, API tooling, and safe action execution.",
     heroSubtitle: "Deploy intelligent agents that take action, not just answer questions.",
-    metrics: [
-      { label: "Task Autonomy", value: "85%" },
-      { label: "Response Latency", value: "<800ms" },
-      { label: "Team Productivity", value: "+60%" },
-    ],
     deliverables: [
       { title: "Domain-Trained Copilots", desc: "Internal copilots tuned on your company codebase, SOPs, contracts, and knowledge base.", iconName: "Brain" },
       { title: "Tool-Augmented Autonomous Agents", desc: "Agents capable of running SQL queries, creating Jira tickets, scheduling calendar invites, and updating records.", iconName: "Zap" },
@@ -83,11 +72,6 @@ export const aiAutomationServices: readonly AIAutomationService[] = [
     shortDescription:
       "Data-driven mining of system event logs and workflow trajectories to identify bottlenecks, measure automation ROI, and unearth optimization opportunities.",
     heroSubtitle: "X-ray your enterprise operations to uncover hidden inefficiencies.",
-    metrics: [
-      { label: "Process Visibility", value: "100%" },
-      { label: "Bottleneck Discovery", value: "3x Faster" },
-      { label: "ROI Accuracy", value: "98%" },
-    ],
     deliverables: [
       { title: "Process Mining & Journey Maps", desc: "Algorithmic reconstruction of actual operational workflows from raw event logs.", iconName: "BarChart3" },
       { title: "Friction & Bottleneck Detection", desc: "Automated identification of wait times, redundant loops, and rework hotspots across teams.", iconName: "Target" },
@@ -115,11 +99,6 @@ export const aiAutomationServices: readonly AIAutomationService[] = [
     shortDescription:
       "Transform unstructured PDFs, contracts, invoices, and clinical/legal files into structured, validated database records at sub-second speeds.",
     heroSubtitle: "Unlock high-precision structured data from unstructured documents.",
-    metrics: [
-      { label: "Extraction Accuracy", value: "99.4%" },
-      { label: "Processing Speed", value: "<1.2s/page" },
-      { label: "Manual Data Entry Cut", value: "92%" },
-    ],
     deliverables: [
       { title: "Multi-Modal OCR & Document Parsing", desc: "Extract dense tabular data, signatures, stamps, and handwritten notes from low-res scans.", iconName: "FileText" },
       { title: "Semantic Contract & Clause Analysis", desc: "Automatically identify non-standard clauses, renewal dates, indemnification risks, and liabilities.", iconName: "Search" },
@@ -147,11 +126,6 @@ export const aiAutomationServices: readonly AIAutomationService[] = [
     shortDescription:
       "Enterprise guardrails, prompt injection defenses, cost tracking, and telemetry for production AI applications and autonomous agents.",
     heroSubtitle: "Safe, audited, and cost-controlled AI operating at enterprise scale.",
-    metrics: [
-      { label: "Hallucination Defense", value: "99.8%" },
-      { label: "Audit Traceability", value: "100%" },
-      { label: "Token Cost Optimization", value: "35%" },
-    ],
     deliverables: [
       { title: "Deterministic Guardrail Layers", desc: "Real-time moderation filtering PII, prompt injections, harmful content, and off-topic queries.", iconName: "CheckCircle2" },
       { title: "Full Tracing & Decision Auditing", desc: "Complete lineage tracking of every prompt, tool call, retrieved chunk, and final completion.", iconName: "Search" },
