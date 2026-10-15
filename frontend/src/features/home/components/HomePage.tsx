@@ -252,15 +252,6 @@ const projectSections = [
   projects: featuredProjects.filter((project) => project.portfolioType === section.id),
 }));
 
-const softwareToolLogoTiles = [
-  { name: "ChatGPT", src: "/assets/logos/tools/openai.svg", className: "is-openai" },
-  { name: "Claude", src: "/assets/logos/tools/claude.png", className: "is-claude" },
-  { name: "Cursor", src: "/assets/logos/tools/cursor.svg", className: "is-cursor" },
-  { name: "Canva", src: "/assets/logos/tools/canva.svg", className: "is-canva" },
-  { name: "CapCut", src: "/assets/logos/tools/capcut.png", className: "is-capcut" },
-  { name: "Gemini", src: "/assets/logos/tools/googlegemini.svg", className: "is-gemini" },
-];
-
 export default function HomePage() {
   const [activeHero, setActiveHero] = useState(0);
   const [loadedHeroIndices, setLoadedHeroIndices] = useState<Set<number>>(() => new Set([0]));
@@ -539,9 +530,6 @@ export default function HomePage() {
                 >
                   Services <ChevronDown size={13} aria-hidden="true" />
                 </button>
-                <a className="vx-new-service-link" href="/services/software-tools">
-                  <span>NEW</span> Software Tools
-                </a>
                 <a
                   href="#projects"
                   onPointerEnter={() => setServicesOpen(false)}
@@ -664,8 +652,7 @@ export default function HomePage() {
               >
                 {searchOpen ? <X size={17} aria-hidden="true" /> : <Search size={17} aria-hidden="true" />}
               </button>
-              <a className="vx-mobile-tools-link" href="/services/software-tools" onClick={() => { setServicesOpen(false); closeSearch(); }}>🛠 Tools</a>
-              <a href="/book-a-demo" onClick={() => { setServicesOpen(false); closeSearch(); }}>Book a Demo <ArrowUpRight size={14} aria-hidden="true" /></a>
+              <a href="/book-a-demo" onClick={() => { setServicesOpen(false); closeSearch(); }}>Discuss a Project <ArrowUpRight size={14} aria-hidden="true" /></a>
               <button
                 className="vx-menu-toggle"
                 ref={menuButtonRef}
@@ -1044,28 +1031,15 @@ export default function HomePage() {
           <div className="vx-services-showcase">
             <div className="vx-services-showcase-heading">
               <span>What We Deliver</span>
-              <h2>Our Comprehensive Services</h2>
-              <p>Explore our core service areas—engineered to transform operations, scale growth, and deliver high-impact digital experiences.</p>
+              <h2>Marketing and Digital Services</h2>
+              <p>Explore the services behind stronger visibility, clearer customer experiences and reliable digital delivery.</p>
             </div>
 
             <div className="vx-services-grid">
               {serviceMenuGroups.map((group, index) => (
                 <article className="vx-service-card-main" style={{ animationDelay: `${index * 90}ms` }} key={group.id}>
                   <div>
-                    {group.id === "software-tools" ? (
-                      <div className="vx-service-card-image vx-service-tools-image" aria-label="ChatGPT, Claude, Cursor, Canva, CapCut, and Gemini tools">
-                        <div className="vx-service-tools-image-glow" aria-hidden="true" />
-                        <div className="vx-service-tools-logo-grid">
-                          {softwareToolLogoTiles.map((tool) => (
-                            <span className={`vx-service-tools-logo ${tool.className}`} key={tool.name} title={tool.name}>
-                              <img src={tool.src} alt="" />
-                            </span>
-                          ))}
-                        </div>
-                        <span className="vx-service-tools-image-label">AI · DESIGN · VIDEO · CODE</span>
-                      </div>
-                    ) : (
-                      <div className="vx-service-card-image">
+                    <div className="vx-service-card-image">
                         <ResponsiveImage
                           source={group.image}
                           widths={[480, 768, 1280]}
@@ -1076,7 +1050,6 @@ export default function HomePage() {
                           decoding="async"
                         />
                       </div>
-                    )}
                     <span className="vx-service-card-eyebrow">{group.eyebrow}</span>
                     <h3>{group.title}</h3>
                     <p>{group.description}</p>

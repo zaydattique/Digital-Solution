@@ -135,11 +135,11 @@ export default function SoftwareCheckoutPage() {
 
   return (
     <div className="ds-services-page ds-software-checkout-page">
-      <ServicePageHeader backHref="/services/software-tools" backLabel="Back to Software Tools" />
+      <ServicePageHeader backHref="/book-a-demo" backLabel="Contact our team" />
 
       <main className="ds-checkout-main">
         <div className="ds-checkout-back-row">
-          <a href="/services/software-tools"><ArrowLeft size={15} /> Back to plans</a>
+          <a href="/book-a-demo"><ArrowLeft size={15} /> Contact our team</a>
         </div>
 
         <section className="ds-checkout-layout" aria-labelledby="checkout-title">

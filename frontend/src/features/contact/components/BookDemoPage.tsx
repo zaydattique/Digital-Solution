@@ -181,7 +181,7 @@ export default function BookDemoPage() {
 
       <main className="ds-booking-main">
         <section className="ds-booking-intro" aria-labelledby="booking-title">
-          <span className="ds-booking-kicker">Book a demo</span>
+          <span className="ds-booking-kicker">Contact our team</span>
           <h1 id="booking-title">Let&apos;s make the next step concrete.</h1>
           <p>
             Tell us what you are building, improving, or automating. A Digital Solutions specialist will review your goals and get back to you with a practical next step.

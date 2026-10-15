@@ -29,7 +29,7 @@ These instructions apply to all changes in this repository.
 
 ## Frontend and design
 - Next.js App Router: server components by default; only use client components for stateful user interaction.
-- One confirmed licensed font family, currently user requested "Transgender Sans" but its exact identity is PENDING. No guessed replacements.
+- One confirmed licensed font family, user requires "Translucent Sans"; its exact source and embedding license remain PENDING. No guessed replacements.
 - Dark navy, high legibility, constrained electric blue accents; original visual work inspired by provided video, not a copied design.
 - Responsive from 320px upward; no horizontal scroll, inaccessible overlay, or broken viewport-height hero.
 - WCAG 2.2 AA intent with actual keyboard, focus, semantic heading, form, reduced-motion and contrast checks.

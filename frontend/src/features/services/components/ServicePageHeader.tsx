@@ -31,7 +31,7 @@ export function ServicePageHeader({
 
         <div>
           <a href="/book-a-demo" className="ds-service-header-cta">
-            Book a call <ArrowUpRight size={14} aria-hidden="true" />
+            Discuss a project <ArrowUpRight size={14} aria-hidden="true" />
           </a>
           <button
             type="button"
@@ -49,7 +49,7 @@ export function ServicePageHeader({
         <nav aria-label="Mobile service page navigation" className="ds-service-mobile-nav">
           <a href={backHref} onClick={() => setMenuOpen(false)}>{backLabel}</a>
           <a href="/#services" onClick={() => setMenuOpen(false)}>Services</a>
-          <a href="/book-a-demo" onClick={() => setMenuOpen(false)}>Book a call</a>
+          <a href="/book-a-demo" onClick={() => setMenuOpen(false)}>Discuss a project</a>
         </nav>
       )}
     </div>
