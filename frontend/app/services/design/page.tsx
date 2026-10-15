@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 const config: HubPageConfig = {
   title: "Design Services — Digital Solutions",
-  eyebrow: "Human-Centred Systems",
-  heading: "Design Services Engineered for Clarity",
+  eyebrow: "Experience and conversion",
+  heading: "Design and Conversion Services",
   description:
-    "Research-led experiences and design systems that make complex digital products feel simple, intuitive, and conversion-ready.",
+    "User experience, interface design and prototyping for websites and digital products that serve your customers.",
   groupSlug: "design",
   services: designServices,
   icons: {
@@ -24,10 +24,10 @@ const config: HubPageConfig = {
     "rapid-prototyping": Zap,
     "conversion-experience-design": Target,
   },
-  ctaHeading: "Elevate Your Product Experience",
+  ctaHeading: "Plan a better customer experience",
   ctaDescription:
-    "Turn complex enterprise software and digital workflows into seamless, delightfully usable experiences.",
-  ctaButtonText: "Start Design Project",
+    "Discuss the customer journeys or product experiences you want to improve.",
+  ctaButtonText: "Discuss a project",
 };
 
 export default function DesignHubPage() {
