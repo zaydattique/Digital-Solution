@@ -13,57 +13,6 @@ import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 
-function formatMetric(metric: { value: string; label: string }) {
-  if (metric.value.toLowerCase().includes("faster")) {
-    return {
-      value: metric.value.replace(/\s*faster/i, "").replace(/x/g, "×"),
-      label: "Faster operations",
-    };
-  }
-  return { value: metric.value.replace(/x/g, "×"), label: metric.label };
-}
-
-function parseMetric(value: string) {
-  const match = value.match(/^([+<]?)([\d.]+)(.*)$/);
-  if (!match) return { prefix: "", target: 0, suffix: value, decimals: 0 };
-  const decimals = match[2].includes(".") ? match[2].split(".")[1].length : 0;
-  return { prefix: match[1], target: Number(match[2]), suffix: match[3], decimals };
-}
-
-function AnimatedMetric({ value }: { value: string }) {
-  const parsed = parseMetric(value);
-  const [current, setCurrent] = useState(() => {
-    if (typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return parsed.target;
-    }
-    return parsed.target >= 1 ? 1 : 0;
-  });
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches || parsed.target === 0) {
-      return;
-    }
-
-    let frame = 0;
-    const startValue = parsed.target >= 1 ? 1 : 0;
-    let startedAt = 0;
-    const animate = (now: number) => {
-      if (!startedAt) startedAt = now;
-      const progress = Math.min((now - startedAt) / 2200, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      setCurrent(startValue + (parsed.target - startValue) * eased);
-      if (progress < 1) frame = requestAnimationFrame(animate);
-    };
-    const delay = window.setTimeout(() => { frame = requestAnimationFrame(animate); }, 300);
-    return () => {
-      window.clearTimeout(delay);
-      cancelAnimationFrame(frame);
-    };
-  }, [parsed.target]);
-
-  return <strong aria-label={value}>{`${parsed.prefix}${current.toFixed(parsed.decimals)}${parsed.suffix}`}</strong>;
-}
-
 type ServiceDetailViewProps = { detail: ServiceDetail; heroImage?: string };
 
 export function ServiceDetailView({ detail, heroImage = "/assets/images/home/hero-workflow.jpg" }: ServiceDetailViewProps) {
@@ -121,18 +70,8 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
           <p className="ds-service-hero-lede">{detail.heroSubtitle || detail.headline}</p>
           <p className="ds-service-hero-description">{detail.shortDescription || detail.description}</p>
           <div className="ds-service-actions">
-            <a href="/book-a-demo" className="ds-service-primary">Start a conversation <ArrowRight size={16} /></a>
+            <a href="/book-a-demo" className="ds-service-primary">Discuss your project <ArrowRight size={16} /></a>
             <a href="#deliverables" className="ds-service-secondary">View deliverables</a>
-          </div>
-          <div className="ds-service-hero-stats" aria-label="Service outcomes">
-            {detail.metrics.map((metric) => (
-              <div key={metric.label} className="ds-service-hero-stat">
-                {(() => {
-                  const formatted = formatMetric(metric);
-                  return <><AnimatedMetric value={formatted.value} /><span>{formatted.label}</span></>;
-                })()}
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -152,7 +91,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
         <div className="ds-service-section-heading">
           <div>
             <span className="ds-service-section-kicker">Delivery approach</span>
-            <h2>A clear path from brief to production.</h2>
+            <h2>A clear process from brief to delivery.</h2>
           </div>
           <p className="ds-service-section-intro">A focused process keeps delivery aligned, testable, and ready for the realities of production.</p>
         </div>
@@ -163,7 +102,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
         <div className="ds-service-split">
           <div>
             <span className="ds-service-section-kicker">Tools and foundations</span>
-            <h2>Built around your stack.</h2>
+            <h2>Practical tools for your project.</h2>
             <div className="ds-service-tech-grid">
               {detail.techStack.map((tech, index) => (
                 <span key={tech} style={{ animationDelay: `${index * 60}ms` }}>
@@ -218,10 +157,10 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
 
       <section className="ds-service-cta" data-service-reveal>
         <div>
-          <h2>Ready to make {detail.title.toLowerCase()} work harder?</h2>
+          <h2>Need help with {detail.title.toLowerCase()}?</h2>
           <p>Talk with a Digital Solutions specialist about the right scope, sequence, and next step for your team.</p>
         </div>
-        <a href="/book-a-demo" className="ds-service-primary">Book a strategy call <ArrowUpRight size={16} /></a>
+        <a href="/book-a-demo" className="ds-service-primary">Discuss your project <ArrowUpRight size={16} /></a>
       </section>
 
       <AgencyFooter />
