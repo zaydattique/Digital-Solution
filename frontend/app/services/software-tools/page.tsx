@@ -1,12 +1,6 @@
-import type { Metadata } from "next";
-import { SoftwareToolsView } from "@/src/features/services/components/SoftwareToolsView";
-import "@/src/features/services/styles/software-tools.css";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: "Software Store",
-  description: "Shop selected AI, creative, development, and productivity software with clear PKR pricing and local support.",
-};
-
+// Software sales are no longer part of the public marketing-services catalog.
 export default function SoftwareToolsPage() {
-  return <SoftwareToolsView />;
+  redirect("/book-a-demo");
 }
