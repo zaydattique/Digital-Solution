@@ -33,7 +33,7 @@ Our intent is a services-led enterprise consultancy / engineering studio, not a 
 | muted-inverse | #BACBE6 | supporting copy |
 | border | #315177 | separator and surface boundaries |
 Avoid low-contrast muted labels; verify real WCAG contrast. Avoid gratuitous glowing gradients, glassmorphism on all cards, neon outlines, and default purple "AI" illustrations.
-Typography: SINGLE family, user-specified "Transgender Sans" pending exact identity/licence verification. Do not silently replace. Define scale using CSS clamp for H1/H2/H3/body while keeping legibility and minimum mobile line-height. No extra font for code or decorative labels until explicit signoff.
+Typography: SINGLE family, user-specified "Translucent Sans" pending exact identity/licence verification. Do not silently replace. Define scale using CSS clamp for H1/H2/H3/body while keeping legibility and minimum mobile line-height. No extra font for code or decorative labels until explicit signoff.
 Spacing: consistent 4/8-point scale; page padding fluid from 16px mobile through 64px large desktop; max content width 1440px; constrained body copy line length.
 Components: header, section heading, service card/accordion, case-study tile, process step, trust proof, FAQ, CTA, footer. Reuse and edit existing components first.
 
@@ -149,7 +149,7 @@ Status: Research, repository-based architecture and design specifications comple
 - Current Xeven Solutions homepage consulted on October 15, 2026: its useful *service-first* sections are offer, service capabilities, process, client delivery, proof, company and contact. Its separately owned AI products, investment offer and proprietary ecosystem are not part of Digital Solutions.
 - Uploaded ESE Agency reference recording duration 351.17 seconds; frames sampled at 4, 20, 40, 70, 100, 140, 185, 230, 275 and 320 seconds. The frames show a minimal top navigation, high contrast oversize typography, featured projects in rich media panels, dark card grid, review cards, compact footer, service detail hero, company metrics grid and contact composition. All future assets and arrangements must be original, not transcriptions of the reference.
 - Current typography in frontend/app/layout.tsx uses Geist Mono, Nunito Sans and Roboto; frontend/src/components/brand/Brand.tsx hardcodes Nunito Sans and Inter fallbacks in SVG text. The single-family requirement spans logo SVG text and all components, not merely body text.
-- Web research identifies a commercially licensed typeface named **Transgender Grotesk**, with its designer specimen at https://tomorrow.type.today/en/trnsgndr/regular . This does NOT verify a family called **Transgender Sans**, and the Grotesk specimen describes a single-weight half-display face oriented to medium/large typography. Do not use a downloaded trial or third-party mirror font to circumvent the license. The identity, normal text readability, weights and web embedding rights must be decided before build.
+- Web research identifies a commercially licensed typeface named **Transgender Grotesk**, with its designer specimen at https://tomorrow.type.today/en/trnsgndr/regular . This does NOT verify a family called **Translucent Sans**, and the Grotesk specimen describes a single-weight half-display face oriented to medium/large typography. Do not use a downloaded trial or third-party mirror font to circumvent the license. The identity, normal text readability, weights and web embedding rights must be decided before build.
 
 ## Phase 1: Service inventory, real content and URL decisions
 
@@ -278,7 +278,7 @@ The existing slug lists must be derived directly from the current data arrays/ob
 - Use one family for hero, navigation, cards, legal, form, footer AND SVG brand text. Browser fallback system-ui only for load failures, not a competing design font.
 
 ### Font implementation gate
-**BLOCKED**. The requested literal name "Transgender Sans" has not been validated as a font family. The verified "Transgender Grotesk" has only one weight and is designed mainly for display/short passages. If that is the intended font, a single-font requirement creates a body readability/accessibility tradeoff and must be explicitly assessed. No font binary is bundled, fetched or redistributed. Do not rewrite existing font imports yet. Once identity/license approved, update existing frontend/app/layout.tsx and brand SVG to one family, use next/font/local when licensed, then test text wrap and CWV.
+**BLOCKED**. The requested literal name "Translucent Sans" has not been validated as a font family. The verified "Transgender Grotesk" has only one weight and is designed mainly for display/short passages. If that is the intended font, a single-font requirement creates a body readability/accessibility tradeoff and must be explicitly assessed. No font binary is bundled, fetched or redistributed. Do not rewrite existing font imports yet. Once identity/license approved, update existing frontend/app/layout.tsx and brand SVG to one family, use next/font/local when licensed, then test text wrap and CWV.
 
 ### Component and layout contract
 
@@ -326,3 +326,12 @@ Current files include frontend/src/features/home/styles/home.css, footer.css, no
 
 ## Next implementation handoff
 Once service/font/commerce decisions are made, Phase 3 may start with baseline tests, in-place homepage component decomposition, approved font configuration and CSS consolidation. Do not claim Phase 1/2 formally closed while sign-off boxes remain open.
+
+## Operator revision: marketing agency and direct-link checkout (2026-10-15)
+- Primary identity is a **digital marketing agency**, not a general software firm or proprietary AI platform. Reorder the EXISTING four service groups with Marketing & SEO first, Design & Experience second, Web & Development third, Automation & AI fourth. Do not add offerings or additional service-detail slugs. Existing specialized services can support marketing outcomes, but their substance must not be falsified.
+- All marketing/service inquiry CTAs lead to /book-a-demo, treated publicly as the contact/project inquiry form. The informational hub/detail pages remain publicly navigable, and they link to sibling services, other groups and contact for search usability.
+- Remove all Software Tools catalog links from public navigation/home sections; existing /services/software-tools now leads to the contact form. Do not advertise software resales as a service.
+- Direct-link-only standalone /checkout is preserved for manually shared payment links; prior /services/software-tools/checkout redirects there. The new path is noindex/nofollow; **unlisted/noindex is not private or authenticated**. Before accepting real payments require server-issued order, authoritative price, independent verification and access control for sensitive details.
+- Typography correction: requested single typeface name is **Translucent Sans** (not Translucent Sans). Web research did not verify an official distributable font named exactly Translucent Sans. Do not bundle a guessed font or claim it renders in browsers. Keep the typeface as required until a verified licensed font file/source is supplied, and use one existing readable fallback in the meantime.
+- Existing code changed in place for service priorities, public navigation and redirect logic. The standalone checkout route is the one justified necessary new page.
+- Link graph requirements: Home -> four category hubs -> all current 20 detail routes -> related siblings / other category hubs -> contact. Footer and contact provide return pathways; sitemap will list only indexable approved pages. No orphan services.
