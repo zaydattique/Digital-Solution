@@ -97,13 +97,13 @@ export const aiAutomationServices: readonly AIAutomationService[] = [
     title: "Document Intelligence",
     slug: "document-intelligence",
     shortDescription:
-      "Transform unstructured PDFs, contracts, invoices, and clinical/legal files into structured, validated database records at sub-second speeds.",
+      "Extract and validate information from documents using workflows designed around actual document quality, risk and review requirements.",
     heroSubtitle: "Unlock high-precision structured data from unstructured documents.",
     deliverables: [
       { title: "Multi-Modal OCR & Document Parsing", desc: "Extract dense tabular data, signatures, stamps, and handwritten notes from low-res scans.", iconName: "FileText" },
       { title: "Semantic Contract & Clause Analysis", desc: "Automatically identify non-standard clauses, renewal dates, indemnification risks, and liabilities.", iconName: "Search" },
       { title: "Automated Invoice & Receipt Matching", desc: "Match line items against purchase orders and ERP records with autonomous duplicate detection.", iconName: "Database" },
-      { title: "Structured Schema Export", desc: "Instant transformation into verified JSON schemas ready for downstream databases or accounting software.", iconName: "Code2" },
+      { title: "Structured Schema Export", desc: "Transform extracted fields into structured outputs with validation before downstream use.", iconName: "Code2" },
     ],
     workflowSteps: [
       { step: "01", title: "Document Taxonomy & Ingestion", desc: "Ingest document types via API, cloud storage, email webhooks, or direct drag-and-drop." },
