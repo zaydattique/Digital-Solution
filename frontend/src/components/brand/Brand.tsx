@@ -12,7 +12,7 @@ export function Brand({ compact = false, light = false }: BrandProps) {
         viewBox="0 0 320 80"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        aria-label="Digital Solutions — Smart Solutions, Digital Growth"
+        aria-label="Digital Solutions digital marketing agency"
         style={{ height: compact ? 36 : 46, width: "auto" }}
       >
         <defs>
@@ -44,13 +44,13 @@ export function Brand({ compact = false, light = false }: BrandProps) {
         </g>
 
         {/* DIGITAL */}
-        <text x="106" y="32" fontFamily="'Nunito Sans', 'Inter', system-ui, -apple-system, sans-serif" fontSize="25" fontWeight="900" letterSpacing="4.5" fill={textColor}>DIGITAL</text>
+        <text x="106" y="32" fontFamily="'Nunito Sans', sans-serif" fontSize="25" fontWeight="900" letterSpacing="4.5" fill={textColor}>DIGITAL</text>
         
         {/* SOLUTIONS */}
-        <text x="106" y="53" fontFamily="'Nunito Sans', 'Inter', system-ui, -apple-system, sans-serif" fontSize="19" fontWeight="800" letterSpacing="4.2" fill="#0077ff">SOLUTIONS</text>
+        <text x="106" y="53" fontFamily="'Nunito Sans', sans-serif" fontSize="19" fontWeight="800" letterSpacing="4.2" fill="#0077ff">SOLUTIONS</text>
         
         {/* Tagline */}
-        <text x="107" y="67" fontFamily="'Nunito Sans', 'Roboto', system-ui, sans-serif" fontSize="8.5" fontWeight="600" letterSpacing="0.8" fill="#94a3b8">Smart Solutions, Digital Growth</text>
+        <text x="107" y="67" fontFamily="'Nunito Sans', sans-serif" fontSize="8.5" fontWeight="600" letterSpacing="0.8" fill="#94a3b8">Smart Solutions, Digital Growth</text>
         
         {/* Accent Line */}
         <rect x="107" y="73" width="38" height="2" rx="1" fill="url(#dsLine)"/>
