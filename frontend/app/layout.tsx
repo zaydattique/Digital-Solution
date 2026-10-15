@@ -1,33 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { Geist_Mono, Nunito_Sans, Roboto } from "next/font/google";
+import { Nunito_Sans } from "next/font/google";
 import "@/src/features/home/styles/home.css";
 import "@/src/features/home/styles/not-found.css";
 import "@/src/features/services/styles/services.css";
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-  preload: false,
-});
 
 const nunitoSans = Nunito_Sans({
   variable: "--font-nunito-sans",
   subsets: ["latin"],
 });
 
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
 export const metadata: Metadata = {
   title: {
-    default: "Digital Solutions | AI Workflow Automation",
+    default: "Digital Solutions | Digital Marketing, Design and Development",
     template: "%s | Digital Solutions",
   },
   description:
-    "Digital Solutions designs secure AI workflows, agents, integrations, and intelligent systems around the tools your business already uses.",
+    "Digital Solutions provides digital marketing, technical SEO, experience design, web development and workflow automation services.",
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -47,7 +35,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistMono.variable} ${nunitoSans.variable} ${roboto.variable} antialiased`}
+        className={`${nunitoSans.variable} antialiased`}
       >
         {children}
       </body>
