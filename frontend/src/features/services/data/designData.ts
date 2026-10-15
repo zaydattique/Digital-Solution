@@ -55,7 +55,7 @@ export const designServices: readonly DesignService[] = [
       { step: "01", title: "Information Architecture", desc: "Map navigation structures, page hierarchy, and core interaction loops." },
       { step: "02", title: "Wireframing & Flow Design", desc: "Rapidly draft structural flows and test layout alternatives." },
       { step: "03", title: "Visual Design System", desc: "Apply typography, modern elevation, sleek glassmorphism, and branded visual styles." },
-      { step: "04", title: "Design QA & Hand-Off", desc: "Inspect frontend builds to guarantee 1:1 parity between design and production code." },
+      { step: "04", title: "Design QA & Hand-Off", desc: "Review implemented screens against approved design states and document differences." },
     ],
     techStack: ["Figma", "FigJam", "Storybook", "Principle", "Lottie", "Tailwind CSS"],
     faq: [
