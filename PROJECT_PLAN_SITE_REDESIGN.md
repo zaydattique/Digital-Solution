@@ -268,3 +268,25 @@ Every completion update must contain: commit SHA; paths modified/deleted; old co
 - Font name corrected to **Translucent Sans**. Source and embedding license not verified; no substitute binary may be mislabeled or uploaded. Typography implementation remains explicitly BLOCKED until valid font is supplied.
 - Implementation on this phase branch edits existing service catalog, homepage/navigation, header, contact copy and legacy route owners. One justified new app/checkout/page.tsx file exists for route separation. No new services or CSS overrides added.
 - SEO requirements continue to include cross-links among related services/hubs and contact; technical sitemap/robots/llms will be verified in Phase 6.
+
+## Phase 3 implementation checkpoint, 2026-10-15
+Working branch: `feat/phase-3-marketing-homepage`; Phase 1/2 PR #2 was merged into main at commit `9f6bcf0c52ac51454f17ac9760697de143a04da9`.
+
+### Implemented in existing files
+- Homepage hero and initial service-section messaging now establish the marketing agency positioning. The process carousel now describes Discover, Plan, Create, Launch and Improve using existing components, avoiding invented performance guarantees in these edited passages.
+- Homepage brand-tool marquee no longer renders; this avoids suggesting a proprietary AI-product lineup.
+- Sitewide footer now reads exactly the four category groups and all 20 existing service-detail URL targets directly from the existing services.ts catalog. No new link registry was introduced.
+- Every service detail template now links to sibling detail pages, all existing hubs and the existing /book-a-demo contact page; service hubs already link to all five detail pages and the form.
+- Root/homepage metadata now describes digital marketing and design; existing dark navy/blue tokens are being adapted in place.
+- Removed the previous three simultaneously loaded font families, leaving Nunito Sans as the only loaded **temporary fallback** font. The specifically requested **Translucent Sans is NOT installed or rendered** because no verified legally embeddable source was established. This remains a blocking visual requirement.
+
+### Incomplete Phase 3 acceptance gates
+- [ ] Exact requested Translucent Sans licensed font integrated and measured.
+- [ ] Full reference-directed composition and coherent dark blue treatment on EVERY public route.
+- [ ] Single canonical CSS source. Existing page-specific stylesheets remain until safe migration with visual regression tests.
+- [ ] All existing links, checkout redirect, and contact journeys tested under running server.
+- [ ] Baseline and post-change mobile/tablet/desktop screenshots approved.
+- [ ] Automated lint, typecheck, build, keyboard and WCAG contrast executed and logged.
+- [ ] Unsupported homepage/reviews/service metric claims removed or verified before publication.
+- [ ] Complete SEO live crawl and canonical/OG/structured-data checks (Phase 6).
+Phase 3 is **IN PROGRESS**, not complete, regardless of branch merge or document status.
