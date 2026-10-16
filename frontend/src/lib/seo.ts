@@ -38,3 +38,27 @@ export function pageMetadata(path: string, title: string, description: string): 
     twitter: { card: "summary", title, description },
   };
 }
+
+export function serviceStructuredData(path: string, name: string, description: string, hubPath: string) {
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Service",
+        "@id": absoluteUrl(path) + "#service",
+        name,
+        description,
+        url: absoluteUrl(path),
+        provider: { "@type": "Organization", name: "Digital Solutions", url: siteOrigin },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: absoluteUrl("/") },
+          { "@type": "ListItem", position: 2, name: "Services", item: absoluteUrl(hubPath) },
+          { "@type": "ListItem", position: 3, name, item: absoluteUrl(path) },
+        ],
+      },
+    ],
+  };
+}
