@@ -7,7 +7,7 @@ export const SITE_KEYS = [
   "brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl",
   "brand.description", "home.heroTitle", "home.heroDescription", "home.heroImageUrl",
   "contact.email", "contact.phone", "contact.phoneSecondary",
-  "legal.lastUpdated", "social.linkedin", "social.instagram", "social.facebook", "social.website",
+  "legal.lastUpdated", "checkout.whatsappNumber", "social.linkedin", "social.instagram", "social.facebook", "social.website",
 ] as const;
 
 export function verifyAdminKey(value: string | undefined): boolean {
