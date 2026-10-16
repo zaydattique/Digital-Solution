@@ -1,4 +1,5 @@
 import "server-only";
+import { cache } from "react";
 
 export type SiteSettings = Record<string, string>;
 export const defaultSiteSettings: SiteSettings = {
@@ -29,7 +30,7 @@ export function backendAddress(path: string): string | null {
   return base ? new URL(path.replace(/^\//, ""), base.endsWith("/") ? base : base + "/").toString() : null;
 }
 
-export async function getSiteSettings(): Promise<SiteSettings> {
+export const getSiteSettings = cache(async (): Promise<SiteSettings> => {
   const endpoint = backendAddress("api/v1/site");
   if (!endpoint) return defaultSiteSettings;
   try {
@@ -39,4 +40,4 @@ export async function getSiteSettings(): Promise<SiteSettings> {
     if (typeof data !== "object" || data === null || !("data" in data) || typeof data.data !== "object" || data.data === null) return defaultSiteSettings;
     return { ...defaultSiteSettings, ...(data.data as SiteSettings) };
   } catch { return defaultSiteSettings; }
-}
+});
