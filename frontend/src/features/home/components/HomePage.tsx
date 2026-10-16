@@ -59,7 +59,7 @@ const siteSearchItems: SiteSearchItem[] = [
   ...serviceSearchItems,
   {
     id: "why-choose-us",
-    title: "Why Choose Digital Solutions",
+    title: "Why work with us",
     category: "About Us",
     description: "Enterprise governance, multi-cloud speed, and proven ROI.",
     href: "#why" as const,
@@ -82,7 +82,7 @@ const siteSearchItems: SiteSearchItem[] = [
     id: "start-project",
     title: "Start an AI Automation Project",
     category: "Contact",
-    description: "Talk with Digital Solutions about your workflow automation opportunity.",
+    description: "Talk with our team about your marketing and digital project.",
     href: "#contact" as const,
   },
 ].filter((item, index, items) => (
@@ -97,7 +97,7 @@ const processSteps = [
     heading: "Start with the right questions.",
     description: "We review your goals, current channels and customer journey to identify the work that matters most.",
     cmdLogs: [
-      { text: "$ Digital Solutions discovery", type: "cmd" },
+      { text: "$ Project discovery", type: "cmd" },
       { text: "01  Review audience and customer needs", type: "done" },
       { text: "02  Assess current channels", type: "done" },
       { text: "03  Define project priorities", type: "active" },
@@ -112,7 +112,7 @@ const processSteps = [
     heading: "A plan your team can follow.",
     description: "We turn research into a focused strategy with defined deliverables, responsibilities and milestones.",
     cmdLogs: [
-      { text: "$ Digital Solutions planning", type: "cmd" },
+      { text: "$ Project planning", type: "cmd" },
       { text: "01  Define outcomes and deliverables", type: "done" },
       { text: "02  Agree on priorities", type: "done" },
       { text: "03  Review the delivery schedule", type: "active" },
@@ -127,7 +127,7 @@ const processSteps = [
     heading: "Put strategy into production.",
     description: "Our work spans marketing, design and development, with regular reviews of the deliverables and user experience.",
     cmdLogs: [
-      { text: "$ Digital Solutions delivery", type: "cmd" },
+      { text: "$ Project delivery", type: "cmd" },
       { text: "01  Produce approved assets", type: "done" },
       { text: "02  Develop and integrate", type: "done" },
       { text: "03  Review against the brief", type: "active" },
@@ -142,7 +142,7 @@ const processSteps = [
     heading: "Launch with clarity.",
     description: "We review the user journey, technical performance and measurement setup before the agreed launch.",
     cmdLogs: [
-      { text: "$ Digital Solutions launch checklist", type: "cmd" },
+      { text: "$ Project launch", type: "cmd" },
       { text: "01  Review content and experience", type: "done" },
       { text: "02  Check analytics configuration", type: "done" },
       { text: "03  Approve the release", type: "active" },
@@ -157,7 +157,7 @@ const processSteps = [
     heading: "Keep learning from performance.",
     description: "We use the available performance data to identify opportunities for stronger campaigns and experiences.",
     cmdLogs: [
-      { text: "$ Digital Solutions review", type: "cmd" },
+      { text: "$ Results review", type: "cmd" },
       { text: "01  Gather performance data", type: "done" },
       { text: "02  Review user journeys", type: "done" },
       { text: "03  Prioritize improvements", type: "active" },
@@ -442,7 +442,7 @@ export default function HomePage() {
       <main className="vx-frame" id="top">
         <section
           className="vx-hero"
-          aria-label="Digital Solutions digital marketing and creative services"
+          aria-label={`${site["brand.name"] || "HavocX Agency"} marketing and creative services`}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
@@ -581,7 +581,7 @@ export default function HomePage() {
                     event.preventDefault();
                     searchResultRefs.current[0]?.focus();
                   }}
-                  aria-label="Search Digital Solutions services and capabilities"
+                  aria-label="Search marketing services and capabilities"
                   aria-controls="vertex-search-results"
                   aria-describedby="vertex-search-status"
                   placeholder="Search services..."
@@ -840,7 +840,7 @@ export default function HomePage() {
             {/* Timeline Process Stepper Header */}
             <div className="vx-process-stepper-wrap">
               <div className="vx-process-top-controls">
-                <span className="vx-process-eyebrow" id="why-title" role="heading" aria-level={2}>WHY DIGITAL SOLUTIONS</span>
+                <span className="vx-process-eyebrow" id="why-title" role="heading" aria-level={2}>WHY WORK WITH US</span>
               </div>
 
               <div className="vx-process-timeline-bar" aria-hidden="true">
