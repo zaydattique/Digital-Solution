@@ -44,13 +44,13 @@ try {
   assert.match(sitemap.body, /https:\/\/seo-ci\.example\.test\/services\/marketing-seo\/technical-seo/);
   assert.doesNotMatch(sitemap.body, /software-tools|checkout/);
   // Discover canonical URLs from the actual rendered XML, never from a duplicate route list.
-  const publicUrls = [...sitemap.body.matchAll(/<loc>([^<]+)<\\/loc>/g)].map((match) => new URL(match[1]));
+  const publicUrls = [...sitemap.body.matchAll(/<loc>([^<]+)<\/loc>/g)].map((match) => new URL(match[1]));
   assert.equal(publicUrls.length, 29, "Five core pages, four hubs and twenty detail routes");
   for (const url of publicUrls) {
     assert.equal(url.origin, configured, "Sitemap origin must match the canonical site");
     const page = await get(url.pathname);
     assert.equal(page.response.status, 200, `Sitemap route ${url.pathname}`);
-    assert.match(page.body, /<h1[\\s>]/i, `Missing h1: ${url.pathname}`);
+    assert.match(page.body, /<h1[\s>]/i, `Missing h1: ${url.pathname}`);
     assert.match(page.body, /<meta name="description"/, `Missing description: ${url.pathname}`);
     const expectedCanonical = `href="${url.origin}${url.pathname === "/" ? "" : url.pathname}"`;
     assert.ok(page.body.includes(expectedCanonical), `Canonical mismatch at ${url.pathname}`);
