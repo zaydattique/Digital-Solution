@@ -11,6 +11,7 @@ export const defaultSiteSettings: SiteSettings = {
   "home.heroTitle": "Make your brand impossible to miss.",
   "home.heroDescription": "We help businesses grow visibility and create better digital experiences.",
   "home.heroImageUrl": "",
+  "home.heroVideoUrl": "",
   "contact.email": "",
   "contact.phone": "",
   "contact.phoneSecondary": "",
