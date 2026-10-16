@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { bootstrapIdentity, bootstrapHome } from "@/src/lib/site-defaults";
 import { getSiteDocument } from "@/src/lib/site-content";
 import { adminLogin, adminLogout, hasAdminSession, saveSiteDocument } from "./actions";
+import { MediaUploader } from "@/src/features/media/components/MediaUploader";
 
 export const metadata: Metadata = { title: "Admin | HavocX Agency", robots: { index: false, follow: false, nocache: true } };
 const KEYS = ["identity", "home", "services", "projects", "footer", "contact", "seo", "media"] as const;
@@ -49,7 +50,7 @@ export default async function AdminPage({ searchParams }: {
             <textarea key={key} id="site-content" name="json" rows={21} spellCheck={false} defaultValue={JSON.stringify(Object.keys(document).length ? document : examples[key], null, 2)} />
             <button type="submit">Save {key}</button>
           </form>
-          <p>Use managed HTTPS media URLs. File conversion and durable storage will be enabled only after a processing provider is configured.</p>
+          {key === "media" && <MediaUploader />}
         </section>
       )}
     </main>
