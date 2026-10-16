@@ -8,9 +8,10 @@ let database: ReturnType<typeof drizzle<typeof schema>> | undefined;
 
 export function getDatabase() {
   if (!queryClient || !database) {
-    queryClient = postgres(getEnv().DATABASE_URL, {
+    const env = getEnv();
+    queryClient = postgres(env.DATABASE_URL, {
       max: 1,
-      ssl: "require",
+      ssl: env.DATABASE_SSL_MODE === "disable" ? false : "require",
       prepare: false,
       connect_timeout: 10,
       idle_timeout: 20,
