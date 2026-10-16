@@ -314,3 +314,21 @@ Working branch: `fix/phase-5-backend-security-reliability`. Phase 3 PR #3 merged
 - [ ] PHASE 3/4 carryovers: Final Translucent Sans, one authored CSS owner, full browser QA and content evidence remain pending in their respective phases.
 
 **Phase 5 status: code and CI acceptance gates passed; production environment, WAF and independent payment settlement gates OPEN. Do not mark the phase production-certified or merge into auto-deploying main without provisioning and smoke tests.**
+
+## Phase 6 technical SEO, AEO and GEO checkpoint (2026-10-16)
+
+Working branch: `feat/phase-6-seo-aeo-geo`, based on Phase 5 PR #5. No deployment or hosting changes were made.
+
+### Implemented in place and in necessary App Router convention files
+- [x] One `frontend/src/lib/seo.ts` public origin and metadata helper for unique canonical links, metadataBase, Open Graph/Twitter, and server-rendered schemas. A single necessary helper avoids repeated conflicting metadata logic.
+- [x] Added Next.js-native `frontend/app/robots.ts` and `frontend/app/sitemap.ts`, both previously absent. Sitemap derives all four service hubs and the 20 existing detail routes from the existing catalog; excludes private checkout, product sales and redirects.
+- [x] Added `frontend/app/llms.txt/route.ts`, a simple supplemental factual service index. It does not promise rankings or AI citations.
+- [x] Existing 13 public landing and service page entrypoints now use the same metadata helper for exact canonical URLs and social sharing. Root metadataBase and dark theme updated.
+- [x] Added factual `Organization` and `WebSite` homepage schema, plus `Service` and `BreadcrumbList` service-detail schema. No invented reviews, geo addresses, fake ratings, guarantees or unverified FAQ rich results.
+- [x] Added repository structural regression checks for indexed route metadata and catalog-driven sitemap construction.
+- [ ] Public canonical domain NOT PROVIDED. Set `SITE_URL=https://actual-published-domain.example` (real domain, no trailing path) on your frontend deployment. Until a valid HTTPS domain is configured, production metadata remains nonindex and public sitemap empty by design. This is an intentionally visible deployment gate, not a build failure.
+- [ ] Live rendered HTML, canonical redirects, Search Console/Bing, indexing, Core Web Vitals, crawler and social preview checks still require actual production URL and owner credentials. All external SEO/GEO outcomes remain unverified.
+- [ ] Final factual NAP, portfolio, verified editorial answers and approved font assets not supplied.
+
+**Phase 6 state: technical code implementation done on branch, acceptance only after passing CI and configured-domain/live crawl verification.**
+
