@@ -14,6 +14,7 @@ import {
   X,
 } from "lucide-react";
 import { Brand } from "@/src/components/brand/Brand";
+import { useSite } from "@/src/components/brand/SiteContext";
 
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
@@ -249,6 +250,7 @@ const projectSections = [
 }));
 
 export default function HomePage() {
+  const site = useSite();
   const [activeHero, setActiveHero] = useState(0);
   const [loadedHeroIndices, setLoadedHeroIndices] = useState<Set<number>>(() => new Set([0]));
   const [paused, setPaused] = useState(false);
@@ -745,8 +747,8 @@ export default function HomePage() {
           <div className="vx-frost-content">
             <div className="vx-frost-copy">
               <span>DIGITAL MARKETING &amp; CREATIVE SERVICES</span>
-              <h1><i>Make your brand</i><i>impossible to miss.</i></h1>
-              <p>We help businesses build stronger visibility, better digital experiences and clearer customer journeys through marketing, design and development.</p>
+              <h1>{site["home.heroTitle"] || "Make your brand impossible to miss."}</h1>
+              <p>{site["home.heroDescription"] || "Marketing, design and development services for growing brands."}</p>
               <div className="vx-frost-actions">
                 <a href="#services" className="vx-frost-actions"><span>Explore services </span><ArrowRight size={15} aria-hidden="true" /></a>
                 <a href="/book-a-demo" className="vx-frost-actions"><span>Discuss a project </span><ArrowRight size={15} aria-hidden="true" /></a>
