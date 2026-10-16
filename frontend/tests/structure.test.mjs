@@ -63,7 +63,7 @@ test("service pages reuse the catalog and carry inquiry context", async () => {
     readFile(path.join(root, "src/features/services/data/services.ts"), "utf8"),
     readFile(path.join(root, "src/features/services/components/ServiceDetailView.tsx"), "utf8"),
     readFile(path.join(root, "src/features/services/components/ServiceHubView.tsx"), "utf8"),
-    readFile(path.join(root, "src/features/contact/components/BookDemoPage.tsx"), "utf8"),
+    readFile(path.join(root, "app/book-a-demo/page.tsx"), "utf8"),
     readFile(path.join(root, "src/components/layout/AgencyFooter.tsx"), "utf8"),
   ]);
 
@@ -71,8 +71,8 @@ test("service pages reuse the catalog and carry inquiry context", async () => {
   assert.match(detail, /const contactHref = currentGroup/);
   assert.match(detail, /relatedServices\.map/);
   assert.match(hub, /book-a-demo\?service=/);
-  assert.match(contact, /serviceMenuGroups\.map/);
-  assert.match(contact, /new URLSearchParams\(window\.location\.search\)/);
+  assert.match(contact, /serviceMenuGroups\.find/);
+  assert.match(contact, /initialSubService/);
   assert.match(footer, /serviceMenuGroups\.map/);
 });
 
