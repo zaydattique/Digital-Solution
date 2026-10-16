@@ -1,5 +1,6 @@
 import { redirect } from "next/navigation";
 import { getSiteSettings } from "@/src/lib/site";
+import { SERVICE_ITEM_ROUTES } from "@/src/features/services/data/services";
 import { isAdminAuthenticated, logOut, saveSetting, uploadMedia } from "./actions";
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Content Admin | HavocX", robots: { index: false, follow: false } };
@@ -9,6 +10,7 @@ const groups = {
   "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
   "Legal pages": ["legal.lastUpdated"],
   "Social profiles": ["social.linkedin", "social.instagram", "social.facebook", "social.website"],
+  "Service page copy and images": [...new Set(Object.values(SERVICE_ITEM_ROUTES).map((route) => route.split("/").pop()).filter((slug): slug is string => Boolean(slug)))].flatMap((slug) => [`service.${slug}.title`, `service.${slug}.heroSubtitle`, `service.${slug}.shortDescription`, `service.${slug}.imageUrl`]),
 };
 export default async function Admin() {
   if (!await isAdminAuthenticated()) redirect("/admin/login");
@@ -29,6 +31,7 @@ export default async function Admin() {
           <option value="brand.ogImageUrl">Social / Open Graph image</option>
           <option value="home.heroImageUrl">Homepage hero image</option>
           <option value="home.heroVideoUrl">Homepage hero video (WebM output)</option>
+          {Object.entries(SERVICE_ITEM_ROUTES).map(([label, route]) => <option key={route} value={`service.${route.split("/").pop()}.imageUrl`}>{label} hero image</option>)}
         </select>
         <label htmlFor="media-file">File</label>
         <input id="media-file" type="file" name="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" required />
