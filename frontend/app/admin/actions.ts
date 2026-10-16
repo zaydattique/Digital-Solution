@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 const COOKIE = "havocx_admin_session";
-const KEYS = new Set(["identity", "home", "services", "projects", "footer", "contact", "seo", "media"]);
+const KEYS = new Set(["identity", "home", "media"]);
 function configured() {
   return Boolean(
     process.env.CMS_ADMIN_PASSWORD_HASH?.match(/^[a-f0-9]{64}$/i) &&
