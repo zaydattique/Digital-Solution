@@ -3,14 +3,9 @@
 import { useMemo, useState } from "react";
 import { ArrowLeft, Check, Mail, MessageCircle, Upload, Wallet } from "lucide-react";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
+import { useSite } from "@/src/components/brand/SiteContext";
 import { claimMailSendPermission } from "@/src/lib/mailRateLimit";
 import { ServicePageHeader } from "./ServicePageHeader";
-
-const ADMIN_EMAIL = "dsolutions555@gmail.com";
-const WHATSAPP_CONTACTS = [
-  { name: "Abdul Mannan Butt", number: "923096548143" },
-  { name: "Burhan Ahmed", number: "923328113888" },
-] as const;
 
 const paymentMethods = [
   {
@@ -39,10 +34,10 @@ export type Order = {
   price: string;
 };
 
-function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: string, phone: string, email: string) {
+function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: string, phone: string, email: string, agency: string) {
   const methodName = (paymentMethods.find((method) => method.id === paymentMethod)?.name ?? paymentMethod) || "Not selected";
   return [
-    "Assalam-o-Alaikum Digital Solutions,",
+    `Assalam-o-Alaikum ${agency},`,
     "",
     "Please review my payment receipt for this order. I understand payment is not confirmed until your team verifies it.",
     `Product: ${order.product || "Not selected"}`,
@@ -57,6 +52,10 @@ function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: str
 }
 
 export default function SoftwareCheckoutPage({ order }: { order: Order }) {
+  const site = useSite();
+  const supportEmail = site["contact.email"];
+  const supportNumber = site["checkout.whatsappNumber"] || site["contact.phone"];
+  const agency = site["brand.name"] || "HavocX Agency";
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | "">("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -65,11 +64,11 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
   const [status, setStatus] = useState("");
 
   const message = useMemo(
-    () => buildMessage(order, paymentMethod, name.trim(), phone.trim(), email.trim()),
-    [email, name, order, paymentMethod, phone],
+    () => buildMessage(order, paymentMethod, name.trim(), phone.trim(), email.trim(), agency),
+    [email, name, order, paymentMethod, phone, agency],
   );
 
-  const sendProof = async (channel: "whatsapp" | "email", whatsappName?: string) => {
+  const sendProof = async (channel: "whatsapp" | "email") => {
     const missingFields: string[] = [];
     if (!paymentMethod) missingFields.push("payment method");
     if (!name.trim()) missingFields.push("your name");
@@ -92,9 +91,9 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
     }
 
     if (channel === "whatsapp") {
-      const target = WHATSAPP_CONTACTS.find((contactOption) => contactOption.name === whatsappName) ?? WHATSAPP_CONTACTS[0];
-      window.open(`https://wa.me/${target.number}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
-      setStatus(`${target.name}’s WhatsApp opened. Please attach the screenshot before sending.`);
+      if (!supportNumber) { setStatus("WhatsApp support is not configured."); return; }
+      window.open(`https://wa.me/${supportNumber.replace(/[^\\d]/g, "")}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+      setStatus("WhatsApp opened. Please attach the screenshot before sending.");
       return;
     }
 
@@ -120,7 +119,8 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
       return;
     }
 
-    window.location.assign(`mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(`Payment proof — ${order.product || "Software tool"}`)}&body=${encodeURIComponent(`${message}\n\nPlease attach your payment screenshot before sending.`)}`);
+    if (!supportEmail) { setStatus("Email support is not configured."); return; }
+    window.location.assign(`mailto:${supportEmail}?subject=${encodeURIComponent(`Payment proof — ${order.product || "Software tool"}`)}&body=${encodeURIComponent(`${message}\n\nPlease attach your payment screenshot before sending.`)}`);
     setStatus("Your email app is opening. Please attach the screenshot before sending.");
   };
 
@@ -207,16 +207,8 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
             </div>
 
             <div className="ds-proof-actions">
-              {WHATSAPP_CONTACTS.map((contactOption) => (
-                <div className="ds-proof-action-item" key={contactOption.number}>
-                  <button type="button" onClick={() => sendProof("whatsapp", contactOption.name)}><MessageCircle size={17} /> Send to WhatsApp</button>
-                  <small>{contactOption.name}</small>
-                </div>
-              ))}
-              <div className="ds-proof-action-item">
-                <button type="button" className="is-email" onClick={() => sendProof("email")}><Mail size={17} /> Send by email</button>
-                <small>{ADMIN_EMAIL}</small>
-              </div>
+              {supportNumber && <div className="ds-proof-action-item"><button type="button" onClick={() => sendProof("whatsapp")}><MessageCircle size={17} /> Send to WhatsApp</button><small>{supportNumber}</small></div>}
+              {supportEmail && <div className="ds-proof-action-item"><button type="button" className="is-email" onClick={() => sendProof("email")}><Mail size={17} /> Send by email</button><small>{supportEmail}</small></div>}
             </div>
 
             {status && <p className="ds-checkout-status" role="status">{status}</p>}
