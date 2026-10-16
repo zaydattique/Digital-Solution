@@ -8,6 +8,7 @@ const envSchema = z.object({
     (value) => value.startsWith("postgres://") || value.startsWith("postgresql://"),
     "DATABASE_URL must be a PostgreSQL URL",
   ),
+  CMS_INTERNAL_TOKEN: z.string().min(32).optional(),
   RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required"),
   DATABASE_SSL_MODE: z.enum(["require", "disable"]).default("require"),
   ADMIN_EMAIL: z.email(),
