@@ -318,7 +318,7 @@ export default function HomePage() {
       });
     }, 6200);
     return () => window.clearInterval(timer);
-  }, [paused, searchOpen, servicesOpen]);
+  }, [paused, searchOpen, servicesOpen, heroImages.length]);
 
   useEffect(() => {
     if (!servicesOpen) return;
