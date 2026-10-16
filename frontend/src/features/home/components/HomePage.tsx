@@ -461,6 +461,13 @@ export default function HomePage() {
           }}
         >
           <div className="vx-hero-media">
+            {site["home.heroVideoUrl"] ? (
+              <video src={site["home.heroVideoUrl"]} autoPlay muted loop playsInline aria-hidden="true" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : site["home.heroImageUrl"] ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={site["home.heroImageUrl"]} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            ) : (
+              <>
             {heroImages.map((image, index) => loadedHeroIndices.has(index) && (
               <div
                 className={`vx-hero-slide${index === activeHero ? " is-active" : ""}`}
@@ -479,6 +486,8 @@ export default function HomePage() {
                 />
               </div>
             ))}
+              </>
+            )}
           </div>
           <div className="vx-hero-shade" aria-hidden="true" />
 
