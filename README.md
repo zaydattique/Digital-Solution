@@ -1,4 +1,4 @@
-# Digital Solutions
+# HavocX Agency
 
 Digital Solutions ab do independent TypeScript applications par mushtamil hai:
 
@@ -23,10 +23,10 @@ npm install
 npm run dev
 ```
 
-Frontend default taur par `http://localhost:3000` par run hota hai. `frontend/.env.local` mein backend origin configure karein:
+Frontend local preview `http://localhost:3000` par run hota hai. Multi-service requests test karne ke liye root se `vercel dev` use karein. Public SEO URL:
 
 ```dotenv
-NEXT_PUBLIC_API_URL=http://localhost:4000
+SITE_URL=https://havocx.agency
 ```
 
 Commands:
@@ -110,7 +110,7 @@ Optional backend settings:
 - `CONTACT_RATE_LIMIT_WINDOW_MS` (default `600000`)
 - `CONTACT_RATE_LIMIT_MAX` (default `2`)
 
-Current rate limiter process-local hai. Vercel ke multiple serverless instances par strict global enforcement ke liye deployment se pehle Redis/Upstash jaisa shared store ya Vercel Firewall rate limiting configure karna recommended hai.
+Production rate limiter shared Upstash Redis use karta hai; bina configured Redis ke contact endpoint 503 return karta hai.
 
 ## Database Migrations
 
@@ -122,32 +122,51 @@ Production migration ko blindly build/start hook mein nahi chalaya jata. Pehle S
 npm run db:migrate
 ```
 
-## Vercel Deployment
+## Vercel Services: one project, two services, new account
 
-Aik hi Git repository ko do Vercel projects se connect karein.
+The root `vercel.json` is the **single source of truth** for Vercel Services Beta. Import this Git repository from the new Vercel/Google account and select **the repository root** as the project directory. The old `backend/vercel.json` was removed to prevent conflicting standalone deployment settings.
 
-### Backend project
+| Service | Directory | Framework | Public route |
+| --- | --- | --- | --- |
+| `frontend` | `frontend/` | Next.js | `/(.*)` catch-all |
+| `backend` | `backend/` | Express | `/api/(.*)` |
 
-1. Root Directory: `backend`
-2. Framework Preset: Express (auto-detected)
-3. Backend environment variables Preview aur Production mein add karein.
-4. Deploy ke baad `/api/health` verify karein.
-5. Production backend URL note karein.
+The frontend declares a service binding to the backend named **`BACKEND_URL`**. Vercel injects it into frontend server functions, and the CMS server-side reader and admin actions consume it at runtime. **Never manually define `BACKEND_URL` or expose it with a `NEXT_PUBLIC_` prefix.** Browsers submit contact requests to same-origin `/api/v1/contact`. Express already owns `/api` in its routes, so no API prefix rewrite is needed.
 
-`src/index.ts` Express app ko default export karta hai, jo Vercel Function entry point hai. Local environment mein yehi file port listener start karti hai.
+**Service names, rewrites, and binding are a proposed configuration pending your explicit approval.** No deployment or merge is performed automatically. Run `vercel dev` from the repository root to test all services with injected bindings after linking your new account. Services are currently in Beta; confirm the new account supports the feature.
 
-### Frontend project
+### New Vercel account and environment settings
 
-Backend production URL confirm hone ke baad:
+Use the new Google account to sign in to Vercel, connect **your GitHub account/repository to that Vercel account**, and grant that account access to the repository. This project does not depend on any old Vercel account ID or hardcoded backend domain.
 
-1. Root Directory: `frontend`
-2. Framework Preset: Next.js (auto-detected)
-3. `NEXT_PUBLIC_API_URL` ko backend production origin par set karein; trailing slash na dein.
-4. Frontend deploy karein.
-5. Final frontend origin ko backend `CORS_ORIGINS` mein add karke backend redeploy karein.
-6. Contact form, database row aur notification email ka end-to-end smoke test karein.
+Set these in the project's environment configuration (some settings are used by only one service):
 
-Backend URL source code mein hardcoded nahi hai; browser client sirf `NEXT_PUBLIC_API_URL` read karta hai.
+- **Public canonical site:** `SITE_URL=https://havocx.agency` (frontend server); then attach and verify the domain in the new account and configure its DNS.
+- **API/database:** `DATABASE_URL`, `DATABASE_SSL_MODE=require`, `RESEND_API_KEY`, `ADMIN_EMAIL`, `EMAIL_FROM`, `CORS_ORIGINS=https://havocx.agency` (add exact preview origins when applicable).
+- **Distributed contact safety:** `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Production contact submissions return 503 without these shared limiter credentials by design.
+- **Private CMS service writes:** `CMS_INTERNAL_TOKEN`, randomly generated with 32+ characters. It must be available to **both** frontend server functions and backend. The backend refuses CMS writes if unset.
+- **Admin access:** `CMS_ADMIN_SESSION_SECRET` (32+ random characters) and `CMS_ADMIN_PASSWORD_HASH` (hex SHA-256 of a unique strong password, 64 characters); never commit or expose the raw password. Configure edge/WAF login rate limiting and MFA before regarding the admin as production-hardened.
+- **Media processor (optional until connected):** `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` on frontend server functions. Images are signed for eager **WebP with auto quality**; videos are signed for eager **WebM/VP9/Opus**. Browser uploads go directly to Cloudinary to avoid Vercel function upload-size limits. Only the provider-confirmed derived URL is published. Check supported video codecs, transformation quotas, billing and CDN policies for your own media account. Large/asynchronous conversions need a verified webhook workflow before being advertised as complete.
+- **Signed checkout:** `CHECKOUT_LINK_SECRET`, generated with 32+ random characters.
+
+To create a non-public admin password hash, run locally with the password in an environment variable:
+```bash
+node -e 'const c=require("node:crypto");const p=process.env.CMS_ADMIN_PASSWORD;if(!p||p.length<12)throw Error("Supply a unique long password in CMS_ADMIN_PASSWORD");console.log(c.createHash("sha256").update(p).digest("hex"))'
+```
+Set only the resulting hash as `CMS_ADMIN_PASSWORD_HASH`. Use a dedicated secrets manager or Vercel environment fields for passwords/tokens and do not paste them into the repository or chat.
+
+### Admin and media publishing
+
+The `/admin` page is unlisted/noindex, uses an HttpOnly signed session and validates all writes on the backend with `CMS_INTERNAL_TOKEN`. It stores JSON documents in PostgreSQL `site_content`, so apply the reviewed migration `backend/src/db/migrations/0001_site_content.sql` **before enabling admin saves**. The frontend consumes the `identity` and `home` documents on every server-rendered request; favicon, brand, footer and contact URLs follow the shared identity record.
+
+This is a **foundation, not a claim that every old service/project/legal string has been migrated**. Additional CMS sections currently allow draft JSON storage but require their page adapters before changes appear on the public frontend. Do not consider the entire site fully admin-driven yet. Use the original site service routes and client-facing contact form while migration continues.
+
+Image/video uploads appear under the admin media tab. They do not work until the media provider credentials exist. Converted .webp and .webm delivery assets are saved only after verified provider responses. **The uploaded brand board is a visual reference, not the final favicon/logo; no replacement artwork has been generated.**
+
+### Required manual release checks
+
+Run migrations against your backed-up database, verify `/api/health` and `/api/ready`, test allowed/disallowed CORS origins, check a real form submission and email, confirm your Cloudinary transformation outputs, upload the real approved logo and favicon, review admin access controls, and inspect public SEO before pointing production DNS. Check all CI jobs in GitHub. Production payment settlement still requires independent verification.
+
 
 ## Security Notes
 
