@@ -60,6 +60,28 @@ describe("Express API", () => {
     expect(response.body.error.code).toBe("ORIGIN_NOT_ALLOWED");
   });
 
+  it("rejects unauthorized preflight origins before contact processing", async () => {
+    const service = createService();
+    const response = await request(createApp({ env: testEnv, contactService: service }))
+      .options("/api/v1/contact")
+      .set("Origin", "https://unknown.vercel.app")
+      .set("Access-Control-Request-Method", "POST")
+      .expect(403);
+
+    expect(response.body.error.code).toBe("ORIGIN_NOT_ALLOWED");
+    expect(service.submit).not.toHaveBeenCalled();
+  });
+
+  it("accepts valid unicode names after schema validation", async () => {
+    const service = createService();
+    const payload = { ...validContactRequest, name: "محمد علی" };
+    await request(createApp({ env: testEnv, contactService: service }))
+      .post("/api/v1/contact")
+      .send(payload)
+      .expect(201);
+    expect(service.submit).toHaveBeenCalledWith(payload);
+  });
+
   it("returns consistent JSON for unknown routes", async () => {
     const response = await request(createApp({ env: testEnv, contactService: createService() }))
       .get("/missing")

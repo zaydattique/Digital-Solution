@@ -5,6 +5,7 @@ export const testEnv: AppEnv = {
   NODE_ENV: "test",
   PORT: 4000,
   DATABASE_URL: "postgresql://test:test@localhost:5432/test",
+  DATABASE_SSL_MODE: "disable",
   RESEND_API_KEY: "re_test",
   ADMIN_EMAIL: "admin@example.com",
   EMAIL_FROM: "Digital Solutions <onboarding@resend.dev>",

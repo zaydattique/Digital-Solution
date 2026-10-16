@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { ArrowLeft, Check, Mail, MessageCircle, Upload, Wallet } from "lucide-react";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { claimMailSendPermission } from "@/src/lib/mailRateLimit";
@@ -33,7 +32,7 @@ const paymentMethods = [
 
 type PaymentMethod = (typeof paymentMethods)[number]["id"];
 
-type Order = {
+export type Order = {
   category: string;
   product: string;
   plan: string;
@@ -45,7 +44,7 @@ function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: str
   return [
     "Assalam-o-Alaikum Digital Solutions,",
     "",
-    "I have paid for a software tool and attached my payment screenshot.",
+    "Please review my payment receipt for this order. I understand payment is not confirmed until your team verifies it.",
     `Product: ${order.product || "Not selected"}`,
     `Plan: ${order.plan || "Not selected"}`,
     `Price: ${order.price || "To confirm"}`,
@@ -57,14 +56,7 @@ function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: str
   ].join("\n");
 }
 
-export default function SoftwareCheckoutPage() {
-  const searchParams = useSearchParams();
-  const order = useMemo<Order>(() => ({
-    category: searchParams.get("category") ?? "",
-    product: searchParams.get("product") ?? "",
-    plan: searchParams.get("plan") ?? "",
-    price: searchParams.get("price") ?? "",
-  }), [searchParams]);
+export default function SoftwareCheckoutPage({ order }: { order: Order }) {
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | "">("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -79,7 +71,6 @@ export default function SoftwareCheckoutPage() {
 
   const sendProof = async (channel: "whatsapp" | "email", whatsappName?: string) => {
     const missingFields: string[] = [];
-    if (!order.product || !order.plan || !order.price) missingFields.push("software plan");
     if (!paymentMethod) missingFields.push("payment method");
     if (!name.trim()) missingFields.push("your name");
     if (!phone.trim() && !email.trim()) missingFields.push("WhatsApp number or email address");
@@ -95,7 +86,7 @@ export default function SoftwareCheckoutPage() {
       return;
     }
 
-    if (!proofFile || !proofFile.type.startsWith("image/") || proofFile.size > 10 * 1024 * 1024) {
+    if (!proofFile || !["image/png", "image/jpeg", "image/webp"].includes(proofFile.type) || proofFile.size > 10 * 1024 * 1024) {
       setStatus("Please upload a valid PNG, JPG, or WebP screenshot under 10 MB.");
       return;
     }
@@ -116,7 +107,7 @@ export default function SoftwareCheckoutPage() {
     try {
       if (navigator.share && navigator.canShare?.({ files: [proofFile as File] })) {
         await navigator.share(shareData);
-        setStatus("Your payment proof was shared. We’ll verify it and send access details by email.");
+        setStatus("The share dialog was opened. Our team must independently confirm any received payment before fulfillment.");
         return;
       }
     } catch (error) {
@@ -144,9 +135,9 @@ export default function SoftwareCheckoutPage() {
 
         <section className="ds-checkout-layout" aria-labelledby="checkout-title">
           <div className="ds-checkout-copy">
-            <span className="ds-service-kicker">Secure manual checkout</span>
-            <h1 id="checkout-title">Complete your order.</h1>
-            <p>Choose a payment method, pay using the details confirmed by our team, and send your receipt for verification.</p>
+            <span className="ds-service-kicker">Manual payment review</span>
+            <h1 id="checkout-title">Submit payment details for review.</h1>
+            <p>Only pay using account details confirmed directly by our team. A screenshot alone is not proof that payment has settled.</p>
 
             <div className="ds-checkout-order-card">
               <span>Selected tool</span>
@@ -209,7 +200,7 @@ export default function SoftwareCheckoutPage() {
             </label>
 
             <div className="ds-proof-checklist" aria-label="Payment proof checklist">
-              <strong>We’ll match your proof against:</strong>
+              <strong>Our team will independently verify:</strong>
               <span><Check size={14} /> {order.product || "Selected tool"} · {order.plan || "Selected plan"}</span>
               <span><Check size={14} /> Paid amount · {order.price || "Amount to confirm"}</span>
               <span><Check size={14} /> {paymentMethods.find((method) => method.id === paymentMethod)?.name ?? "Payment method"} receipt, date, receiver, and transaction ID</span>

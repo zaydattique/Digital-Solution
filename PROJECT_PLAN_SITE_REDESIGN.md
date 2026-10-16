@@ -290,3 +290,27 @@ Working branch: `feat/phase-3-marketing-homepage`; Phase 1/2 PR #2 was merged in
 - [ ] Unsupported homepage/reviews/service metric claims removed or verified before publication.
 - [ ] Complete SEO live crawl and canonical/OG/structured-data checks (Phase 6).
 Phase 3 is **IN PROGRESS**, not complete, regardless of branch merge or document status.
+
+
+## Phase 5 implementation checkpoint (2026-10-16)
+
+Working branch: `fix/phase-5-backend-security-reliability`. Phase 3 PR #3 merged as `bcfa9285915c9d6ef016b2b1ecfe34302a8b7b3b` and Phase 4 PR #4 merged as `6ee530835f78884e0ff6980bfd505e571d78a1de`.
+
+### Implemented in existing owners
+- [x] `backend/src/app.ts`: exact origins only, deny outside browser origins with 403, remove permissive `.vercel.app` suffix and unconditional success fallback.
+- [x] `backend/src/config/env.ts`: parse and reject wildcard/invalid origin config.
+- [x] `backend/src/services/contact.service.ts`: persist before email, fail on database error; no manufactured `id: 0`.
+- [x] `backend/src/schemas/contact.schema.ts` and frontend contact component: Unicode-friendly consistent name validation.
+- [x] Existing backend tests cover DB write failure without notification, rejected preflight and international names.
+- [x] `backend/src/routes/health.routes.ts`: distinguish liveness from DB-backed readiness at `/api/ready`.
+- [x] GitHub Actions executes `npm ci`, lint, typechecks, tests, production builds and runtime security audits for frontend/backend. Verified green run at SHA `ca97146c0dd96f7d6a7214466421d19b90aa9ba0` in Actions run `38899613119`.
+- [x] Disposable PostgreSQL integration uses Drizzle migrations, real row insertion/read/delete and a simulated email-provider outage; no production data is used.
+- [x] Shared per-client Redis/Upstash fixed-window limiter implemented with hashed keys and fail-closed production behavior, with unit tests for separate app instances and upstream failure.
+- [x] Direct-link checkout uses short-lived HMAC-signed token and server-side product price resolution. Existing client-controlled price query is ignored, checkout has no-store/noindex/no-referrer/anti-frame headers and the UI explicitly labels payment proof as pending review.
+- [x] Next.js + eslint-config-next upgraded to 16.4.2, source-map-js pinned to 1.2.2 and CI runtime vulnerability audit added. Final CI runtime audits pass.
+- [ ] PRODUCTION CONFIGURATION: Hosted UPSTASH_REDIS_REST_URL/TOKEN must be provisioned before enabling contact submissions; missing config intentionally yields 503. CDN/WAF, trusted proxy IP handling, traffic challenges and DNS protection must be confirmed in hosting provider.
+- [ ] CHECKOUT REAL SETTLEMENT: A signed quote and customer receipt are NOT independent evidence that funds settled. An authorized operator must verify funds with bank/provider before fulfillment. Automatic payment-provider verification requires an actual provider integration and credentials.
+- [ ] LIVE CONNECTIVITY: Production PostgreSQL/Resend credentials, deployment URLs and provider access are not available for authorized live checks. No real customer email, bank transaction or production data was used. Deployment smoke test still required.
+- [ ] PHASE 3/4 carryovers: Final Translucent Sans, one authored CSS owner, full browser QA and content evidence remain pending in their respective phases.
+
+**Phase 5 status: code and CI acceptance gates passed; production environment, WAF and independent payment settlement gates OPEN. Do not mark the phase production-certified or merge into auto-deploying main without provisioning and smoke tests.**
