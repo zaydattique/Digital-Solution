@@ -18,7 +18,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const detail = marketingSeoSubServices[slug];
   if (!detail) return {};
 
-  return pageMetadata(`/services/marketing-seo/${slug}`, detail.title, detail.description || detail.headline || detail.title);
+  const settings = await getSiteSettings();
+  return pageMetadata(`/services/marketing-seo/${slug}`, settings[`service.${slug}.title`] || detail.title, settings[`service.${slug}.heroSubtitle`] || detail.heroSubtitle || detail.shortDescription || detail.description || detail.title);
 }
 
 export default async function MarketingSeoSubServicePage({ params }: PageProps) {
