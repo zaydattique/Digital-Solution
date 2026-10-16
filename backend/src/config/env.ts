@@ -28,6 +28,11 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     throw new Error(`Invalid environment configuration: ${[...new Set(keys)].join(", ")}`);
   }
 
+  const origins = result.data.CORS_ORIGINS.split(",").map((origin) => origin.trim().replace(/\/$/, "")).filter(Boolean);
+  if (origins.includes("*") || origins.some((origin) => !/^https?:\/\/[^/]+$/.test(origin))) {
+    throw new Error("CORS_ORIGINS must contain exact http(s) origins. Wildcards are not permitted.");
+  }
+
   return {
     ...result.data,
     corsOrigins: result.data.CORS_ORIGINS.split(",")
