@@ -1,8 +1,8 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import type { SiteIdentity, HomeContent } from "@/src/lib/site-content";
-import { bootstrapIdentity, bootstrapHome } from "@/src/lib/site-content";
+import type { SiteIdentity, HomeContent } from "@/src/lib/site-defaults";
+import { bootstrapIdentity, bootstrapHome } from "@/src/lib/site-defaults";
 
 type SiteState = { identity: SiteIdentity; home: HomeContent };
 const SiteContext = createContext<SiteState>({ identity: bootstrapIdentity, home: bootstrapHome });
