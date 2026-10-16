@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const service = aiAutomationServices.find((s) => s.slug === slug);
   if (!service) return {};
   const settings = await getSiteSettings();
-  return pageMetadata(`/services/ai-automation/${slug}`, settings[`service.${slug}.title`] || service.title, settings[`service.${slug}.heroSubtitle`] || service.heroSubtitle || service.shortDescription || service.description || service.title);
+  return pageMetadata(`/services/ai-automation/${slug}`, settings[`service.${slug}.title`] || service.title, settings[`service.${slug}.heroSubtitle`] || service.heroSubtitle || service.shortDescription || service.title);
 }
 
 export default async function AIAutomationDetailPage({ params }: PageProps) {
