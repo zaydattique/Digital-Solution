@@ -4,7 +4,6 @@ export type DesignService = {
   slug: string;
   shortDescription: string;
   heroSubtitle: string;
-  metrics: { label: string; value: string }[];
   deliverables: { title: string; desc: string; iconName: string }[];
   workflowSteps: { step: string; title: string; desc: string }[];
   techStack: string[];
@@ -19,11 +18,6 @@ export const designServices: readonly DesignService[] = [
     shortDescription:
       "Transform business goals into prioritized product roadmaps, validated value propositions, and market-ready feature definitions.",
     heroSubtitle: "De-risk bold ideas with research-backed product direction.",
-    metrics: [
-      { label: "Roadmap Clarity", value: "100%" },
-      { label: "Market Validation", value: "3x Faster" },
-      { label: "User Alignment", value: "95%" },
-    ],
     deliverables: [
       { title: "Market & Competitor Analysis", desc: "Deep benchmarking of competitor UX, pricing models, and market positioning.", iconName: "Target" },
       { title: "User Persona & Journey Maps", desc: "Detailed customer archetypes, empathy mapping, and end-to-end user journeys.", iconName: "Users" },
@@ -51,11 +45,6 @@ export const designServices: readonly DesignService[] = [
     shortDescription:
       "Modern, intuitive user interfaces and friction-free user experiences engineered for complex enterprise software, mobile apps, and SaaS platforms.",
     heroSubtitle: "Crafting interfaces that make complex software feel effortless.",
-    metrics: [
-      { label: "Task Completion", value: "+45%" },
-      { label: "User Satisfaction", value: "98%" },
-      { label: "Design Delivery", value: "2x Faster" },
-    ],
     deliverables: [
       { title: "Interactive Wireframes", desc: "Low-fidelity structural blueprints testing information architecture and user flow efficiency.", iconName: "Layout" },
       { title: "Pixel-Perfect UI Mockups", desc: "Modern, high-fidelity visual design with cohesive color palettes, typography, and iconography.", iconName: "Palette" },
@@ -66,7 +55,7 @@ export const designServices: readonly DesignService[] = [
       { step: "01", title: "Information Architecture", desc: "Map navigation structures, page hierarchy, and core interaction loops." },
       { step: "02", title: "Wireframing & Flow Design", desc: "Rapidly draft structural flows and test layout alternatives." },
       { step: "03", title: "Visual Design System", desc: "Apply typography, modern elevation, sleek glassmorphism, and branded visual styles." },
-      { step: "04", title: "Design QA & Hand-Off", desc: "Inspect frontend builds to guarantee 1:1 parity between design and production code." },
+      { step: "04", title: "Design QA & Hand-Off", desc: "Review implemented screens against approved design states and document differences." },
     ],
     techStack: ["Figma", "FigJam", "Storybook", "Principle", "Lottie", "Tailwind CSS"],
     faq: [
@@ -83,11 +72,6 @@ export const designServices: readonly DesignService[] = [
     shortDescription:
       "Scalable token systems, multi-brand component libraries, and living documentation that unite design and engineering teams.",
     heroSubtitle: "Build faster with consistent, scalable design foundations.",
-    metrics: [
-      { label: "Development Speed", value: "50% Faster" },
-      { label: "UI Consistency", value: "100%" },
-      { label: "Brand Cohesion", value: "10x" },
-    ],
     deliverables: [
       { title: "Design Token Architecture", desc: "Centralized color, spacing, typography, and elevation tokens compatible with CSS/Tailwind.", iconName: "Database" },
       { title: "Multi-State Component Library", desc: "Modular Figma component variants with auto-layout, interactive states, and accessibility props.", iconName: "Layout" },
@@ -115,11 +99,6 @@ export const designServices: readonly DesignService[] = [
     shortDescription:
       "High-fidelity clickable prototypes that validate features with users, investors, and stakeholders in days instead of months.",
     heroSubtitle: "Validate concepts before writing a single line of backend code.",
-    metrics: [
-      { label: "Validation Time", value: "<7 Days" },
-      { label: "Stakeholder Buy-in", value: "100%" },
-      { label: "Waste Reduction", value: "65%" },
-    ],
     deliverables: [
       { title: "Clickable High-Fidelity Prototypes", desc: "Realistic interactions, transitions, and micro-flows that mirror real production software.", iconName: "Zap" },
       { title: "Usability Testing Protocols", desc: "Structured user test scripts, scenario prompts, and task completion metrics.", iconName: "CheckCircle2" },
@@ -147,11 +126,6 @@ export const designServices: readonly DesignService[] = [
     shortDescription:
       "Psychology-driven landing pages, checkout flows, and onboarding funnels designed to maximize conversion rates and customer lifetime value.",
     heroSubtitle: "Turn clicks into loyal customers with high-converting UX.",
-    metrics: [
-      { label: "Conversion Lift", value: "+38%" },
-      { label: "Bounce Rate", value: "-28%" },
-      { label: "Checkout Completion", value: "89%" },
-    ],
     deliverables: [
       { title: "High-Converting Landing Pages", desc: "Above-the-fold value hooks, scannable proof points, and high-impact call-to-action designs.", iconName: "Target" },
       { title: "Onboarding & Signup Funnels", desc: "Progressive profiling and zero-friction signup flows that prevent user drop-off.", iconName: "Users" },

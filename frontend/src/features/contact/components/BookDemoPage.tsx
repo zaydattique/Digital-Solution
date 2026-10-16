@@ -1,9 +1,10 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ServicePageHeader } from "@/src/features/services/components/ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ApiClientError, submitContactRequest } from "@/src/lib/api/contact";
+import { serviceMenuGroups } from "@/src/features/services/data/services";
 import "@/src/features/contact/styles/contact.css";
 
 const ADMIN_EMAIL = "dsolutions555@gmail.com";
@@ -21,36 +22,10 @@ type BookingForm = {
   message: string;
 };
 
-const serviceOptions: Record<string, string[]> = {
-  "AI agents and automation": [
-    "Workflow automation",
-    "AI agents and copilots",
-    "Process intelligence",
-    "Document intelligence",
-    "Governance and observability",
-  ],
-  "Web and app development": [
-    "Web and app engineering",
-    "AI product development",
-    "API and systems integration",
-    "Cloud and DevOps",
-    "Quality automation",
-  ],
-  "Marketing and SEO": [
-    "Technical SEO",
-    "Content systems",
-    "Performance marketing",
-    "Lifecycle automation",
-    "Revenue analytics",
-  ],
-  "Product and UX design": [
-    "Product strategy",
-    "UX and UI design",
-    "Design systems",
-    "Interactive prototypes",
-    "Conversion funnels",
-  ],
-};
+// Keep contact options aligned with the same catalog used by navigation and service pages.
+const serviceOptions: Record<string, readonly string[]> = Object.fromEntries(
+  serviceMenuGroups.map((group) => [group.title, group.services]),
+);
 
 const countryCodes = [
   { code: "+92", label: "🇵🇰 +92" },
@@ -81,6 +56,16 @@ export default function BookDemoPage() {
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    // Prefill service context from internal links without trusting arbitrary values.
+    const params = new URLSearchParams(window.location.search);
+    const group = serviceMenuGroups.find((item) => item.id === params.get("service"));
+    if (!group) return;
+    const focus = group.services.find((item) => item === params.get("focus")) ?? "";
+    setForm((current) => ({ ...current, service: group.title, subService: focus }));
+  }, []);
+
 
   const updateField = (field: keyof BookingForm, value: string) => {
     setForm((current) => ({ ...current, [field]: value }));
@@ -182,9 +167,9 @@ export default function BookDemoPage() {
       <main className="ds-booking-main">
         <section className="ds-booking-intro" aria-labelledby="booking-title">
           <span className="ds-booking-kicker">Contact our team</span>
-          <h1 id="booking-title">Let&apos;s make the next step concrete.</h1>
+          <h1 id="booking-title">Tell us about your next project.</h1>
           <p>
-            Tell us what you are building, improving, or automating. A Digital Solutions specialist will review your goals and get back to you with a practical next step.
+            Tell us about your marketing goals, website or digital project. We will review the details and discuss the next practical step.
           </p>
           <div className="ds-booking-contact-note">
             <span>Prefer a direct conversation?</span>
@@ -198,7 +183,7 @@ export default function BookDemoPage() {
           <div className="ds-booking-form-heading">
             <span className="ds-booking-kicker">Start a conversation</span>
             <h2 id="booking-form-title">Share a little context.</h2>
-            <p>Every field is required so our team can prepare a focused response before we contact you.</p>
+            <p>Share your contact details and a short project brief. Required fields are marked.</p>
           </div>
 
           <form className="ds-booking-form" onSubmit={handleSubmit} noValidate>
@@ -254,10 +239,9 @@ export default function BookDemoPage() {
                 setSubmitted(false);
               }} required>
                 <option value="">Select a service</option>
-                <option value="AI agents and automation">AI agents and automation</option>
-                <option value="Web and app development">Web and app development</option>
-                <option value="Marketing and SEO">Marketing and SEO</option>
-                <option value="Product and UX design">Product and UX design</option>
+                {serviceMenuGroups.map((group) => (
+                  <option key={group.id} value={group.title}>{group.title}</option>
+                ))}
                 <option value="Something else">Something else</option>
               </select>
             </label>

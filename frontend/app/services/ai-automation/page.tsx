@@ -11,10 +11,10 @@ export const metadata: Metadata = {
 
 const config: HubPageConfig = {
   title: "AI Automation Services — Digital Solutions",
-  eyebrow: "Intelligent Operations",
-  heading: "AI Automation Engineered for Enterprise Production",
+  eyebrow: "Business automation",
+  heading: "Business Automation Services",
   description:
-    "From single bottlenecked workflows to company-wide autonomous programs, we build the operating system around your real operational work.",
+    "Connect your business tools and simplify repeatable tasks with practical workflows, integrations and clear human oversight.",
   groupSlug: "ai-automation",
   services: aiAutomationServices,
   icons: {
@@ -24,10 +24,10 @@ const config: HubPageConfig = {
     "document-intelligence": FileText,
     "governance-observability": ShieldCheck,
   },
-  ctaHeading: "Scale Your Operations with AI",
+  ctaHeading: "Discuss a workflow improvement",
   ctaDescription:
-    "Partner with specialized engineers to design dependable workflows and autonomous agents that move business needles.",
-  ctaButtonText: "Map Your Workflow",
+    "Talk to us about the manual steps and disconnected systems you want to improve.",
+  ctaButtonText: "Discuss a project",
 };
 
 export default function AIAutomationHubPage() {

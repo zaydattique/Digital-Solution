@@ -63,7 +63,7 @@ export function ServiceHubView({ config }: { config: HubPageConfig }) {
           <h2>{ctaHeading}</h2>
           <p>{ctaDescription}</p>
         </div>
-        <PrimaryButton href="/book-a-demo">{ctaButtonText} <ArrowUpRight size={16} /></PrimaryButton>
+        <PrimaryButton href={`/book-a-demo?service=${encodeURIComponent(groupSlug)}`}>{ctaButtonText} <ArrowUpRight size={16} /></PrimaryButton>
       </section>
 
       <AgencyFooter />

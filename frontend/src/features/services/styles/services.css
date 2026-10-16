@@ -90,20 +90,15 @@
 .ds-service-tech-grid small { color: #8aa0b4; font-size: 10px; font-weight: 850; letter-spacing: .08em; }
 @keyframes ds-tech-in { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
 .ds-service-faq { display: grid; gap: 0; margin-top: 24px; border-top: 1px solid #cfdce7; }
-.ds-service-faq-trigger { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; min-height: 58px; padding: 0; border: 0; border-bottom: 1px solid #cfdce7; background: transparent; color: #173652; text-align: left; cursor: pointer; font: inherit; font-size: 14px; font-weight: 750; transition: color 180ms ease, padding-left 180ms ease; }
+.ds-service-faq-item { border-bottom: 1px solid #cfdce7; }
+.ds-service-faq-trigger { display: flex; align-items: center; justify-content: space-between; gap: 14px; width: 100%; min-height: 58px; padding: 12px 0; background: transparent; color: #173652; text-align: left; cursor: pointer; font: inherit; font-size: 14px; font-weight: 750; transition: color 180ms ease; list-style: none; }
+.ds-service-faq-trigger::-webkit-details-marker { display: none; }
 .ds-service-faq-trigger span { display: inline-flex; align-items: center; gap: 9px; }
 .ds-service-faq-trigger svg:last-child { color: #0b73c7; transition: transform 180ms ease; }
-.ds-service-faq-trigger:hover { padding-left: 7px; color: #0b73c7; }
-.ds-service-faq-trigger:hover svg:last-child { transform: translate(2px, -2px); }
-.ds-service-modal-backdrop { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; padding: 24px; background: rgba(3, 14, 32, .74); backdrop-filter: blur(8px); animation: ds-modal-fade 180ms ease both; }
-.ds-service-modal { width: min(560px, 100%); padding: 30px; background: #fff; border-top: 4px solid #2f8cff; box-shadow: 0 24px 80px rgba(1, 12, 32, .35); animation: ds-modal-up 220ms ease both; }
-.ds-service-modal-topline { display: flex; align-items: center; justify-content: space-between; }
-.ds-service-modal-close { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid #cfdce7; border-radius: 50%; background: #fff; color: #173652; font-size: 24px; line-height: 1; cursor: pointer; }
-.ds-service-modal h2 { margin-top: 22px; color: #0b1b31; font-family: var(--font-nunito-sans), Arial, sans-serif; font-size: clamp(24px, 4vw, 34px); letter-spacing: -.04em; line-height: 1.1; }
-.ds-service-modal p { margin-top: 16px; color: #5f7388; font-size: 15px; line-height: 1.75; }
-.ds-service-modal-action { margin-top: 24px; border: 0; cursor: pointer; }
-@keyframes ds-modal-fade { from { opacity: 0; } to { opacity: 1; } }
-@keyframes ds-modal-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+.ds-service-faq-trigger:hover { color: #0b73c7; }
+.ds-service-faq-trigger:focus-visible { outline: 3px solid #2779f5; outline-offset: 3px; }
+.ds-service-faq-item[open] .ds-service-faq-trigger svg:last-child { transform: rotate(45deg); }
+.ds-service-faq-answer { margin: 0; padding: 0 0 20px; color: #425b76; font-size: 15px; line-height: 1.7; }
 .ds-service-cta { display: flex; justify-content: space-between; align-items: center; gap: 28px; width: min(1180px, calc(100% - 48px)); margin: 0 auto 92px; padding: 44px 48px; background: linear-gradient(115deg, #061b3b, #0b4f91); color: #fff; animation: ds-section-enter 800ms 260ms ease both; }
 .ds-service-cta h2 { margin: 0; color: #fff; font-size: clamp(26px, 3.5vw, 44px); }
 .ds-service-cta p { max-width: 560px; margin-top: 10px; color: #b9d5ee; font-size: 14px; line-height: 1.6; }

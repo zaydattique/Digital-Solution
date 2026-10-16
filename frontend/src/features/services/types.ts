@@ -1,11 +1,6 @@
 // src/features/services/types.ts
 import type { ElementType } from "react";
 
-export type Metric = {
-  readonly value: string;
-  readonly label: string;
-};
-
 export type Deliverable = {
   readonly title: string;
   readonly desc: string;
@@ -31,7 +26,6 @@ export type ServiceDetail = {
   readonly description?: string;
   readonly heroSubtitle?: string;
   readonly shortDescription?: string;
-  readonly metrics: readonly Metric[];
   readonly deliverables: readonly Deliverable[];
   readonly workflowSteps: readonly WorkflowStep[];
   readonly techStack: readonly string[];

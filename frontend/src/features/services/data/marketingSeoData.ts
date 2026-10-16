@@ -4,7 +4,6 @@ export type SubServiceDetail = {
   eyebrow: string;
   headline: string;
   description: string;
-  metrics: readonly { value: string; label: string }[];
   deliverables: readonly { title: string; desc: string; iconName: string }[];
   workflowSteps: readonly { step: string; title: string; desc: string }[];
   techStack: readonly string[];
@@ -18,26 +17,21 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Search Engine Optimization",
     headline: "Engineering search architecture for maximum indexability and speed.",
     description: "We optimize crawl budgets, structured schema data, Core Web Vitals, and server-side rendering to turn your platform into an organic search authority.",
-    metrics: [
-      { value: "99+", label: "Core Web Vitals Score" },
-      { value: "3.4×", label: "Organic Crawl Frequency" },
-      { value: "+180%", label: "Indexed Landing Pages" },
-    ],
     deliverables: [
-      { title: "Core Web Vitals & Speed Optimization", desc: "Sub-second LCP and zero Cumulative Layout Shift across desktop and mobile browsers.", iconName: "Zap" },
+      { title: "Core Web Vitals & Speed Optimization", desc: "Improve loading, layout stability and responsive behavior based on measured Core Web Vitals.", iconName: "Zap" },
       { title: "JSON-LD & Structured Schema", desc: "Custom Rich Snippets schema for products, services, FAQs, organizations, and knowledge graphs.", iconName: "Code2" },
       { title: "Crawl Budget & Indexing Control", desc: "Robots.txt, sitemap management, canonical URL enforcement, and rendering log analysis.", iconName: "Search" },
       { title: "International SEO & Hreflang", desc: "Multi-region, multi-language URL routing and geotargeted search signaling.", iconName: "Globe" },
     ],
     workflowSteps: [
-      { step: "01", title: "Comprehensive Tech Audit", desc: "Deep log analysis, crawling 100k+ URLs to identify indexing barriers and latency spikes." },
+      { step: "01", title: "Comprehensive Tech Audit", desc: "Audit relevant site pages, crawl signals and indexing barriers within the agreed project scope." },
       { step: "02", title: "Architecture Refactoring", desc: "Fixing JS rendering bottlenecks, canonical conflicts, and broken URL structures." },
-      { step: "03", title: "Schema & Speed Deployment", desc: "Injecting structured JSON-LD schema and optimizing image/code bundles for instant load." },
-      { step: "04", title: "Monitoring & Maintenance", desc: "Automated Search Console monitoring to instantly catch indexation anomalies." },
+      { step: "03", title: "Schema & Speed Deployment", desc: "Implement supported structured data and prioritize measured front-end performance improvements." },
+      { step: "04", title: "Monitoring & Maintenance", desc: "Review Search Console indexing reports and investigate meaningful changes." },
     ],
     techStack: ["Next.js / Vinext", "JSON-LD Schema", "Cloudflare Workers", "Screaming Frog", "Google Search Console API"],
     faq: [
-      { question: "How quickly can technical SEO improvements boost rankings?", answer: "Technical fixes like Core Web Vitals and Schema rendering typically reflect in Google indexation within 2 to 4 weeks." },
+      { question: "How quickly can technical SEO improvements boost rankings?", answer: "Crawl and ranking changes depend on the site, competition and search engines. We monitor indexing and technical outcomes without promising a fixed timeline." },
       { question: "Do you handle JavaScript rendering SEO?", answer: "Yes, we specialize in SSR and RSC (React Server Components) so search bots receive fully pre-rendered HTML." },
     ],
   },
@@ -47,11 +41,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Content Automation",
     headline: "Scaling search content creation with brand-governed AI workflows.",
     description: "Build automated content engines that research, draft, fact-check, and publish SEO-optimized articles, product landing pages, and documentation at scale.",
-    metrics: [
-      { value: "10×", label: "Faster Content Output" },
-      { value: "100%", label: "Brand Voice Alignment" },
-      { value: "+240%", label: "Organic Search Traffic" },
-    ],
     deliverables: [
       { title: "Programmatic SEO Engines", desc: "Dynamic page generation templates driven by structured datasets for long-tail search dominance.", iconName: "Cpu" },
       { title: "Brand Voice AI Fine-Tuning", desc: "Custom LLM prompts and style rules ensuring every piece matches your corporate tone.", iconName: "FileText" },
@@ -62,7 +51,7 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
       { step: "01", title: "Search Intent Mapping", desc: "Keyword research and entity mapping to discover high-value search clusters." },
       { step: "02", title: "Engine & Prompt Design", desc: "Building modular AI prompts and formatting templates for your CMS." },
       { step: "03", title: "Human-in-the-Loop Review", desc: "Setting up approval dashboards for rapid editor review and publishing." },
-      { step: "04", title: "Programmatic Scaling", desc: "Launching hundreds of target pages with automated sitemap updates." },
+      { step: "04", title: "Programmatic Scaling", desc: "Publish approved, original pages when each serves a distinct search intent, keeping the sitemap accurate." },
     ],
     techStack: ["OpenAI API / Claude", "Headless CMS", "Programmatic SEO Data Pipelines", "Grammarly & Style Validation"],
     faq: [
@@ -76,11 +65,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Paid Growth & Advertising",
     headline: "Data-driven ad campaigns optimized for maximum return on ad spend.",
     description: "Combine AI bid management, dynamic creative optimization, and conversion-focused landing pages to turn paid search and social into predictable growth.",
-    metrics: [
-      { value: "4.2×", label: "Average ROAS" },
-      { value: "-35%", label: "Lower Cost Per Acquisition" },
-      { value: "24/7", label: "Algorithmic Bid Tuning" },
-    ],
     deliverables: [
       { title: "Google & Meta Ads Automation", desc: "Structure-driven campaign setups with continuous creative testing and smart bidding.", iconName: "Target" },
       { title: "Dynamic Landing Page Experience", desc: "Personalized landing page variants aligned with visitor search keywords for max conversions.", iconName: "Layout" },
@@ -89,14 +73,14 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     ],
     workflowSteps: [
       { step: "01", title: "Audience & Competitor Audit", desc: "Analyze high-performing keywords, ad creatives, and competitor positioning." },
-      { step: "02", title: "Campaign & Landing Page Build", desc: "Engineered campaigns paired with high-converting, sub-second landing pages." },
+      { step: "02", title: "Campaign & Landing Page Build", desc: "Align campaigns with relevant landing pages and measure the resulting performance." },
       { step: "03", title: "AI Bidding Activation", desc: "Connecting offline conversion tracking to guide ad platform algorithms towards high-value leads." },
       { step: "04", title: "Creative & Copy Testing", desc: "Weekly creative refreshes to eliminate ad fatigue and drive down CPA." },
     ],
     techStack: ["Google Ads API", "Meta Ads Manager", "Vite / Next.js CRO Pages", "PostHog & Hotjar", "GA4 Premier"],
     faq: [
       { question: "What ad channels do you manage?", answer: "We focus on Google Search, Performance Max, Meta Ads (Instagram/Facebook), LinkedIn Ads, and YouTube Ads." },
-      { question: "How do you handle conversion tracking with privacy updates?", answer: "We implement Server-Side Google Tag Manager and Conversions API (CAPI) to preserve 100% data accuracy." },
+      { question: "How do you handle conversion tracking with privacy updates?", answer: "We assess consent-aware tracking options and document measurement gaps rather than claiming complete attribution." },
     ],
   },
   "crm-lifecycle-automation": {
@@ -105,11 +89,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Retention & Customer Journeys",
     headline: "Automating customer communication from first touch to long-term retention.",
     description: "We connect your CRM, email, SMS, and product data into unified automation flows that nurture prospects and drive repeat customer lifetime value.",
-    metrics: [
-      { value: "+65%", label: "Email Revenue Growth" },
-      { value: "85%", label: "Automated Lead Qualification" },
-      { value: "3.8×", label: "Higher Repeat Purchase Rate" },
-    ],
     deliverables: [
       { title: "Omnichannel Lifecycle Flows", desc: "Automated welcome series, abandoned cart, post-purchase, and win-back email/SMS sequences.", iconName: "Mail" },
       { title: "CRM Architecture & Lead Scoring", desc: "Structuring Hubspot, Salesforce, or Klaviyo with intelligent lead scoring and routing.", iconName: "Users" },
@@ -125,7 +104,7 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     techStack: ["HubSpot", "Klaviyo", "Salesforce", "Zapier / Make", "Segment", "Twilio SMS"],
     faq: [
       { question: "Which CRM platforms do you support?", answer: "We specialize in HubSpot, Klaviyo, Salesforce, ActiveCampaign, and custom database webhooks." },
-      { question: "Can you help migrate our existing email list and automations?", answer: "Yes, we handle seamless data migration without downtime or deliverability loss." },
+      { question: "Can you help migrate our existing email list and automations?", answer: "We review migration scope and data quality, then plan staged validation to reduce interruption and deliverability risk." },
     ],
   },
   "analytics-attribution": {
@@ -134,11 +113,6 @@ export const marketingSeoSubServices: Record<string, SubServiceDetail> = {
     eyebrow: "Data & Revenue Intelligence",
     headline: "Clarity on where every dollar comes from and which channels drive profit.",
     description: "Eliminate dark social and channel attribution guesswork with custom data pipelines, executive dashboards, and first-party tracking infrastructure.",
-    metrics: [
-      { value: "100%", label: "First-Party Data Ownership" },
-      { value: "0", label: "Attribution Blindspots" },
-      { value: "Realtime", label: "Revenue Dashboards" },
-    ],
     deliverables: [
       { title: "First-Party Server-Side Tracking", desc: "Bypass ad-blockers and iOS privacy restrictions with server-side GTM and custom domain tracking.", iconName: "Database" },
       { title: "Multi-Touch Attribution Modeling", desc: "First-touch, last-touch, linear, and data-driven models to understand the entire buying path.", iconName: "BarChart3" },

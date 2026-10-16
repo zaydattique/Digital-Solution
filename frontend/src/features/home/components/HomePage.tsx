@@ -8,8 +8,6 @@ import {
   ArrowUpRight,
   Bot,
   ChevronDown,
-  ChevronLeft,
-  ChevronRight,
   Menu,
   Search,
   Star,
@@ -21,7 +19,7 @@ import { Brand } from "@/src/components/brand/Brand";
 
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
-import { clientReviews, heroImages } from "@/src/features/home/data/content";
+import { heroImages } from "@/src/features/home/data/content";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 
 type SiteSearchItem = {
@@ -261,8 +259,6 @@ export default function HomePage() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [activeProcessStep, setActiveProcessStep] = useState(0);
-  const [activeReviewPage, setActiveReviewPage] = useState(0);
-  const [reviewsPaused, setReviewsPaused] = useState(false);
   const touchStart = useRef<number | null>(null);
 
   useEffect(() => {
@@ -272,13 +268,6 @@ export default function HomePage() {
     return () => window.clearInterval(timer);
   }, []);
 
-  useEffect(() => {
-    if (reviewsPaused) return;
-    const timer = window.setInterval(() => {
-      setActiveReviewPage((current) => (current + 1) % 2);
-    }, 6000);
-    return () => window.clearInterval(timer);
-  }, [reviewsPaused]);
   const headerRef = useRef<HTMLElement | null>(null);
   const servicesTriggerRef = useRef<HTMLButtonElement | null>(null);
   const menuButtonRef = useRef<HTMLButtonElement | null>(null);
@@ -923,106 +912,28 @@ export default function HomePage() {
             </div>
 
 
-            {/* Client Reviews Section (3 Cards Per Row, 6 Total Reviews) */}
-            <div 
-              className="vx-reviews-slider-section" 
-              aria-labelledby="reviews-title"
-              onMouseEnter={() => setReviewsPaused(true)}
-              onMouseLeave={() => setReviewsPaused(false)}
-            >
+            <div className="vx-reviews-slider-section" aria-labelledby="reviews-title">
               <div className="vx-reviews-header">
                 <div>
-                  <span className="vx-reviews-eyebrow">CLIENT TESTIMONIALS</span>
-                  <h3 id="reviews-title">What our clients say</h3>
+                  <span className="vx-reviews-eyebrow">OUR WORKING APPROACH</span>
+                  <h3 id="reviews-title">A clear path from brief to delivery</h3>
                 </div>
               </div>
-
-              {/* 3 Cards Per Row Carousel Track */}
-              <div className="vx-reviews-grid-viewport">
-                <div 
-                  className="vx-reviews-pages-track"
-                  style={{ transform: `translateX(-${activeReviewPage * 100}%)` }}
-                >
-                  {/* Page 1 (Cards 0, 1, 2) */}
-                  <div className="vx-reviews-page-grid">
-                    {clientReviews.slice(0, 3).map((review) => (
-                      <blockquote className="vx-review-card-sky" key={review.name}>
-                        <div className="vx-review-stars" role="img" aria-label="5 out of 5 stars">
-                          {Array.from({ length: 5 }, (_, starIndex) => (
-                            <Star key={starIndex} size={14} fill="currentColor" aria-hidden="true" />
-                          ))}
-                        </div>
-                        <p>“{review.quote}”</p>
-                        <footer>
-                          <div className="vx-review-avatar-sky" aria-hidden="true">
-                            {review.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                          </div>
-                          <div className="vx-review-author-info">
-                            <strong>{review.name}</strong>
-                            <span>{review.role}, {review.company}</span>
-                          </div>
-                        </footer>
-                      </blockquote>
-                    ))}
-                  </div>
-
-                  {/* Page 2 (Cards 3, 4, 5) */}
-                  <div className="vx-reviews-page-grid">
-                    {clientReviews.slice(3, 6).map((review) => (
-                      <blockquote className="vx-review-card-sky" key={review.name}>
-                        <div className="vx-review-stars" role="img" aria-label="5 out of 5 stars">
-                          {Array.from({ length: 5 }, (_, starIndex) => (
-                            <Star key={starIndex} size={14} fill="currentColor" aria-hidden="true" />
-                          ))}
-                        </div>
-                        <p>“{review.quote}”</p>
-                        <footer>
-                          <div className="vx-review-avatar-sky" aria-hidden="true">
-                            {review.name.split(" ").map((n) => n[0]).join("").slice(0, 2)}
-                          </div>
-                          <div className="vx-review-author-info">
-                            <strong>{review.name}</strong>
-                            <span>{review.role}, {review.company}</span>
-                          </div>
-                        </footer>
-                      </blockquote>
-                    ))}
-                  </div>
-                </div>
+              <div className="vx-reviews-page-grid">
+                {[
+                  { title: "Understand your audience", copy: "We look at business goals, your audience and the current customer journey." },
+                  { title: "Create with purpose", copy: "Our team develops campaigns, experiences and technical solutions based on the agreed scope." },
+                  { title: "Review what matters", copy: "We check deliverables and use available data to identify the next improvement." },
+                ].map((item) => (
+                  <article className="vx-review-card-sky" key={item.title}>
+                    <h4>{item.title}</h4>
+                    <p>{item.copy}</p>
+                  </article>
+                ))}
               </div>
-
-              {/* Bottom Controls Bar (Matching Reference Image 0) */}
-              <div className="vx-reviews-bottom-controls">
-                <button
-                  type="button"
-                  className="vx-reviews-arrow-btn"
-                  onClick={() => setActiveReviewPage((prev) => (prev - 1 + 2) % 2)}
-                  aria-label="Previous reviews page"
-                >
-                  <ChevronLeft size={18} aria-hidden="true" />
-                </button>
-
-                <div className="vx-reviews-progress-bar-wrap">
-                  <span className="vx-reviews-counter" aria-live="polite">
-                    {String((activeReviewPage + 1) * 3).padStart(2, "0")} / {String(clientReviews.length).padStart(2, "0")}
-                  </span>
-                  <div className="vx-reviews-progress-track">
-                    <div 
-                      className="vx-reviews-progress-fill" 
-                      style={{ width: activeReviewPage === 0 ? "50%" : "100%" }}
-                    />
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  className="vx-reviews-arrow-btn"
-                  onClick={() => setActiveReviewPage((prev) => (prev + 1) % 2)}
-                  aria-label="Next reviews page"
-                >
-                  <ChevronRight size={18} aria-hidden="true" />
-                </button>
-              </div>
+              <a href="/reviews" className="vx-frost-actions">
+                <span>Explore our approach</span> <ArrowRight size={15} aria-hidden="true" />
+              </a>
             </div>
           </div>
         </section>

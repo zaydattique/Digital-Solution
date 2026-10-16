@@ -10,11 +10,6 @@ export const webDevServices: readonly WebDevService[] = [
     shortDescription:
       "High‑performance websites, progressive web apps, and native mobile applications built with modern frameworks and pixel‑perfect UI.",
     heroSubtitle: "Craft blazing‑fast digital experiences.",
-    metrics: [
-      { label: "Lighthouse Score", value: "95+" },
-      { label: "Load Time", value: "<1.5s" },
-      { label: "Client Retention", value: "94%" },
-    ],
     deliverables: [
       { title: "Responsive Web Applications", desc: "Server‑rendered or SPA apps optimised for every screen size and device.", iconName: "Globe" },
       { title: "Progressive Web Apps", desc: "Offline‑capable, installable PWAs with push notifications and app‑like UX.", iconName: "Zap" },
@@ -31,7 +26,7 @@ export const webDevServices: readonly WebDevService[] = [
     faq: [
       { question: "Do you build native mobile apps too?", answer: "Yes — we deliver native iOS/Android or cross‑platform apps with React Native and Flutter." },
       { question: "Can you work with our existing design system?", answer: "Absolutely. We can adopt, extend, or build a new design system from scratch." },
-      { question: "How do you handle SEO for SPAs?", answer: "We use SSR/SSG with Next.js to ensure full crawlability and top Lighthouse scores." },
+      { question: "How do you handle SEO for SPAs?", answer: "We select appropriate rendering strategies and validate HTML, indexing signals and performance in the deployed application." },
     ],
   },
 
@@ -42,11 +37,6 @@ export const webDevServices: readonly WebDevService[] = [
     shortDescription:
       "End‑to‑end AI‑powered products — from intelligent chatbots and recommendation engines to computer vision pipelines and LLM integrations.",
     heroSubtitle: "Turn artificial intelligence into real business value.",
-    metrics: [
-      { label: "Model Accuracy", value: "97%+" },
-      { label: "Time‑to‑Production", value: "6 weeks" },
-      { label: "Cost Reduction", value: "40%" },
-    ],
     deliverables: [
       { title: "Custom LLM Integrations", desc: "Fine‑tuned GPT, Claude, or open‑source models embedded in your product workflow.", iconName: "Brain" },
       { title: "Intelligent Chatbots & Agents", desc: "Conversational AI with RAG pipelines, tool‑use, and memory for support and sales.", iconName: "Zap" },
@@ -74,11 +64,6 @@ export const webDevServices: readonly WebDevService[] = [
     shortDescription:
       "Seamless connectivity between your tools, platforms, and data sources through robust REST/GraphQL APIs, middleware, and event‑driven architecture.",
     heroSubtitle: "Connect every system into one intelligent ecosystem.",
-    metrics: [
-      { label: "Integration Speed", value: "3× faster" },
-      { label: "API Uptime", value: "99.99%" },
-      { label: "Data Sync Accuracy", value: "100%" },
-    ],
     deliverables: [
       { title: "Custom REST & GraphQL APIs", desc: "Production‑grade APIs with OpenAPI specs, versioning, and rate limiting.", iconName: "Database" },
       { title: "Third‑Party Integrations", desc: "CRM, ERP, payment gateways, and SaaS connectors built to spec.", iconName: "Share2" },
@@ -94,7 +79,7 @@ export const webDevServices: readonly WebDevService[] = [
     techStack: ["Node.js", "Express", "GraphQL", "Kafka", "RabbitMQ", "PostgreSQL", "Redis", "Docker"],
     faq: [
       { question: "Can you integrate with our legacy ERP?", answer: "Yes — we build adapter layers and APIs around legacy systems without touching core logic." },
-      { question: "Do you support real‑time data sync?", answer: "Absolutely. We use event‑driven patterns for sub‑second data propagation." },
+      { question: "Do you support real‑time data sync?", answer: "We assess integration requirements and choose appropriate synchronization methods, including event-driven patterns where suitable." },
       { question: "How do you handle API security?", answer: "OAuth2, API keys, rate limiting, request signing, and comprehensive audit logging." },
     ],
   },
@@ -104,13 +89,8 @@ export const webDevServices: readonly WebDevService[] = [
     title: "Cloud & DevOps",
     slug: "cloud-devops",
     shortDescription:
-      "Scalable cloud infrastructure, CI/CD pipelines, container orchestration, and infrastructure‑as‑code to ship faster with zero downtime.",
+      "Cloud deployment, CI/CD automation and infrastructure planning with practical reliability and rollback considerations.",
     heroSubtitle: "Ship faster. Scale infinitely. Sleep soundly.",
-    metrics: [
-      { label: "Deploy Frequency", value: "50×/week" },
-      { label: "Uptime SLA", value: "99.95%" },
-      { label: "Infra Cost Savings", value: "35%" },
-    ],
     deliverables: [
       { title: "CI/CD Pipeline Engineering", desc: "Automated build, test, and deploy pipelines with GitHub Actions, GitLab CI, or Jenkins.", iconName: "Code2" },
       { title: "Container Orchestration", desc: "Production Kubernetes clusters with Helm charts, auto‑scaling, and self‑healing.", iconName: "Cpu" },
@@ -127,7 +107,7 @@ export const webDevServices: readonly WebDevService[] = [
     faq: [
       { question: "Which cloud providers do you work with?", answer: "AWS, Azure, GCP, and multi‑cloud / hybrid setups." },
       { question: "Can you migrate our on‑prem infrastructure?", answer: "Yes — we plan and execute lift‑and‑shift, re‑platform, or re‑architect migrations." },
-      { question: "Do you provide 24/7 support?", answer: "We offer managed SRE packages with on‑call rotations and incident response." },
+      { question: "Do you provide 24/7 support?", answer: "Support arrangements depend on project scope and must be confirmed before an engagement." },
     ],
   },
 
@@ -138,11 +118,6 @@ export const webDevServices: readonly WebDevService[] = [
     shortDescription:
       "Automated testing frameworks, performance benchmarks, and continuous quality gates that catch bugs before your users do.",
     heroSubtitle: "Ship confidently with automated quality at every layer.",
-    metrics: [
-      { label: "Test Coverage", value: "95%+" },
-      { label: "Bug Escape Rate", value: "<1%" },
-      { label: "CI Time Savings", value: "60%" },
-    ],
     deliverables: [
       { title: "E2E Test Automation", desc: "Playwright and Cypress suites covering critical user journeys with visual regression.", iconName: "CheckCircle2" },
       { title: "API & Contract Testing", desc: "Automated API validation with Pact, Postman, or custom frameworks.", iconName: "Database" },
