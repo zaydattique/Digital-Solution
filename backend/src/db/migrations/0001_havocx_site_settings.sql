@@ -19,6 +19,7 @@ INSERT INTO "site_settings" ("key","value") VALUES
 ('contact.phone',''),
 ('contact.phoneSecondary',''),
 ('legal.lastUpdated',''),
+('checkout.whatsappNumber',''),
 ('social.linkedin',''),
 ('social.instagram',''),
 ('social.facebook',''),
