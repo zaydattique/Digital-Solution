@@ -15,7 +15,7 @@ function parseSiteOrigin(value: string | undefined): string | undefined {
     return undefined;
   }
 }
-export const publishedOrigin = parseSiteOrigin(configured);
+export const publishedOrigin = process.env.VERCEL_ENV === "preview" ? undefined : parseSiteOrigin(configured);
 export const siteOrigin = publishedOrigin ?? "http://localhost:3000";
 
 export function absoluteUrl(path: string): string {
