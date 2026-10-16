@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Content Admin | HavocX", robots: { index: false, follow: false } };
 const groups = {
   "Brand": ["brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl", "brand.description"],
-  "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl"],
+  "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl"],
   "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
   "Social profiles": ["social.linkedin", "social.instagram", "social.facebook", "social.website"],
 };
