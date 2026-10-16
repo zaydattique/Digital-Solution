@@ -58,7 +58,7 @@ export async function uploadMedia(form: FormData) {
   if (!await isAdminAuthenticated()) redirect("/admin/login");
   const key = form.get("key"), file = form.get("file");
   const allowed = ["brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl", "home.heroImageUrl", "home.heroVideoUrl"];
-  if (typeof key !== "string" || !allowed.includes(key) || !(file instanceof File)) throw new Error("Invalid upload");
+  if (typeof key !== "string" || (!allowed.includes(key) && !/^service\\.[a-z0-9-]{3,64}\\.imageUrl$/.test(key)) || !(file instanceof File)) throw new Error("Invalid upload");
   const mime = file.type;
   const image = ["image/jpeg", "image/png", "image/webp"].includes(mime);
   const video = ["video/mp4", "video/webm"].includes(mime);
