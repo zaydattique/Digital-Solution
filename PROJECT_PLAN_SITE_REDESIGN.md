@@ -360,3 +360,32 @@ Working branch: `refactor/single-stylesheet`, stacked on browser QA branch. No a
 - [ ] Actual Translucent Sans font licensing and source remain unverified. Existing readable fallback remains in use; no guessed binary or unauthorized font copy was added.
 
 This change is code consolidation, NOT permission to replace the original design with additional overriding CSS. The initial cascade order of the root CSS owners was preserved, and other page-specific sections are segregated by their existing selector namespaces.
+
+## HavocX Agency rebrand, shared Vercel Services and admin scope (2026-10-17)
+
+### Decisions provided by business owner
+- Active brand: **HavocX Agency**. Canonical domain: **https://havocx.agency**.
+- Brand board is a visual reference; do NOT generate/extract/commit a logo from it. All brand media must eventually be user-uploaded.
+- Marketing-first positioning and existing four service groups/20 detail URLs retained. All service inquiry CTAs continue to the contact form. Direct-link checkout remains outside services.
+- Hosting account changes to another Google/Vercel account. Existing Vercel projects, environment values, secrets and DNS access cannot be assumed to migrate.
+- Owner requested one Vercel project with multiple services using root `vercel.json`, confirmed topology still requiring operator approval before merge.
+- Everything editable by admin is to be stored once and reflected on every public consumer; uploads should become compressed WebP and provider-transcoded WebM.
+
+### Code implemented in proposed stacked branch
+- [x] New root `vercel.json`: frontend Next.js + backend Express services; frontend binds to backend with `BACKEND_URL`; `/api/*` rewrites to backend, everything else to frontend. Removed obsolete backend standalone Vercel config.
+- [x] Browser contact API points to same-origin `/api/v1/contact` (no legacy `NEXT_PUBLIC_API_URL` dependency).
+- [x] PostgreSQL `site_settings` migration/seed, admin-authenticated settings API, frontend bound runtime read, signed HTTP-only admin login and editable field forms.
+- [x] Brand name, tagline/contact details, legal date, footer social links, logo/favicons, homepage hero content, service-detail heading/introduction/image and OG metadata sources wired to managed settings.
+- [x] In-place legacy SVG wordmark removed from runtime branding and previous Digital Solutions favicon deleted. No HavocX logo binary created.
+- [x] Media API accepts JPEG/PNG/WebP and MP4/WebM with strict sizes/type checks. Sharp converts image uploads to compressed WebP; Cloudinary eager video transformation must return valid WebM URL before publishing to CMS. Cloudinary server secrets/provider are deployment configuration, not committed.
+- [x] Existing single `home.css` public stylesheet retained and unchanged as sole authored application CSS source.
+- [x] README rewritten for one-project Vercel Services and deployment through another account, including environment and manual migration steps.
+- [ ] Operator confirms exact `backend`, `frontend` names, /api public routing, and frontend -> backend binding.
+- [ ] Preview and production testing on actual new Vercel account, using actual `havocx.agency` domain, and confirmation of Vercel Services beta availability in account.
+- [ ] Real image and video uploads verified against a configured Cloudinary account, size limits and file conversion outcomes. Provider-side AV scanning/abuse controls and publication review still needed for broader upload product.
+- [ ] Comprehensive no-hardcoding audit still open: existing service category labels, all legal article prose, remaining detail bullets/FAQ, secondary images, projects, misc public copy and commerce product catalog must be migrated to admin before claiming full admin control. Do not recreate duplicate data ownership to finish this.
+- [ ] Real logo files, brand-font licensing, factual contact details and business proofs approved and uploaded.
+- [ ] Deployment, real email send, DB connectivity, WAF and payment settlement verification remain operator-owned; no automatic deployment.
+- [ ] Current branch CI/browser regression results must pass on the final SHA before merge.
+
+**Status: Vercel Services + admin/media foundation is in progress on a draft stacked PR. Not ready for production promotion or a blanket claim that all site data is editable.**
