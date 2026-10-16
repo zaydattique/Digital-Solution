@@ -6,6 +6,15 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/checkout",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store, max-age=0" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+          { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "X-Frame-Options", value: "DENY" },
+        ],
+      },
+      {
         source: "/assets/:path*",
         headers: [
           {
