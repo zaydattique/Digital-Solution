@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Nunito_Sans } from "next/font/google";
 import "@/src/features/home/styles/home.css";
 import { siteOrigin } from "@/src/lib/seo";
+import { getSiteIdentity, getHomeContent } from "@/src/lib/site-content";
+import { SiteIdentityProvider } from "@/src/components/brand/SiteIdentityProvider";
 
 const nunitoSans = Nunito_Sans({
   variable: "--font-nunito-sans",
@@ -11,13 +13,13 @@ const nunitoSans = Nunito_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),
   title: {
-    default: "Digital Solutions | Digital Marketing, Design and Development",
-    template: "%s | Digital Solutions",
+    default: "HavocX Agency | Digital Marketing, Strategy & Creative",
+    template: "%s | HavocX Agency",
   },
   description:
-    "Digital Solutions provides digital marketing, technical SEO, experience design, web development and workflow automation services.",
-  applicationName: "Digital Solutions",
-  openGraph: { siteName: "Digital Solutions", locale: "en_US", type: "website" },
+    "HavocX Agency provides digital marketing, technical SEO, experience design, web development and workflow automation services.",
+  applicationName: "HavocX Agency",
+  openGraph: { siteName: "HavocX Agency", locale: "en_US", type: "website" },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -29,17 +31,18 @@ export const viewport: Viewport = {
   colorScheme: "dark",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [identity, home] = await Promise.all([getSiteIdentity(), getHomeContent()]);
   return (
     <html lang="en">
       <body
         className={`${nunitoSans.variable} antialiased`}
       >
-        {children}
+        <SiteIdentityProvider value={{ identity, home }}>{children}</SiteIdentityProvider>
       </body>
     </html>
   );
