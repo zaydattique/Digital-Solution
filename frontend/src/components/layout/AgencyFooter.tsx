@@ -2,12 +2,14 @@
 
 import { MouseEvent, useState } from "react";
 import { Linkedin, Instagram, Facebook, Globe2, Mail, Phone, ArrowUpRight } from "lucide-react";
+import { useSiteIdentity } from "@/src/components/brand/SiteIdentityProvider";
 import { Brand } from "@/src/components/brand/Brand";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 import { claimMailSendPermission } from "@/src/lib/mailRateLimit";
 
 export function AgencyFooter() {
   const [mailLimitMessage, setMailLimitMessage] = useState("");
+  const identity = useSiteIdentity();
 
   const handleEmailClick = (event: MouseEvent<HTMLAnchorElement>) => {
     const permission = claimMailSendPermission();
@@ -30,31 +32,33 @@ export function AgencyFooter() {
             <h3 className="main-text">Contact us</h3>
 
             <div className="vx-footer-contact-info">
-              <a href="mailto:dsolutions555@gmail.com" className="vx-footer-contact-link" onClick={handleEmailClick}>
-                <Mail size={16} /> dsolutions555@gmail.com
-              </a>
-              <a href="tel:+923096548143" className="vx-footer-contact-link">
-                <Phone size={16} /> +92 309 6548143
-              </a>
-              <a href="tel:+923293269494" className="vx-footer-contact-link">
-                <Phone size={16} /> +92 329 3269494
-              </a>
+              {identity.email && (
+                <a href={`mailto:${identity.email}`} className="vx-footer-contact-link" onClick={handleEmailClick}>
+                  <Mail size={16} /> {identity.email}
+                </a>
+              )}
+              {identity.phones.map((phone) => (
+                <a href={`tel:${phone.replace(/[^+0-9]/g, "")}`} className="vx-footer-contact-link" key={phone}>
+                  <Phone size={16} /> {phone}
+                </a>
+              ))}
+              {!identity.email && !identity.phones.length && (
+                <a href="/book-a-demo" className="vx-footer-contact-link">Discuss a project <ArrowUpRight size={16}/></a>
+              )}
               {mailLimitMessage && <p role="status">{mailLimitMessage}</p>}
             </div>
-
             <div className="vx-footer-social-icons">
-              <a href="https://www.linkedin.com/in/abdul-mannan-butt-0382a1379" target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="LinkedIn">
-                <Linkedin size={16} />
-              </a>
-              <a href="https://www.instagram.com/dsolution555/" target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Instagram">
-                <Instagram size={16} />
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61594256333150" target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Facebook">
-                <Facebook size={16} />
-              </a>
-              <a href="/" className="vx-footer-social-btn" aria-label="Website">
-                <Globe2 size={16} />
-              </a>
+              {Object.entries(identity.socials).map(([network, url]) => {
+                if (!/^https:\/\//.test(url)) return null;
+                const icon = network.toLowerCase().includes("linkedin") ? <Linkedin size={16}/> :
+                  network.toLowerCase().includes("instagram") ? <Instagram size={16}/> :
+                  network.toLowerCase().includes("facebook") ? <Facebook size={16}/> : <Globe2 size={16}/>;
+                return (
+                  <a key={network} href={url} target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label={network}>
+                    {icon}
+                  </a>
+                );
+              })}
             </div>
           </div>
 
@@ -74,7 +78,7 @@ export function AgencyFooter() {
 
         {/* Copyright Bar */}
         <div className="vx-footer-copyright-bar">
-          <span>© {new Date().getFullYear()} Digital Solutions. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} {identity.name}. All rights reserved.</span>
           <div className="vx-footer-legal-links">
             <a href="/privacy-policy">Privacy Policy</a>
             <a href="/terms-of-service">Terms of Service</a>
