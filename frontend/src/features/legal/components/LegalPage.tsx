@@ -1,6 +1,5 @@
 import { ArrowLeft, Mail } from "lucide-react";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
-import "@/src/features/legal/styles/legal.css";
 
 type LegalPageProps = {
   type: "privacy" | "terms";
