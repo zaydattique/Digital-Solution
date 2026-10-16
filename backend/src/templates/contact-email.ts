@@ -18,7 +18,7 @@ export function renderContactEmail(payload: ContactRequest): string {
   return `
     <div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;color:#111827">
       <h2 style="margin:0 0 4px">New demo request</h2>
-      <p style="color:#6b7280;margin-top:0">Digital Solutions website</p>
+      <p style="color:#6b7280;margin-top:0">HavocX Agency website</p>
       <hr style="border:0;border-top:1px solid #e5e7eb;margin:20px 0" />
       <table style="width:100%;border-collapse:collapse;font-size:15px">
         <tr><td style="padding:8px 0;color:#6b7280;width:130px">Name</td><td style="padding:8px 0;font-weight:600">${safe.name}</td></tr>
