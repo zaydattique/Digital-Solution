@@ -35,7 +35,7 @@ export async function logIn(form: FormData) {
   redirect("/admin");
 }
 export async function logOut() {
-  (await cookies()).delete(COOKIE);
+  (await cookies()).set(COOKIE, "", { path: "/admin", maxAge: 0, httpOnly: true, sameSite: "strict", secure: process.env.NODE_ENV === "production" });
   redirect("/admin/login");
 }
 export async function saveSetting(form: FormData) {
