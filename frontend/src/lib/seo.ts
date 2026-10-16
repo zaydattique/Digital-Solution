@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 // A single public origin drives canonicals, structured data, the sitemap and robots.
 // Indexing stays disabled until the deployment has a verified public domain.
-const configured = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL;
+const configured = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://havocx.agency";
 function parseSiteOrigin(value: string | undefined): string | undefined {
   if (!value) return undefined;
   try {
@@ -30,7 +30,7 @@ export function pageMetadata(path: string, title: string, description: string): 
     openGraph: {
       type: "website",
       url: absoluteUrl(path),
-      siteName: "Digital Solutions",
+      siteName: "HavocX Agency",
       title,
       description,
       locale: "en_US",
@@ -49,7 +49,7 @@ export function serviceStructuredData(path: string, name: string, description: s
         name,
         description,
         url: absoluteUrl(path),
-        provider: { "@type": "Organization", name: "Digital Solutions", url: siteOrigin },
+        provider: { "@type": "Organization", name: "HavocX Agency", url: siteOrigin },
       },
       {
         "@type": "BreadcrumbList",
