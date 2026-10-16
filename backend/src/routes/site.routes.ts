@@ -34,7 +34,8 @@ export function createSiteRouter() {
       const key = req.params.key;
       const payload: unknown = req.body;
       const value: unknown = typeof payload === "object" && payload !== null && "value" in payload ? payload.value : undefined;
-      if (!SITE_KEYS.includes(key as typeof SITE_KEYS[number]) || typeof value !== "string" || value.length > 3000) {
+      const editableServiceField = /^service\\.[a-z0-9-]{3,64}\\.(title|heroSubtitle|shortDescription|imageUrl)$/.test(key);
+      if ((!SITE_KEYS.includes(key as typeof SITE_KEYS[number]) && !editableServiceField) || typeof value !== "string" || value.length > 3000) {
         res.status(400).json({ success: false, error: { code: "INVALID_SETTING", message: "Invalid site setting" } }); return;
       }
       if (key.endsWith("Url") || key.startsWith("social.")) {
