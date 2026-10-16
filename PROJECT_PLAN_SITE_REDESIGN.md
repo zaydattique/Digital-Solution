@@ -332,3 +332,19 @@ Working branch: `feat/phase-6-seo-aeo-geo`, based on Phase 5 PR #5. No deploymen
 
 **Phase 6 state: technical code implementation done on branch, acceptance only after passing CI and configured-domain/live crawl verification.**
 
+
+## Phase 7 QA checkpoint (2026-10-16)
+
+Working branch: `test/phase-7-browser-qa`, stacked on Phase 6. No production deployment.
+
+### Executable browser QA
+- [x] Pinned `@playwright/test` in the frontend lockfile; added `npm run test:e2e` and a single Playwright configuration.
+- [x] Desktop Chromium and mobile Chromium first passed 12 browser cases at commit `286b46db981ba3506973c2ead9bcaa8dfdbba88c`, GitHub Actions run `38903095771`.
+- [x] Browser checks cover visible home-to-contact path, service-prefilled form selection, internal cross-service links, denied unsigned checkout links, contact validation and horizontal viewport overflow.
+- [x] CI performs SEO HTTP crawl, frontend lint/types/tests/build/security audit, backend lint/types/tests/build/security audit and disposable PostgreSQL migration/persistence checks.
+- [ ] Firefox and WebKit browser matrix run outcome must be inspected before declaring cross-browser coverage passed.
+- [ ] Full WCAG 2.2 AA audit using real assistive technology and color contrast measurements remains open.
+- [ ] Visual reference sign-off and screenshot baseline comparison remain open; licensed Translucent Sans font and single stylesheet consolidation not yet finished from Phase 3.
+- [ ] Production performance/Core Web Vitals, edge defenses, provider email and bank settlement tests are owned by deployment operator.
+
+**Phase 7 status: automated browser QA implemented with initial Chromium evidence. Complete browser matrix and visual/accessibility review are explicit gates.**
