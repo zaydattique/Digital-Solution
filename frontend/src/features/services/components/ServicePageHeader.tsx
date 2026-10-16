@@ -18,7 +18,7 @@ export function ServicePageHeader({
   return (
     <div className="ds-service-header-wrap">
       <header className="ds-service-header">
-        <a href="/" aria-label="Digital Solutions home">
+        <a href="/" aria-label="HavocX Agency home">
           <Brand compact />
         </a>
 
