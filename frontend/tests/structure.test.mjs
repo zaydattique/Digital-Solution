@@ -165,3 +165,30 @@ test("public application uses exactly one authored stylesheet", async () => {
   const layout = await readFile(path.join(root, "app/layout.tsx"), "utf8");
   assert.match(layout, /home\/styles\/home\.css/);
 });
+
+test("root Vercel services route API and frontend through one public domain", async () => {
+  const config = JSON.parse(await readFile(path.resolve(root, "../vercel.json"), "utf8"));
+  assert.equal(config.services.frontend.root, "frontend");
+  assert.equal(config.services.frontend.framework, "nextjs");
+  assert.equal(config.services.backend.root, "backend");
+  assert.equal(config.services.backend.framework, "express");
+  assert.deepEqual(config.services.frontend.bindings, [
+    { type: "service", service: "backend", format: "url", env: "BACKEND_URL" },
+  ]);
+  assert.deepEqual(config.rewrites, [
+    { source: "/api/(.*)", destination: { service: "backend" } },
+    { source: "/(.*)", destination: { service: "frontend" } },
+  ]);
+});
+
+test("CMS content is fetched from the runtime-only backend binding", async () => {
+  const [content, editor, logo] = await Promise.all([
+    readFile(path.join(root, "src/lib/site-content.ts"), "utf8"),
+    readFile(path.join(root, "app/admin/page.tsx"), "utf8"),
+    readFile(path.join(root, "src/components/brand/Brand.tsx"), "utf8"),
+  ]);
+  assert.match(content, /process\.env\.BACKEND_URL/);
+  assert.match(content, /await connection\(\)/);
+  assert.match(editor, /saveSiteDocument/);
+  assert.match(logo, /useSiteIdentity/);
+});
