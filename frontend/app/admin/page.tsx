@@ -9,6 +9,7 @@ const groups = {
   "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl"],
   "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
   "Legal pages": ["legal.lastUpdated"],
+  "Private checkout contacts": ["checkout.whatsappNumber"],
   "Social profiles": ["social.linkedin", "social.instagram", "social.facebook", "social.website"],
   "Service page copy and images": [...new Set(Object.values(SERVICE_ITEM_ROUTES).map((route) => route.split("/").pop()).filter((slug): slug is string => Boolean(slug)))].flatMap((slug) => [`service.${slug}.title`, `service.${slug}.heroSubtitle`, `service.${slug}.shortDescription`, `service.${slug}.imageUrl`]),
 };
