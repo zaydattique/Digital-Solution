@@ -22,7 +22,7 @@ export const allClientReviews: ClientReview[] = [
     rating: 5,
     category: "AI Automation",
     quote:
-      "Digital Solutions replaced a week of manual handoffs with an autonomous pipeline that runs overnight. Our operations team finally has bandwidth for work that actually requires human judgment.",
+      "HavocX Agency replaced a week of manual handoffs with an autonomous pipeline that runs overnight. Our operations team finally has bandwidth for work that actually requires human judgment.",
     outcome: "Saved 32+ ops hours weekly",
     date: "August 2026",
     verified: true,
