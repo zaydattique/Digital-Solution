@@ -92,7 +92,7 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
 
     if (channel === "whatsapp") {
       if (!supportNumber) { setStatus("WhatsApp support is not configured."); return; }
-      window.open(`https://wa.me/${supportNumber.replace(/[^\\d]/g, "")}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
+      window.open(`https://wa.me/${supportNumber.replace(/[^\d]/g, "")}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
       setStatus("WhatsApp opened. Please attach the screenshot before sending.");
       return;
     }
