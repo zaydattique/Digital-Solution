@@ -32,7 +32,7 @@ export default async function DevelopmentDetailPage({ params }: PageProps) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData(`/services/development/${slug}`, service.title, service.heroSubtitle || service.shortDescription || service.title, "/services/development")).replace(/</g, "\\u003c") }}
       />
-      <ServiceDetailView detail={service} heroImage="/assets/images/services/menu-development.jpg" />;
+      <ServiceDetailView detail={service} heroImage="/assets/images/services/menu-development.jpg" />
     </>
   );
 }
