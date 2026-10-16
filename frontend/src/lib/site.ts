@@ -16,6 +16,7 @@ export const defaultSiteSettings: SiteSettings = {
   "contact.phone": "",
   "contact.phoneSecondary": "",
   "legal.lastUpdated": "",
+  "checkout.whatsappNumber": "",
   "social.linkedin": "",
   "social.instagram": "",
   "social.facebook": "",
