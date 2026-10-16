@@ -29,5 +29,8 @@
     "eslint-config-next": "16.4.2",
     "tailwindcss": "4.2.1",
     "typescript": "5.9.3"
+  },
+  "overrides": {
+    "source-map-js": "1.2.2"
   }
 }
