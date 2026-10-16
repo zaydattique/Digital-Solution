@@ -110,7 +110,7 @@ function TermsContent({ name }: { name: string }) {
       </section>
       <section>
         <h2>7. Liability</h2>
-        <p>To the extent permitted by law, {identity.name} is not liable for indirect, incidental, or consequential loss arising from use of this website. Nothing in these terms limits liability that cannot lawfully be limited.</p>
+        <p>To the extent permitted by law, {name} is not liable for indirect, incidental, or consequential loss arising from use of this website. Nothing in these terms limits liability that cannot lawfully be limited.</p>
       </section>
       <section>
         <h2>8. Changes to these terms</h2>
