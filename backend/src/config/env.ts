@@ -14,6 +14,8 @@ const envSchema = z.object({
   CORS_ORIGINS: z.string().min(1).default("http://localhost:3000"),
   CONTACT_RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(600_000),
   CONTACT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(2),
+  UPSTASH_REDIS_REST_URL: z.url().optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema> & {
@@ -26,6 +28,10 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
   if (!result.success) {
     const keys = result.error.issues.map((issue) => issue.path.join(".")).filter(Boolean);
     throw new Error(`Invalid environment configuration: ${[...new Set(keys)].join(", ")}`);
+  }
+
+  if (Boolean(result.data.UPSTASH_REDIS_REST_URL) !== Boolean(result.data.UPSTASH_REDIS_REST_TOKEN)) {
+    throw new Error("UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be configured together.");
   }
 
   const origins = result.data.CORS_ORIGINS.split(",").map((origin) => origin.trim().replace(/\/$/, "")).filter(Boolean);
