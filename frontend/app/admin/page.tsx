@@ -7,6 +7,7 @@ const groups = {
   "Brand": ["brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl", "brand.description"],
   "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl"],
   "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
+  "Legal pages": ["legal.lastUpdated"],
   "Social profiles": ["social.linkedin", "social.instagram", "social.facebook", "social.website"],
 };
 export default async function Admin() {
