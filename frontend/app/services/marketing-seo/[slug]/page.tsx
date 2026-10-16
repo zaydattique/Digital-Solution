@@ -34,7 +34,7 @@ export default async function MarketingSeoSubServicePage({ params }: PageProps) 
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData(`/services/marketing-seo/${slug}`, detail.title, detail.description || detail.headline || detail.title, "/services/marketing-seo")).replace(/</g, "\\u003c") }}
       />
-      <ServiceDetailView detail={detail} heroImage="/assets/images/services/menu-marketing-seo.jpg" />;
+      <ServiceDetailView detail={detail} heroImage="/assets/images/services/menu-marketing-seo.jpg" />
     </>
   );
 }
