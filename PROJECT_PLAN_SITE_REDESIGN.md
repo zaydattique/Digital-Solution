@@ -290,3 +290,23 @@ Working branch: `feat/phase-3-marketing-homepage`; Phase 1/2 PR #2 was merged in
 - [ ] Unsupported homepage/reviews/service metric claims removed or verified before publication.
 - [ ] Complete SEO live crawl and canonical/OG/structured-data checks (Phase 6).
 Phase 3 is **IN PROGRESS**, not complete, regardless of branch merge or document status.
+
+
+## Phase 5 implementation checkpoint (2026-10-16)
+
+Working branch: `fix/phase-5-backend-security-reliability`. Phase 3 PR #3 merged as `bcfa9285915c9d6ef016b2b1ecfe34302a8b7b3b` and Phase 4 PR #4 merged as `6ee530835f78884e0ff6980bfd505e571d78a1de`.
+
+### Implemented in existing owners
+- [x] `backend/src/app.ts`: exact origins only, deny outside browser origins with 403, remove permissive `.vercel.app` suffix and unconditional success fallback.
+- [x] `backend/src/config/env.ts`: parse and reject wildcard/invalid origin config.
+- [x] `backend/src/services/contact.service.ts`: persist before email, fail on database error; no manufactured `id: 0`.
+- [x] `backend/src/schemas/contact.schema.ts` and frontend contact component: Unicode-friendly consistent name validation.
+- [x] Existing backend tests cover DB write failure without notification, rejected preflight and international names.
+- [x] `backend/src/routes/health.routes.ts`: distinguish liveness from DB-backed readiness at `/api/ready`.
+- [ ] Full `npm run check` execution: not performed. No running local checkout of repository available from connector. These assertions are code inspections, not passing test claims.
+- [ ] Distributed limiter / edge WAF: deployment-specific setup unverified. Current express-rate-limit is process-local; production gate remains.
+- [ ] Authoritative server-side order and payment verification for direct-link checkout: not implemented, checkout must not be described as private authorization.
+- [ ] Verified database, Resend and preview/prod security headers in live infrastructure: unavailable.
+- [ ] Frontend browser tests, responsive CSS consolidation, verified Translucent Sans: inherited unfinished phases.
+
+**Phase 5 status: significant bugfixes committed; infrastructure, payment and runtime acceptance criteria OPEN.**
