@@ -9,6 +9,7 @@ const envSchema = z.object({
     "DATABASE_URL must be a PostgreSQL URL",
   ),
   RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required"),
+  DATABASE_SSL_MODE: z.enum(["require", "disable"]).default("require"),
   ADMIN_EMAIL: z.email(),
   EMAIL_FROM: z.string().min(3).default("Digital Solutions <onboarding@resend.dev>"),
   CORS_ORIGINS: z.string().min(1).default("http://localhost:3000"),
@@ -28,6 +29,10 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
   if (!result.success) {
     const keys = result.error.issues.map((issue) => issue.path.join(".")).filter(Boolean);
     throw new Error(`Invalid environment configuration: ${[...new Set(keys)].join(", ")}`);
+  }
+
+  if (result.data.NODE_ENV === "production" && result.data.DATABASE_SSL_MODE === "disable") {
+    throw new Error("Database TLS cannot be disabled in production.");
   }
 
   if (Boolean(result.data.UPSTASH_REDIS_REST_URL) !== Boolean(result.data.UPSTASH_REDIS_REST_TOKEN)) {
