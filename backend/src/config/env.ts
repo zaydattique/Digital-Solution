@@ -35,9 +35,7 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
 
   return {
     ...result.data,
-    corsOrigins: result.data.CORS_ORIGINS.split(",")
-      .map((origin) => origin.trim().replace(/\/$/, ""))
-      .filter(Boolean),
+    corsOrigins: origins,
   };
 }
 
