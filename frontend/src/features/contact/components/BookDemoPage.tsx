@@ -3,12 +3,10 @@
 import { FormEvent, useState } from "react";
 import { ServicePageHeader } from "@/src/features/services/components/ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
+import { useSite } from "@/src/components/brand/SiteContext";
 import { ApiClientError, submitContactRequest } from "@/src/lib/api/contact";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
 
-const ADMIN_EMAIL = "dsolutions555@gmail.com";
-const ADMIN_PHONE = "+923096548143";
-const SECONDARY_PHONE = "+923293269494";
 
 type BookingForm = {
   name: string;
@@ -58,6 +56,9 @@ export default function BookDemoPage({
     service: initialService,
     subService: initialSubService,
   }));
+  const site = useSite();
+  const contactEmail = site["contact.email"];
+  const contactPhones = [site["contact.phone"], site["contact.phoneSecondary"]].filter(Boolean);
   const [countryCode, setCountryCode] = useState("+92");
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -171,9 +172,8 @@ export default function BookDemoPage({
           </p>
           <div className="ds-booking-contact-note">
             <span>Prefer a direct conversation?</span>
-            <a href={`mailto:${ADMIN_EMAIL}`}>{ADMIN_EMAIL}</a>
-            <a href={`tel:${ADMIN_PHONE}`}>{ADMIN_PHONE}</a>
-            <a href={`tel:${SECONDARY_PHONE}`}>{SECONDARY_PHONE}</a>
+            {contactEmail && <a href={`mailto:${contactEmail}`}>{contactEmail}</a>}
+            {contactPhones.map(phone => <a key={phone} href={`tel:${phone.replace(/[^+\d]/g, "")}`}>{phone}</a>)}
           </div>
         </section>
 
