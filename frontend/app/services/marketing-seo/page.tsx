@@ -1,14 +1,11 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/src/lib/seo";
 import { Search, Cpu, Target, Mail, BarChart3 } from "lucide-react";
 import { ServiceHubView } from "@/src/features/services/components/ServiceHubView";
 import { marketingSeoSubServices } from "@/src/features/services/data/marketingSeoData";
 import type { HubPageConfig } from "@/src/features/services/types";
 
-export const metadata: Metadata = {
-  title: "Marketing & SEO Services — Digital Solutions",
-  description:
-    "Connected search, content, performance marketing, and lifecycle automation systems engineered for measurable business growth.",
-};
+export const metadata: Metadata = pageMetadata("/services/marketing-seo", "Digital Marketing & SEO Services", "Technical SEO, content workflows, paid campaigns, CRM and marketing analytics for businesses.");
 
 const config: HubPageConfig = {
   title: "Marketing & SEO Services — Digital Solutions",
