@@ -1,5 +1,6 @@
 import { serviceMenuGroups, getServiceItemHref } from "@/src/features/services/data/services";
 import { absoluteUrl, publishedOrigin } from "@/src/lib/seo";
+import { getSiteSettings } from "@/src/lib/site";
 
 export async function GET() {
   const site = await getSiteSettings();
