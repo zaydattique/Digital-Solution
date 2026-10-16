@@ -49,10 +49,18 @@ export function createContactRateLimit(env: AppEnv): RequestHandler {
       });
       if (!result.ok) throw new Error(`Redis limiter HTTP ${result.status}`);
       const data: unknown = await result.json();
-      if (!Array.isArray(data) || typeof data[0]?.result !== "number" || data[0]?.error || data[1]?.error) {
+      if (!Array.isArray(data)) throw new Error("Unexpected Redis limiter response");
+      const entries: unknown[] = data;
+      const [increment, expiry] = entries;
+      if (
+        typeof increment !== "object" || increment === null || !("result" in increment)
+        || typeof increment.result !== "number"
+        || typeof expiry !== "object" || expiry === null
+        || !("result" in expiry) || expiry.result !== 1
+      ) {
         throw new Error("Unexpected Redis limiter response");
       }
-      const used = data[0].result as number;
+      const used = increment.result;
       response.setHeader("RateLimit-Limit", String(env.CONTACT_RATE_LIMIT_MAX));
       response.setHeader("RateLimit-Remaining", String(Math.max(0, env.CONTACT_RATE_LIMIT_MAX - used)));
       if (used > env.CONTACT_RATE_LIMIT_MAX) {
