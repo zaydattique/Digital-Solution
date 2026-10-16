@@ -52,7 +52,7 @@ export function createContentRouter(env: AppEnv): Router {
         .onConflictDoUpdate({ target: siteContent.key, set: { value: parsed.data.value, updatedAt: new Date() } })
         .returning();
       response.setHeader("Cache-Control", "no-store");
-      response.json({ success: true, data: record.value });
+      response.json({ success: true, data: record?.value ?? parsed.data.value });
     } catch (error) { next(error); }
   });
   return router;
