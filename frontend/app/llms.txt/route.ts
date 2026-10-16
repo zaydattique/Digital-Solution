@@ -3,7 +3,7 @@ import { absoluteUrl, publishedOrigin } from "@/src/lib/seo";
 
 export function GET() {
   const lines = [
-    "# Digital Solutions",
+    "# HavocX Agency",
     "",
     "> Digital marketing, SEO, experience design, website development and workflow automation services.",
     "",
@@ -14,7 +14,7 @@ export function GET() {
     ]),
     "",
     "## Other public pages",
-    `- [Contact Digital Solutions](${absoluteUrl("/book-a-demo")})`,
+    `- [Contact HavocX Agency](${absoluteUrl("/book-a-demo")})`,
     `- [Working approach](${absoluteUrl("/reviews")})`,
     `- [Privacy policy](${absoluteUrl("/privacy-policy")})`,
     `- [Terms of service](${absoluteUrl("/terms-of-service")})`,
