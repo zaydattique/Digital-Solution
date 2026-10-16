@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/src/lib/seo";
 import HomePage from "@/src/features/home/components/HomePage";
 
-export const metadata: Metadata = {
-  title: { absolute: "Digital Solutions | Digital Marketing and Creative Services" },
-  description:
-    "Digital marketing, SEO, design and development services focused on visibility, user experience and customer growth.",
-};
+export const metadata: Metadata = pageMetadata("/", "Digital Solutions | Digital Marketing and Creative Services", "Digital marketing, SEO, design and development services focused on visibility, user experience and customer growth.");
 
 export default function Home() {
   return (
