@@ -29,7 +29,6 @@ jobs:
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run check
-      - run: node tests/seo.smoke.mjs
 
   frontend:
     runs-on: ubuntu-latest
@@ -51,6 +50,7 @@ jobs:
       - run: npm ci
       - run: npm audit --omit=dev --audit-level=high
       - run: npm run check
+      - run: node tests/seo.smoke.mjs
 
   database-integration:
     runs-on: ubuntu-latest
