@@ -6,6 +6,7 @@ on:
       - main
       - "fix/phase-5-*"
       - "test/phase-7-*"
+      - "refactor/single-stylesheet"
   pull_request:
     branches:
       - main

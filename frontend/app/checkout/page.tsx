@@ -3,7 +3,6 @@ import { createHmac, timingSafeEqual } from "node:crypto";
 import { Suspense } from "react";
 import SoftwareCheckoutPage from "@/src/features/services/components/SoftwareCheckoutPage";
 import { softwareTools } from "@/src/features/services/data/softwareToolsData";
-import "@/src/features/services/styles/software-checkout.css";
 
 // Private share links are verified server-side. Noindex is not authorization.
 export const metadata: Metadata = {

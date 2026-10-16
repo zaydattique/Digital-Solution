@@ -147,3 +147,21 @@ test("all indexable route entry points use centrally managed canonical metadata"
     assert.match(source, /pageMetadata\(/, route);
   }));
 });
+
+test("public application uses exactly one authored stylesheet", async () => {
+  async function walk(directory) {
+    const entries = await readdir(directory, { withFileTypes: true });
+    const nested = await Promise.all(entries.map(async (entry) => {
+      const file = path.join(directory, entry.name);
+      if (entry.isDirectory()) return walk(file);
+      return entry.isFile() && entry.name.endsWith(".css") ? [file] : [];
+    }));
+    return nested.flat();
+  }
+  const styles = (await walk(path.join(root, "src")))
+    .map((file) => path.relative(root, file).replaceAll(path.sep, "/"))
+    .sort();
+  assert.deepEqual(styles, ["src/features/home/styles/home.css"]);
+  const layout = await readFile(path.join(root, "app/layout.tsx"), "utf8");
+  assert.match(layout, /home\/styles\/home\.css/);
+});
