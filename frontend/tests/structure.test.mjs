@@ -35,7 +35,7 @@ test("contact form uses the centralized same-origin API client", async () => {
 
   assert.match(component, /submitContactRequest/);
   assert.doesNotMatch(component, /fetch\(/);
-  assert.match(client, /fetch\("/api\/v1\/contact"/);
+  assert.match(client, /fetch\("\/api\/v1\/contact"/);
   assert.match(client, /\/api\/v1\/contact/);
   assert.doesNotMatch(client, /https?:\/\/[^"'`]+\.vercel\.app/);
 });
