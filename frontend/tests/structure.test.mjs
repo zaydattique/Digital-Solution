@@ -106,3 +106,44 @@ test("direct-link checkout is separate from the public service directory", async
   assert.match(legacy, /redirect\("\/checkout"\)/);
   assert.doesNotMatch(catalog, /id: "software-tools"/);
 });
+
+test("SEO route sources use the existing service catalog and exclude checkout", async () => {
+  const [sitemap, robots, llms, seo, detail] = await Promise.all([
+    readFile(path.join(root, "app/sitemap.ts"), "utf8"),
+    readFile(path.join(root, "app/robots.ts"), "utf8"),
+    readFile(path.join(root, "app/llms.txt/route.ts"), "utf8"),
+    readFile(path.join(root, "src/lib/seo.ts"), "utf8"),
+    readFile(path.join(root, "app/services/design/[slug]/page.tsx"), "utf8"),
+  ]);
+  assert.match(sitemap, /serviceMenuGroups/);
+  assert.match(sitemap, /getServiceItemHref/);
+  assert.doesNotMatch(sitemap, /\/checkout|\/services\/software-tools/);
+  assert.match(robots, /publishedOrigin/);
+  assert.match(robots, /"\/checkout"/);
+  assert.match(llms, /serviceMenuGroups/);
+  assert.match(seo, /alternates: \{ canonical: path \}/);
+  assert.match(seo, /BreadcrumbList/);
+  assert.match(detail, /serviceStructuredData/);
+});
+
+test("all indexable route entry points use centrally managed canonical metadata", async () => {
+  const routes = [
+    "app/page.tsx",
+    "app/book-a-demo/page.tsx",
+    "app/reviews/page.tsx",
+    "app/privacy-policy/page.tsx",
+    "app/terms-of-service/page.tsx",
+    "app/services/development/page.tsx",
+    "app/services/ai-automation/page.tsx",
+    "app/services/design/page.tsx",
+    "app/services/marketing-seo/page.tsx",
+    "app/services/development/[slug]/page.tsx",
+    "app/services/ai-automation/[slug]/page.tsx",
+    "app/services/design/[slug]/page.tsx",
+    "app/services/marketing-seo/[slug]/page.tsx",
+  ];
+  await Promise.all(routes.map(async (route) => {
+    const source = await readFile(path.join(root, route), "utf8");
+    assert.match(source, /pageMetadata\(/, route);
+  }));
+});
