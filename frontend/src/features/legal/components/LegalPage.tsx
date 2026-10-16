@@ -1,5 +1,8 @@
+"use client";
+
 import { ArrowLeft, Mail } from "lucide-react";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
+import { useSiteIdentity } from "@/src/components/brand/SiteIdentityProvider";
 
 type LegalPageProps = {
   type: "privacy" | "terms";
@@ -8,18 +11,19 @@ type LegalPageProps = {
 const lastUpdated = "September 15, 2026";
 
 export function LegalPage({ type }: LegalPageProps) {
+  const identity = useSiteIdentity();
   const isPrivacy = type === "privacy";
   const title = isPrivacy ? "Privacy Policy" : "Terms of Service";
   const intro = isPrivacy
-    ? "How Digital Solutions collects, uses, and protects the information you share with us."
-    : "The terms that apply when you use the Digital Solutions website or engage our services.";
+    ? `How ${identity.name} collects, uses, and protects the information you share with us.`
+    : `The terms that apply when you use the ${identity.name} website or engage our services.`;
 
   return (
     <main className="ds-legal-page">
       <section className="ds-legal-hero">
         <div className="ds-legal-hero-inner">
           <a href="/" className="ds-legal-back"><ArrowLeft size={16} /> Back to home</a>
-          <span className="ds-legal-kicker">Digital Solutions</span>
+          <span className="ds-legal-kicker">{identity.name}</span>
           <h1>{title}</h1>
           <p>{intro}</p>
           <span className="ds-legal-updated">Last updated: {lastUpdated}</span>
@@ -27,12 +31,12 @@ export function LegalPage({ type }: LegalPageProps) {
       </section>
 
       <section className="ds-legal-content" aria-label={title}>
-        {isPrivacy ? <PrivacyContent /> : <TermsContent />}
+        {isPrivacy ? <PrivacyContent name={identity.name} /> : <TermsContent name={identity.name} />}
         <aside className="ds-legal-contact">
           <Mail size={20} aria-hidden="true" />
           <div>
             <h2>Questions about this policy?</h2>
-            <p>Contact us at <a href="mailto:dsolutions555@gmail.com">dsolutions555@gmail.com</a>.</p>
+            <p>{identity.email ? <>Contact us at <a href={`mailto:${identity.email}`}>{identity.email}</a>.</> : <a href="/book-a-demo">Contact us through the project form.</a>}</p>
           </div>
         </aside>
       </section>
@@ -42,12 +46,12 @@ export function LegalPage({ type }: LegalPageProps) {
   );
 }
 
-function PrivacyContent() {
+function PrivacyContent({ name }: { name: string }) {
   return (
     <article className="ds-legal-article">
       <section>
         <h2>1. Introduction</h2>
-        <p>Digital Solutions is committed to respecting your privacy. This Privacy Policy explains how we handle personal information collected through our website, contact forms, and service enquiries.</p>
+        <p>{name} is committed to respecting your privacy. This Privacy Policy explains how we handle personal information collected through our website, contact forms, and service enquiries.</p>
       </section>
       <section>
         <h2>2. Information we collect</h2>
@@ -77,12 +81,12 @@ function PrivacyContent() {
   );
 }
 
-function TermsContent() {
+function TermsContent({ name }: { name: string }) {
   return (
     <article className="ds-legal-article">
       <section>
         <h2>1. Agreement to these terms</h2>
-        <p>By accessing this website or engaging Digital Solutions, you agree to these Terms of Service. If you do not agree, please do not use the website or our services.</p>
+        <p>By accessing this website or engaging {name}, you agree to these Terms of Service. If you do not agree, please do not use the website or our services.</p>
       </section>
       <section>
         <h2>2. Services and project scope</h2>
@@ -106,7 +110,7 @@ function TermsContent() {
       </section>
       <section>
         <h2>7. Liability</h2>
-        <p>To the extent permitted by law, Digital Solutions is not liable for indirect, incidental, or consequential loss arising from use of this website. Nothing in these terms limits liability that cannot lawfully be limited.</p>
+        <p>To the extent permitted by law, {name} is not liable for indirect, incidental, or consequential loss arising from use of this website. Nothing in these terms limits liability that cannot lawfully be limited.</p>
       </section>
       <section>
         <h2>8. Changes to these terms</h2>

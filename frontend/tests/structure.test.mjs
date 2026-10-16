@@ -27,7 +27,7 @@ test("frontend owns no backend implementation or server route", async () => {
   await assert.rejects(readFile(path.join(root, "app", "api", "contact", "route.ts"), "utf8"));
 });
 
-test("contact form uses the centralized environment-based API client", async () => {
+test("contact form uses the centralized same-origin API client", async () => {
   const [component, client] = await Promise.all([
     readFile(path.join(root, "src", "features", "contact", "components", "BookDemoPage.tsx"), "utf8"),
     readFile(path.join(root, "src", "lib", "api", "contact.ts"), "utf8"),
@@ -35,7 +35,7 @@ test("contact form uses the centralized environment-based API client", async () 
 
   assert.match(component, /submitContactRequest/);
   assert.doesNotMatch(component, /fetch\(/);
-  assert.match(client, /process\.env\.NEXT_PUBLIC_API_URL/);
+  assert.match(client, /fetch\("\/api\/v1\/contact"/);
   assert.match(client, /\/api\/v1\/contact/);
   assert.doesNotMatch(client, /https?:\/\/[^"'`]+\.vercel\.app/);
 });
@@ -164,4 +164,31 @@ test("public application uses exactly one authored stylesheet", async () => {
   assert.deepEqual(styles, ["src/features/home/styles/home.css"]);
   const layout = await readFile(path.join(root, "app/layout.tsx"), "utf8");
   assert.match(layout, /home\/styles\/home\.css/);
+});
+
+test("root Vercel services route API and frontend through one public domain", async () => {
+  const config = JSON.parse(await readFile(path.resolve(root, "../vercel.json"), "utf8"));
+  assert.equal(config.services.frontend.root, "frontend");
+  assert.equal(config.services.frontend.framework, "nextjs");
+  assert.equal(config.services.backend.root, "backend");
+  assert.equal(config.services.backend.framework, "express");
+  assert.deepEqual(config.services.frontend.bindings, [
+    { type: "service", service: "backend", format: "url", env: "BACKEND_URL" },
+  ]);
+  assert.deepEqual(config.rewrites, [
+    { source: "/api/(.*)", destination: { service: "backend" } },
+    { source: "/(.*)", destination: { service: "frontend" } },
+  ]);
+});
+
+test("CMS content is fetched from the runtime-only backend binding", async () => {
+  const [content, editor, logo] = await Promise.all([
+    readFile(path.join(root, "src/lib/site-content.ts"), "utf8"),
+    readFile(path.join(root, "app/admin/page.tsx"), "utf8"),
+    readFile(path.join(root, "src/components/brand/Brand.tsx"), "utf8"),
+  ]);
+  assert.match(content, /process\.env\.BACKEND_URL/);
+  assert.match(content, /await connection\(\)/);
+  assert.match(editor, /saveSiteDocument/);
+  assert.match(logo, /useSiteIdentity/);
 });

@@ -52,7 +52,7 @@ export function createApp(dependencies: AppDependencies = {}): Express {
     response.status(200).json({
       success: true,
       data: {
-        service: "digital-solutions-api",
+        service: "havocx-agency-api",
         health: "/api/health",
       },
     });

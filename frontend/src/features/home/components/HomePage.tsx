@@ -17,7 +17,8 @@ import { Brand } from "@/src/components/brand/Brand";
 
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
-import { heroImages } from "@/src/features/home/data/content";
+import { heroImages as fallbackHeroImages } from "@/src/features/home/data/content";
+import { useHomeContent, useSiteIdentity } from "@/src/components/brand/SiteIdentityProvider";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 
 type SiteSearchItem = {
@@ -58,7 +59,7 @@ const siteSearchItems: SiteSearchItem[] = [
   ...serviceSearchItems,
   {
     id: "why-choose-us",
-    title: "Why Choose Digital Solutions",
+    title: "Why Choose HavocX Agency",
     category: "About Us",
     description: "Enterprise governance, multi-cloud speed, and proven ROI.",
     href: "#why" as const,
@@ -81,7 +82,7 @@ const siteSearchItems: SiteSearchItem[] = [
     id: "start-project",
     title: "Start an AI Automation Project",
     category: "Contact",
-    description: "Talk with Digital Solutions about your workflow automation opportunity.",
+    description: "Talk with HavocX Agency about your workflow automation opportunity.",
     href: "#contact" as const,
   },
 ].filter((item, index, items) => (
@@ -96,7 +97,7 @@ const processSteps = [
     heading: "Start with the right questions.",
     description: "We review your goals, current channels and customer journey to identify the work that matters most.",
     cmdLogs: [
-      { text: "$ Digital Solutions discovery", type: "cmd" },
+      { text: "$ HavocX Agency discovery", type: "cmd" },
       { text: "01  Review audience and customer needs", type: "done" },
       { text: "02  Assess current channels", type: "done" },
       { text: "03  Define project priorities", type: "active" },
@@ -111,7 +112,7 @@ const processSteps = [
     heading: "A plan your team can follow.",
     description: "We turn research into a focused strategy with defined deliverables, responsibilities and milestones.",
     cmdLogs: [
-      { text: "$ Digital Solutions planning", type: "cmd" },
+      { text: "$ HavocX Agency planning", type: "cmd" },
       { text: "01  Define outcomes and deliverables", type: "done" },
       { text: "02  Agree on priorities", type: "done" },
       { text: "03  Review the delivery schedule", type: "active" },
@@ -126,7 +127,7 @@ const processSteps = [
     heading: "Put strategy into production.",
     description: "Our work spans marketing, design and development, with regular reviews of the deliverables and user experience.",
     cmdLogs: [
-      { text: "$ Digital Solutions delivery", type: "cmd" },
+      { text: "$ HavocX Agency delivery", type: "cmd" },
       { text: "01  Produce approved assets", type: "done" },
       { text: "02  Develop and integrate", type: "done" },
       { text: "03  Review against the brief", type: "active" },
@@ -141,7 +142,7 @@ const processSteps = [
     heading: "Launch with clarity.",
     description: "We review the user journey, technical performance and measurement setup before the agreed launch.",
     cmdLogs: [
-      { text: "$ Digital Solutions launch checklist", type: "cmd" },
+      { text: "$ HavocX Agency launch checklist", type: "cmd" },
       { text: "01  Review content and experience", type: "done" },
       { text: "02  Check analytics configuration", type: "done" },
       { text: "03  Approve the release", type: "active" },
@@ -156,7 +157,7 @@ const processSteps = [
     heading: "Keep learning from performance.",
     description: "We use the available performance data to identify opportunities for stronger campaigns and experiences.",
     cmdLogs: [
-      { text: "$ Digital Solutions review", type: "cmd" },
+      { text: "$ HavocX Agency review", type: "cmd" },
       { text: "01  Gather performance data", type: "done" },
       { text: "02  Review user journeys", type: "done" },
       { text: "03  Prioritize improvements", type: "active" },
@@ -249,6 +250,9 @@ const projectSections = [
 }));
 
 export default function HomePage() {
+  const home = useHomeContent();
+  const identity = useSiteIdentity();
+  const heroImages = home.heroImages.length ? home.heroImages : fallbackHeroImages;
   const [activeHero, setActiveHero] = useState(0);
   const [loadedHeroIndices, setLoadedHeroIndices] = useState<Set<number>>(() => new Set([0]));
   const [paused, setPaused] = useState(false);
@@ -314,7 +318,7 @@ export default function HomePage() {
       });
     }, 6200);
     return () => window.clearInterval(timer);
-  }, [paused, searchOpen, servicesOpen]);
+  }, [paused, searchOpen, servicesOpen, heroImages.length]);
 
   useEffect(() => {
     if (!servicesOpen) return;
@@ -440,7 +444,7 @@ export default function HomePage() {
       <main className="vx-frame" id="top">
         <section
           className="vx-hero"
-          aria-label="Digital Solutions digital marketing and creative services"
+          aria-label={`${identity.name} digital marketing and creative services`}
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
@@ -570,7 +574,7 @@ export default function HomePage() {
                     event.preventDefault();
                     searchResultRefs.current[0]?.focus();
                   }}
-                  aria-label="Search Digital Solutions services and capabilities"
+                  aria-label="Search HavocX Agency services and capabilities"
                   aria-controls="vertex-search-results"
                   aria-describedby="vertex-search-status"
                   placeholder="Search services..."
@@ -744,9 +748,9 @@ export default function HomePage() {
 
           <div className="vx-frost-content">
             <div className="vx-frost-copy">
-              <span>DIGITAL MARKETING &amp; CREATIVE SERVICES</span>
-              <h1><i>Make your brand</i><i>impossible to miss.</i></h1>
-              <p>We help businesses build stronger visibility, better digital experiences and clearer customer journeys through marketing, design and development.</p>
+              <span>{home.eyebrow}</span>
+              <h1>{home.headline}</h1>
+              <p>{home.description}</p>
               <div className="vx-frost-actions">
                 <a href="#services" className="vx-frost-actions"><span>Explore services </span><ArrowRight size={15} aria-hidden="true" /></a>
                 <a href="/book-a-demo" className="vx-frost-actions"><span>Discuss a project </span><ArrowRight size={15} aria-hidden="true" /></a>
@@ -829,7 +833,7 @@ export default function HomePage() {
             {/* Timeline Process Stepper Header */}
             <div className="vx-process-stepper-wrap">
               <div className="vx-process-top-controls">
-                <span className="vx-process-eyebrow" id="why-title" role="heading" aria-level={2}>WHY DIGITAL SOLUTIONS</span>
+                <span className="vx-process-eyebrow" id="why-title" role="heading" aria-level={2}>WHY HAVOCX AGENCY</span>
               </div>
 
               <div className="vx-process-timeline-bar" aria-hidden="true">

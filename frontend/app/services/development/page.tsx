@@ -8,7 +8,7 @@ import type { HubPageConfig } from "@/src/features/services/types";
 export const metadata: Metadata = pageMetadata("/services/development", "Web Development & Integration Services", "Web applications, API integrations and reliable digital infrastructure for growing businesses.");
 
 const config: HubPageConfig = {
-  title: "Development Services — Digital Solutions",
+  title: "Development Services — HavocX Agency",
   eyebrow: "Web and development",
   heading: "Websites and Development Services",
   description:

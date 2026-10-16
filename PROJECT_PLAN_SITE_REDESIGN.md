@@ -360,3 +360,33 @@ Working branch: `refactor/single-stylesheet`, stacked on browser QA branch. No a
 - [ ] Actual Translucent Sans font licensing and source remain unverified. Existing readable fallback remains in use; no guessed binary or unauthorized font copy was added.
 
 This change is code consolidation, NOT permission to replace the original design with additional overriding CSS. The initial cascade order of the root CSS owners was preserved, and other page-specific sections are segregated by their existing selector namespaces.
+
+
+## HavocX Agency brand, Vercel Services and CMS checkpoint (2026-10-16)
+
+**Branch:** `feat/havocx-multiservice-cms-foundation`, based on prior CSS consolidation branch. **Not merged or deployed**. Operator explicitly changed brand to **HavocX Agency**, canonical domain **havocx.agency**, and supplied a brand identity board as future logo direction only. No logo artwork generated.
+
+### Deployment proposal pending explicit operator confirmation
+- [x] Root `vercel.json` uses `frontend` (Next.js, `frontend/`) and `backend` (Express, `backend/`) services within one project.
+- [x] API rewrite `/api/(.*)` to `backend` first; `/(.*)` to `frontend` last. Backend Express receives original `/api` path. Public API includes contact, health and protected CMS routes.
+- [x] One server-only frontend -> backend service binding `BACKEND_URL`. No `NEXT_PUBLIC_BACKEND_URL`; no manual setting of the binding.
+- [x] Browser contact requests changed to same-origin `/api/v1/contact`. Retired obsolete nested backend Vercel config.
+- [ ] User confirmation of service names, public paths, which services should be internal, binding intent and preferred deployment mode. No merge to production until confirmed.
+
+### CMS and brand
+- [x] PostgreSQL `site_content` table + migration and Drizzle snapshot; public document reader and bearer-protected CMS updates.
+- [x] Admin sign-in with signed HttpOnly SameSite session, password hash stored only in server environment, and server-side binding used for saving content; source routes excluded from indexing.
+- [x] `identity` and `home` records consumed in root layout and React context at request time, with editable company name/tagline/description, logo/favicon/OG URLs, phones, email, socials, homepage hero title/copy/media.
+- [x] Existing Brand component uses admin-uploaded media or temporary text wordmark. Footer, contact channels, homepage hero and global metadata consume shared published values. Legacy favicon removed. Old company identity replaced in visible service and legal copy.
+- [x] Optional Cloudinary-based signed direct uploader for images/videos. User selects logo/favicon/OG/hero/video slot. WebP or WebM transformation is requested, and server verifies Cloudinary upload response signatures and optimized asset URLs before publishing. Does not put uploads on ephemeral Vercel disk.
+- [x] CMS identity/home backend schema validation plus restricted admin editor categories. Saving arbitrary future record categories without public consumers is not offered as an apparently working UI.
+- [ ] Cloudinary account setup and a real WebP/WebM provider transformation test. Large asynchronous video conversions would need a verified webhook and retry policy. The brand board is NOT a final generated logo.
+- [ ] Full agency marketing catalog, 20 detailed service templates, project entries, reviews, legal bodies, checkout catalog, all home sections and SEO page-specific copy still need migration to shared editable models. **Do not claim fully dynamic content or no hardcoding yet.**
+- [ ] Admin user roles, MFA, login abuse protection and audit log, backups/restore, revision history, media deletion/retention and moderation remain required before enterprise-grade CMS certification.
+- [ ] Remaining historic static company data, copyright claims and editorial evidence must be audited before final release. Legal policies need legal review.
+- [ ] Real domain DNS, production DB/email, Redis, WAF, cloud media, customer proof and browser checks require operator-managed deployment. Build and CI alone are not deployed proof.
+
+### Self-deployment
+The new Vercel account connected via another Google sign-in must be explicitly authorized to access the GitHub repo. Set Services as the framework preset and use repository root. Provide `SITE_URL=https://havocx.agency`, exact `CORS_ORIGINS`, backend database/Resend/Redis credentials, frontend admin password hash/session secret, shared `CMS_INTERNAL_TOKEN`, Cloudinary media credentials, and checkout signing secret. **Do not set `BACKEND_URL` yourself; it is injected by Vercel**. Run DB migrations and use `vercel dev` for local multi-service testing.
+
+**Checkpoint status:** deployment configuration and initial CMS/media implementation prepared for review; full no-hardcoding migration and verified provider/deployment operations remain incomplete until the decisions and access needed for those tasks are supplied.

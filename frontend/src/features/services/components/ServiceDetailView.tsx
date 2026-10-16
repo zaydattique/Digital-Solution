@@ -56,7 +56,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
           <ResponsiveImage source={heroImage} widths={[480, 768, 1280]} sizes="100vw" alt="" loading="eager" fetchPriority="high" decoding="sync" />
         </div>
         <div className="ds-service-detail-hero-inner">
-          <span className="ds-service-kicker">{detail.eyebrow || "Digital Solutions service"}</span>
+          <span className="ds-service-kicker">{detail.eyebrow || "HavocX Agency service"}</span>
           <h1>{detail.title}</h1>
           <p className="ds-service-hero-lede">{detail.heroSubtitle || detail.headline}</p>
           <p className="ds-service-hero-description">{detail.shortDescription || detail.description}</p>
@@ -152,7 +152,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
       <section className="ds-service-cta" data-service-reveal>
         <div>
           <h2>Need help with {detail.title.toLowerCase()}?</h2>
-          <p>Talk with a Digital Solutions specialist about the right scope, sequence, and next step for your team.</p>
+          <p>Talk with a HavocX Agency specialist about the right scope, sequence, and next step for your team.</p>
         </div>
         <a href={contactHref} className="ds-service-primary">Discuss your project <ArrowUpRight size={16} /></a>
       </section>

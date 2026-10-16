@@ -5,12 +5,7 @@ import { ArrowLeft, Check, Mail, MessageCircle, Upload, Wallet } from "lucide-re
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { claimMailSendPermission } from "@/src/lib/mailRateLimit";
 import { ServicePageHeader } from "./ServicePageHeader";
-
-const ADMIN_EMAIL = "dsolutions555@gmail.com";
-const WHATSAPP_CONTACTS = [
-  { name: "Abdul Mannan Butt", number: "923096548143" },
-  { name: "Burhan Ahmed", number: "923328113888" },
-] as const;
+import { useSiteIdentity } from "@/src/components/brand/SiteIdentityProvider";
 
 const paymentMethods = [
   {
@@ -39,10 +34,10 @@ export type Order = {
   price: string;
 };
 
-function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: string, phone: string, email: string) {
+function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: string, phone: string, email: string, agencyName: string) {
   const methodName = (paymentMethods.find((method) => method.id === paymentMethod)?.name ?? paymentMethod) || "Not selected";
   return [
-    "Assalam-o-Alaikum Digital Solutions,",
+    `Hello ${agencyName},`,
     "",
     "Please review my payment receipt for this order. I understand payment is not confirmed until your team verifies it.",
     `Product: ${order.product || "Not selected"}`,
@@ -57,6 +52,8 @@ function buildMessage(order: Order, paymentMethod: PaymentMethod | "", name: str
 }
 
 export default function SoftwareCheckoutPage({ order }: { order: Order }) {
+  const identity = useSiteIdentity();
+  const whatsappContacts = identity.phones.map((phone) => ({ name: phone, number: phone.replace(/[^0-9]/g, "") }));
   const [paymentMethod, setPaymentMethod] = useState<PaymentMethod | "">("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -65,8 +62,8 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
   const [status, setStatus] = useState("");
 
   const message = useMemo(
-    () => buildMessage(order, paymentMethod, name.trim(), phone.trim(), email.trim()),
-    [email, name, order, paymentMethod, phone],
+    () => buildMessage(order, paymentMethod, name.trim(), phone.trim(), email.trim(), identity.name),
+    [email, name, order, paymentMethod, phone, identity.name],
   );
 
   const sendProof = async (channel: "whatsapp" | "email", whatsappName?: string) => {
@@ -92,7 +89,8 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
     }
 
     if (channel === "whatsapp") {
-      const target = WHATSAPP_CONTACTS.find((contactOption) => contactOption.name === whatsappName) ?? WHATSAPP_CONTACTS[0];
+      const target = whatsappContacts.find((contactOption) => contactOption.name === whatsappName) ?? whatsappContacts[0];
+      if (!target) { setStatus("WhatsApp is not configured. Please contact our team."); return; }
       window.open(`https://wa.me/${target.number}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer");
       setStatus(`${target.name}’s WhatsApp opened. Please attach the screenshot before sending.`);
       return;
@@ -120,7 +118,8 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
       return;
     }
 
-    window.location.assign(`mailto:${ADMIN_EMAIL}?subject=${encodeURIComponent(`Payment proof — ${order.product || "Software tool"}`)}&body=${encodeURIComponent(`${message}\n\nPlease attach your payment screenshot before sending.`)}`);
+    if (!identity.email) { setStatus("Email contact is not configured. Please use the contact form."); return; }
+    window.location.assign(`mailto:${identity.email}?subject=${encodeURIComponent(`Payment proof — ${order.product || "Software tool"}`)}&body=${encodeURIComponent(`${message}\n\nPlease attach your payment screenshot before sending.`)}`);
     setStatus("Your email app is opening. Please attach the screenshot before sending.");
   };
 
@@ -177,7 +176,11 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
 
             <div className="ds-payment-details-note">
               Payment account numbers are shared and confirmed by our team before payment so you always use the current details.
-              <a href={`https://wa.me/${WHATSAPP_CONTACTS[0].number}?text=${encodeURIComponent("Please send me the current payment details.")}`} target="_blank" rel="noreferrer">Request payment details on WhatsApp</a>
+              {whatsappContacts[0] ? (
+                <a href={`https://wa.me/${whatsappContacts[0].number}?text=${encodeURIComponent("Please send me the current payment details.")}`} target="_blank" rel="noopener noreferrer">Request payment details on WhatsApp</a>
+              ) : (
+                <a href="/book-a-demo">Request payment details through the contact form</a>
+              )}
             </div>
 
             <div className="ds-checkout-form-heading ds-checkout-form-heading--proof">
@@ -207,7 +210,7 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
             </div>
 
             <div className="ds-proof-actions">
-              {WHATSAPP_CONTACTS.map((contactOption) => (
+              {whatsappContacts.map((contactOption) => (
                 <div className="ds-proof-action-item" key={contactOption.number}>
                   <button type="button" onClick={() => sendProof("whatsapp", contactOption.name)}><MessageCircle size={17} /> Send to WhatsApp</button>
                   <small>{contactOption.name}</small>
@@ -215,7 +218,7 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
               ))}
               <div className="ds-proof-action-item">
                 <button type="button" className="is-email" onClick={() => sendProof("email")}><Mail size={17} /> Send by email</button>
-                <small>{ADMIN_EMAIL}</small>
+                <small>{identity.email}</small>
               </div>
             </div>
 

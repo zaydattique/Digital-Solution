@@ -49,3 +49,13 @@ test("contact form displays errors without submitting incomplete data", async ({
   await page.getByRole("button", { name: /send request/i }).click();
   await expect(page.locator(".ds-booking-form-message--error")).toContainText("name");
 });
+
+
+test("admin content and media signer are protected without an admin session", async ({ page }) => {
+  const response = await page.goto("/admin");
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole("heading", { name: "Admin access" })).toBeVisible();
+  await expect(page.locator('textarea[name="json"]')).toHaveCount(0);
+  const signer = await page.request.post("/admin/media/sign", { data: { type: "image" } });
+  expect(signer.status()).toBe(401);
+});

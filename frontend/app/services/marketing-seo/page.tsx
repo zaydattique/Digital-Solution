@@ -8,7 +8,7 @@ import type { HubPageConfig } from "@/src/features/services/types";
 export const metadata: Metadata = pageMetadata("/services/marketing-seo", "Digital Marketing & SEO Services", "Technical SEO, content workflows, paid campaigns, CRM and marketing analytics for businesses.");
 
 const config: HubPageConfig = {
-  title: "Marketing & SEO Services — Digital Solutions",
+  title: "Marketing & SEO Services — HavocX Agency",
   eyebrow: "Marketing and search",
   heading: "Digital Marketing and SEO Services",
   description:

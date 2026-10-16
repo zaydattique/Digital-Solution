@@ -1,4 +1,4 @@
-# Agent Rules for Digital Solutions
+# Agent Rules for HavocX Agency
 
 These instructions apply to all changes in this repository.
 
@@ -71,3 +71,12 @@ These instructions apply to all changes in this repository.
 - Screenshot/performance/accessibility and SEO evidence
 - Risks/blockers and rollback
 - Next phase and necessary approvals
+
+## HavocX brand, CMS and multi-service contract
+- Canonical agency identity is **HavocX Agency** at **havocx.agency**, with the uploaded brand identity board as a reference, NOT a final logo asset. Never invent, trace, or publish a substitute finished logo without approval.
+- Company identity, logos, favicon, OG media, social links, email, phones, homepage content and future service/project/legal text belong to the admin-managed site content system. Do not hardcode company metadata/contact data separately into new components.
+- The source of truth for CMS overrides is PostgreSQL `site_content`, reached by frontend server functions through the runtime Vercel service binding `BACKEND_URL`. The frontend bootstrap defaults are transitional only. Every field exposed for editing MUST be read by its public consumers or marked draft until wired. A successful CMS save must visibly change the public page without a rebuild.
+- Images should be stored off Vercel's ephemeral filesystem, transformed/compressed to WebP for web delivery and videos to WebM before publishing. Media provider signatures, server verification, limits and the admin login protect writes; never publish original/raw unoptimized upload URLs.
+- The root `vercel.json` is the only active Vercel service configuration. `frontend` is publicly routed for all non-API URLs; `backend` owns original `/api/*` paths; frontend server-only calls use a bound service URL. Never expose `BACKEND_URL` as `NEXT_PUBLIC_` or manually configure the injected binding variable.
+- Public contact forms call same-origin `/api/v1/contact`. Keep the checkout unlisted, signed and separated from service landing pages, and keep admin unlisted with authentication and noindex.
+- New account deployment, final service names, public rewrites and bindings need explicit operator confirmation. CI success is not proof of Vercel service deployment.

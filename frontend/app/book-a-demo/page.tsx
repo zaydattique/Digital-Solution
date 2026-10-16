@@ -3,7 +3,7 @@ import { pageMetadata } from "@/src/lib/seo";
 import BookDemoPage from "@/src/features/contact/components/BookDemoPage";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
 
-export const metadata: Metadata = pageMetadata("/book-a-demo", "Contact Digital Solutions | Discuss a Project", "Contact Digital Solutions about digital marketing, SEO, design, website development and workflow automation.");
+export const metadata: Metadata = pageMetadata("/book-a-demo", "Contact HavocX Agency | Discuss a Project", "Contact HavocX Agency about digital marketing, SEO, design, website development and workflow automation.");
 
 type ContactRouteProps = {
   searchParams: Promise<{ service?: string; focus?: string }>;

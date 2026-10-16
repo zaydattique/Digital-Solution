@@ -5,10 +5,8 @@ import { ServicePageHeader } from "@/src/features/services/components/ServicePag
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ApiClientError, submitContactRequest } from "@/src/lib/api/contact";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
+import { useSiteIdentity } from "@/src/components/brand/SiteIdentityProvider";
 
-const ADMIN_EMAIL = "dsolutions555@gmail.com";
-const ADMIN_PHONE = "+923096548143";
-const SECONDARY_PHONE = "+923293269494";
 
 type BookingForm = {
   name: string;
@@ -58,6 +56,7 @@ export default function BookDemoPage({
     service: initialService,
     subService: initialSubService,
   }));
+  const identity = useSiteIdentity();
   const [countryCode, setCountryCode] = useState("+92");
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
@@ -171,9 +170,8 @@ export default function BookDemoPage({
           </p>
           <div className="ds-booking-contact-note">
             <span>Prefer a direct conversation?</span>
-            <a href={`mailto:${ADMIN_EMAIL}`}>{ADMIN_EMAIL}</a>
-            <a href={`tel:${ADMIN_PHONE}`}>{ADMIN_PHONE}</a>
-            <a href={`tel:${SECONDARY_PHONE}`}>{SECONDARY_PHONE}</a>
+            {identity.email && <a href={`mailto:${identity.email}`}>{identity.email}</a>}
+            {identity.phones.map((phone) => <a key={phone} href={`tel:${phone.replace(/[^+0-9]/g, "")}`}>{phone}</a>)}
           </div>
         </section>
 
