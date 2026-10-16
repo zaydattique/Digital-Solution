@@ -1,216 +1,83 @@
-# Digital Solutions
+# HavocX Agency
 
-Digital Solutions ab do independent TypeScript applications par mushtamil hai:
+HavocX Agency is a marketing-focused website with a Next.js frontend and an Express/PostgreSQL backend. The repository uses **one Vercel Services project**, not two separate Vercel projects. The agency's new public domain is **havocx.agency**.
 
-- `frontend/`: standard Next.js App Router website
-- `backend/`: Express API, PostgreSQL/Drizzle aur Resend integration
+## Quick start
 
-Dono applications ke apne dependencies, lockfiles, environment files aur lifecycle commands hain. Root par shared npm package ya shared `node_modules` use nahi hota.
-
-## Prerequisites
-
-- Node.js `>=22.13.0`
-- npm `>=10`
-- PostgreSQL database
-- Resend API key
-
-## Frontend
-
-```powershell
-cd frontend
-Copy-Item .env.example .env.local
-npm install
-npm run dev
-```
-
-Frontend default taur par `http://localhost:3000` par run hota hai. `frontend/.env.local` mein backend origin configure karein:
-
-```dotenv
-NEXT_PUBLIC_API_URL=http://localhost:4000
-```
-
-Commands:
-
-- `npm run dev`: development server
-- `npm run lint`: ESLint
-- `npm run typecheck`: TypeScript validation
-- `npm test`: structure/integration contract tests
-- `npm run build`: production Next.js build
-- `npm start`: compiled production server
-- `npm run check`: complete local quality gate
-
-## Backend
-
-```powershell
-cd backend
-Copy-Item .env.example .env
-npm install
-npm run dev
-```
-
-Backend default taur par `http://localhost:4000` par run hota hai.
-
-API endpoints:
-
-- `GET /`: service metadata
-- `GET /api/health`: health check
-- `POST /api/v1/contact`: validated contact/demo request
-
-Commands:
-
-- `npm run dev`: watched TypeScript development server
-- `npm run lint`: ESLint
-- `npm run typecheck`: TypeScript validation
-- `npm test`: unit/integration tests
-- `npm run build`: compile to `backend/dist`
-- `npm start`: run compiled Express server
-- `npm run check`: complete local quality gate
-- `npm run db:generate`: create a reviewed Drizzle migration
-- `npm run db:migrate`: apply committed migrations
-- `npm run db:studio`: open Drizzle Studio
-- `npm run db:check`: non-destructive DB connectivity check
-
-## Backend Architecture
-
-```text
-backend/src/
-├── config/         Environment validation
-├── controllers/    HTTP request/response adaptation
-├── db/             Drizzle client, schema and migrations
-├── errors/         Typed application errors
-├── middleware/     CORS, validation, rate limit and error handling
-├── repositories/   Database operations
-├── routes/         API route composition
-├── schemas/        Zod request contracts
-├── services/       Business workflows and provider integrations
-├── templates/      Escaped email templates
-├── utils/          Structured logging
-├── app.ts          Express application factory
-└── index.ts        Local server and Vercel entry point
-```
-
-Contact submission pehle database mein persist hoti hai. Resend notification baad mein send hoti hai; email provider failure saved lead ko reject nahi karti aur structured error log produce karti hai.
-
-## Environment Variables
-
-Backend secrets sirf `backend/.env` aur Vercel backend project mein rakhein. Frontend mein database ya Resend secret kabhi configure na karein.
-
-Backend required variables:
-
-- `DATABASE_URL`
-- `RESEND_API_KEY`
-- `ADMIN_EMAIL`
-- `EMAIL_FROM`
-- `CORS_ORIGINS`: comma-separated exact frontend origins
-
-Optional backend settings:
-
-- `NODE_ENV` (default `development`)
-- `PORT` (default `4000`)
-- `CONTACT_RATE_LIMIT_WINDOW_MS` (default `600000`)
-- `CONTACT_RATE_LIMIT_MAX` (default `2`)
-
-Current rate limiter process-local hai. Vercel ke multiple serverless instances par strict global enforcement ke liye deployment se pehle Redis/Upstash jaisa shared store ya Vercel Firewall rate limiting configure karna recommended hai.
-
-## Database Migrations
-
-`backend/src/db/migrations/0000_smiling_barracuda.sql` current `demo_requests` table ki idempotent baseline hai. Existing Aiven data preserve karne ke liye migration `CREATE TABLE IF NOT EXISTS` use karti hai.
-
-Production migration ko blindly build/start hook mein nahi chalaya jata. Pehle SQL review karein, database backup/status verify karein, phir backend folder se explicitly run karein:
-
-```powershell
-npm run db:migrate
-```
-
-## Vercel Deployment
-
-Aik hi Git repository ko do Vercel projects se connect karein.
-
-### Backend project
-
-1. Root Directory: `backend`
-2. Framework Preset: Express (auto-detected)
-3. Backend environment variables Preview aur Production mein add karein.
-4. Deploy ke baad `/api/health` verify karein.
-5. Production backend URL note karein.
-
-`src/index.ts` Express app ko default export karta hai, jo Vercel Function entry point hai. Local environment mein yehi file port listener start karti hai.
-
-### Frontend project
-
-Backend production URL confirm hone ke baad:
-
-1. Root Directory: `frontend`
-2. Framework Preset: Next.js (auto-detected)
-3. `NEXT_PUBLIC_API_URL` ko backend production origin par set karein; trailing slash na dein.
-4. Frontend deploy karein.
-5. Final frontend origin ko backend `CORS_ORIGINS` mein add karke backend redeploy karein.
-6. Contact form, database row aur notification email ka end-to-end smoke test karein.
-
-Backend URL source code mein hardcoded nahi hai; browser client sirf `NEXT_PUBLIC_API_URL` read karta hai.
-
-## Security Notes
-
-- Real `.env*` files Git-ignored hain; sirf `.env.example` commit hoti hain.
-- CORS exact allowlist use karta hai; wildcard origin use nahi hota.
-- Helmet security headers, JSON body limit, request IDs, validation aur centralized errors enabled hain.
-- Logs raw contact payloads, database URLs aur API keys record nahi karte.
-- Unknown routes aur runtime errors consistent JSON response dete hain.
-
-Detailed migration record aur acceptance criteria [PROJECT_REVAMP_PLAN.md](./PROJECT_REVAMP_PLAN.md) mein hain.
-
-
-## Backend and checkout operational security (Phase 5)
-
-The API accepts inquiries only after PostgreSQL persistence. Notification failures are logged and do not erase a saved lead. The API uses `GET /api/health` for liveness and `GET /api/ready` for real PostgreSQL readiness checks.
-
-### Required production configuration
-
-Set the existing backend environment values `DATABASE_URL`, `RESEND_API_KEY`, `ADMIN_EMAIL`, `EMAIL_FROM`, and `CORS_ORIGINS`. CORS_ORIGINS accepts **exact** HTTP(S) origins separated by commas. Explicitly include each approved production or preview domain. Wildcard origins are rejected.
-
-For **production contact rate limiting**, set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` together. The app uses a per-IP HMAC-hashed fixed-window Redis counter across server instances. If Redis is unavailable or the credentials are missing in production, the contact endpoint returns 503 instead of silently degrading to an unshared limit. Local development/tests may use a process-local limit. This is application abuse protection, not a substitute for CDN, provider WAF, DDoS capacity, or proxy/IP configuration. Configure the hosting firewall and test concurrent real edge traffic before release.
-
-`DATABASE_SSL_MODE` defaults to `require`. `disable` is reserved for local/disposable integration databases and is rejected in production.
-
-### Direct-link checkout security
-
-`/checkout` is unlisted, `noindex`, noncacheable and frame-protected. It requires a short-lived, HMAC-signed link. Set **`CHECKOUT_LINK_SECRET`** as a random 32+ character secret in the **frontend server environment**, not as a `NEXT_PUBLIC_` variable. Without it, checkout access is denied.
-
-To issue a 24-hour single-product checkout link, run the following on your own trusted machine with `CHECKOUT_LINK_SECRET` securely exported and one existing `productId` from `frontend/src/features/services/data/softwareToolsData.ts`:
+Requirements: Node.js 22+, npm 10+, PostgreSQL and email-provider credentials.
 
 ```bash
-node -e 'const c=require("node:crypto");const id=process.argv[1];const secret=process.env.CHECKOUT_LINK_SECRET;if(!secret||secret.length<32||!/^[a-z0-9-]+$/.test(id))throw Error("Invalid secret or product ID");const expiry=Math.floor(Date.now()/1000)+86400;const msg=id+"."+expiry;const sig=c.createHmac("sha256",secret).update(msg).digest("hex");console.log("/checkout?token="+encodeURIComponent(msg+"."+sig))' chatgpt-plus
+cd backend && npm ci && npm run dev
+cd frontend && npm ci && npm run dev
 ```
 
-Change the example ID to the purchased catalog item. The server checks signature, expiry and product ID, and looks up the authoritative price from the existing catalog. **Do not use price supplied through URL parameters, receipts or messages to confirm a purchase.** A signed checkout link is a bearer credential: only send it privately, rotate the secret to revoke all active links, and do not publish it in an indexable page.
-
-The existing checkout is a *manual review handoff*: it requests proof via WhatsApp/email and explicitly does not settle or verify a bank transfer. An administrator must independently verify settlement with the bank/payment provider before activating a subscription. Without a provider webhook or authenticated back-office reconciliation, automatic payment completion is **not implemented**. Do not claim otherwise.
-
-### Verification and release
-
-- GitHub Actions `.github/workflows/ci.yml` runs `npm ci`, lint, TypeScript checking, tests and production builds for both applications.
-- A separate disposable PostgreSQL CI service runs migrations and a real lead insert/read/delete test with a simulated email-provider outage. No actual customer information or real email account is used in CI.
-- Check the current commit's CI run logs, not previous commits. Then verify deployment settings: database readiness, external mail-provider delivery from the deployed environment, correct CORS origins, active shared limiter, edge firewall rules, and manual payment reconciliation.
-- Do not mark production verified from CI alone. No production secrets are committed.
-
-
-## SEO settings for self-managed deployment (Phase 6)
-
-Set `SITE_URL` for the frontend to the site's **actual canonical HTTPS origin**, e.g. `https://your-real-domain.com`, with no subpath, username, query or fragment. This is a server-side variable, not a secret. The value is used consistently for root metadata, canonical URLs, structured data, `/sitemap.xml`, `/robots.txt` and `/llms.txt`.
-
-**Important:** Without a valid production HTTPS `SITE_URL`, the generated site deliberately defaults to `noindex`, robots disallow-all, an empty XML sitemap, and a disabled llms index. This guards against staging or unknown domains being indexed accidentally. Setting a verified domain is mandatory for public discovery.
-
-Current service catalog is the only owner of service URLs. The XML sitemap lists the homepage, four existing service hubs, all 20 existing detail pages, the contact form, legal pages and the retained working-approach page. Standalone `/checkout` and legacy software sales routes are deliberately excluded.
-
-The optional `/llms.txt` is a factual navigation guide, not an SEO ranking signal or guarantee of inclusion in model answers. Structured data describes services and the organization without unapproved contact locations, fictional client reviews or paid products.
-
-Verification from deployed frontend:
+For an integrated Vercel Services run from the repository root:
 
 ```bash
-curl -I https://your-real-domain.com/
-curl https://your-real-domain.com/robots.txt
-curl https://your-real-domain.com/sitemap.xml
-curl https://your-real-domain.com/llms.txt
+vercel dev -L
 ```
 
-Check canonical tags and `application/ld+json` in **rendered HTML**, ensure the checkout is excluded from the sitemap and returns `X-Robots-Tag: noindex`, then submit the public sitemap to Search Console and Bing Webmaster when you have account access. CI also executes `frontend/tests/seo.smoke.mjs` against a built Next.js server with a reserved test-only hostname. This is deployment-independent smoke verification, not a claim that search engines have indexed production pages.
+The root `vercel.json` owns service builds, internal bindings and public URL routing.
+
+## Vercel Services configuration
+
+The proposed service topology is:
+
+| Service | Directory | Framework | Public URL |
+| --- | --- | --- | --- |
+| `frontend` | `frontend/` | Next.js | `/*`, except API |
+| `backend` | `backend/` | Express | `/api/*` |
+
+The **frontend** service binds to **backend** using `BACKEND_URL` (service binding, server-side only). Vercel sets `BACKEND_URL` automatically for frontend functions. **Never add BACKEND_URL yourself** and do not read this binding inside browser code or middleware. The browser contact form calls the same-origin `/api/v1/contact`, which Vercel routes directly to the backend. Backend Express routes already include the `/api` prefix. The backend does not bind to the frontend.
+
+Confirmed with Vercel services docs: https://vercel.com/docs/services
+
+### Deploy with a different Google/Vercel account
+
+1. Sign in to the intended Vercel account. Connect or authorize the GitHub account/organization that has access to `zaydattique/Digital-Solution`.
+2. Choose **Add New -> Project**, import the repository, and use the **repository root** as the project root. Do **not** select `frontend/` or `backend/` for this multi-service project.
+3. Vercel's Services mode reads the root `vercel.json`. Review the two names, path rewrites and binding before deploying.
+4. Provision the environment variables below in this Vercel project. A different Google account does not automatically copy databases, secrets, domain ownership or deployments.
+5. Prepare/run the reviewed Drizzle migration from `backend/` using `npm run db:migrate`; use database backup procedures before running it against live data.
+6. Configure DNS for `havocx.agency` in the account that actually controls the domain. Set `SITE_URL=https://havocx.agency`, attach the domain to the new Vercel project, then run staging/production smoke checks.
+7. Do not route traffic or merge this PR until you confirm the service topology and all secret/provider dependencies are installed.
+
+### Environment variables
+
+Configure these in the **Vercel project environment**, with per-service secrets kept server-side. Do not use a `NEXT_PUBLIC_` prefix for passwords/tokens.
+
+- `SITE_URL=https://havocx.agency` for frontend canonical URLs, sitemap and schema (use a separate preview origin for preview testing if indexing is desired; otherwise explicitly block previews).
+- `DATABASE_URL`: PostgreSQL connection string. Default SSL is required in production.
+- `RESEND_API_KEY`, `ADMIN_EMAIL`, `EMAIL_FROM`: backend notification provider settings.
+- `CORS_ORIGINS=https://havocx.agency`: allowed browser origin(s); preview origins must be explicit. Same-origin browser calls normally do not need cross-origin requests.
+- `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`: **required for production contact availability** because the limiter fails closed without a shared rate-limit store.
+- `CHECKOUT_LINK_SECRET`: random 32+ character secret for standalone signed /checkout links (manual bank verification still needed).
+- `ADMIN_PASSWORD`: unique strong password, 16+ characters, used only by server-side admin login.
+- `ADMIN_SESSION_SECRET`: independent random 32+ character secret for signed HTTP-only admin sessions.
+- `INTERNAL_CMS_TOKEN`: independent random 32+ character API token, shared privately between frontend server and backend API for admin writes.
+- `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`: backend media storage and transformation provider. Without them, uploads are blocked (503) rather than saved as unoptimized originals.
+
+**Do not configure Vercel's generated `BACKEND_URL` yourself.**
+
+### CMS / admin
+
+Go to `/admin/login`. After login, `/admin` allows authorized content editors to update saved site values: agency name, tagline, logo, favicon, OG media, homepage hero copy/image/video, email, phone numbers, social links, legal revision display, and text/media slots of the 20 existing service details. Public pages load the shared PostgreSQL-backed settings through the runtime service binding. Sensitive admin updates are restricted to an authenticated frontend server action and an independent backend API token.
+
+**Image and video handling:** The admin upload form validates accepted types and size limits. JPEG/PNG/WebP uploads are transformed through Sharp into compressed **WebP**. MP4/WebM uploads are forwarded to Cloudinary's eager **WebM** transcode. Only a confirmed WebM transformation URL is published. Remote object storage persists assets across serverless deploys. SVG is intentionally rejected. Video conversion and storage depend on Cloudinary account capabilities/credentials and are not represented as live-tested without them.
+
+The uploaded logo board is inspiration only. **No logo files have been generated, extracted, or added to the repository.** Until a licensed and approved artwork file is uploaded through admin, the site shows an accessible text fallback.
+
+**Scope caveat:** The admin foundation covers identity, contact, home hero, service heading/lede/summary and hero asset fields. The remaining legacy secondary page copy, full category catalogs, legal article bodies, decorative screenshots and any additional media placements have NOT all been converted to editable CMS data yet. A full editable-content inventory and publishing workflow are still needed before claiming *nothing is hardcoded*.
+
+### Verification
+
+```bash
+cd backend && npm ci && npm run check
+cd frontend && npm ci && npm run check && npm run test:e2e
+```
+
+GitHub Actions also runs real PostgreSQL migrations/persistence and browser tests. **CI is not a substitute for live domain, database, Cloudinary video output, email, edge rate limit or actual customer payment checks.**
+
+Public routes include homepage, four service hubs, 20 service detail routes, `/book-a-demo`, and legal pages. `/checkout` is deliberately unlisted and requires a signed link. The previous software-tools service is not publicly offered.
+
+For detailed phase history, see [PROJECT_PLAN_SITE_REDESIGN.md](PROJECT_PLAN_SITE_REDESIGN.md), [DESIGN_REDESIGN.md](DESIGN_REDESIGN.md) and [AGENTS.md](AGENTS.md).
