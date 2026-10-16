@@ -81,8 +81,8 @@ export default function BookDemoPage() {
       setError("Please enter your name.");
       return;
     }
-    if (!/^[a-zA-Z\s'.-]+$/.test(cleanName)) {
-      setError("Name can only contain alphabetic letters and spaces (no numbers or special symbols).");
+    if (!/^[\p{L}\p{M} .'-]+$/u.test(cleanName)) {
+      setError("Please use letters and standard name punctuation.");
       return;
     }
     if (cleanName.length > 60) {
