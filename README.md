@@ -158,3 +158,13 @@ Backend URL source code mein hardcoded nahi hai; browser client sirf `NEXT_PUBLI
 - Unknown routes aur runtime errors consistent JSON response dete hain.
 
 Detailed migration record aur acceptance criteria [PROJECT_REVAMP_PLAN.md](./PROJECT_REVAMP_PLAN.md) mein hain.
+
+
+## Backend safety and release checks (Phase 5)
+
+- `GET /api/health` is liveness only. `GET /api/ready` performs a database readiness query and returns HTTP 503 when the database is unavailable. Do not use /health as proof that database-backed submissions work.
+- CORS origins must be explicit protocol + host pairs in `CORS_ORIGINS`, separated by commas. Arbitrary preview domains and `*` are not allowed. Add every approved preview domain exactly as needed. Absence of a browser Origin header is allowed for server-to-server requests, which still require endpoint security when appropriate.
+- Contact requests must be persisted successfully before a 201 response is returned. Email failures after persistence are logged without discarding the saved request. Failed persistence must not trigger a notification or fabricated record.
+- `express-rate-limit` remains in-memory and per instance. **Before production**, configure verified host/edge rate controls or a shared limiter and test abuse across concurrent instances. The current limiter is not distributed DDoS protection.
+- `/checkout` is an unlisted, noindex route, not authenticated or secure for sensitive orders. Product prices from query parameters and emailed/WhatsApp receipts are not authoritative verification. Do not treat these as completed transactions until a server-owned order and confirmation workflow exists.
+- Phase 5 changes are not considered live-tested merely because code and test cases exist. Run `cd backend && npm ci && npm run check`, exercise an actual allowed/disallowed browser origin, verify database and email failure cases in staging, and test checkout security separately before release.
