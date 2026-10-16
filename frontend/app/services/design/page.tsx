@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/src/lib/seo";
 import { Compass, Palette, Layers, Zap, Target } from "lucide-react";
 import { ServiceHubView } from "@/src/features/services/components/ServiceHubView";
 import { designServices } from "@/src/features/services/data/designData";
 import type { HubPageConfig } from "@/src/features/services/types";
 
-export const metadata: Metadata = {
-  title: "Design Services — Digital Solutions",
-  description: "Research-led experiences and design systems that make complex products feel simple.",
-};
+export const metadata: Metadata = pageMetadata("/services/design", "Design & Conversion Services", "UX, UI, design systems, prototyping and conversion-focused digital experiences.");
 
 const config: HubPageConfig = {
   title: "Design Services — Digital Solutions",

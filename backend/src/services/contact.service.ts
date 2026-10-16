@@ -20,13 +20,8 @@ export class DefaultContactService implements ContactService {
   ) {}
 
   async submit(payload: ContactRequest): Promise<ContactSubmissionResult> {
-    let record: DemoRequest | undefined;
-    try {
-      record = await this.repository.create(payload);
-    } catch (dbError) {
-      logger.error("Contact DB save failed", { error: dbError });
-    }
-
+    // Persist before notifying. A notification cannot substitute for a saved lead.
+    const record = await this.repository.create(payload);
     let notificationSent = false;
     try {
       await this.notifications.sendContactNotification(payload);
@@ -35,23 +30,6 @@ export class DefaultContactService implements ContactService {
       logger.error("Contact notification email failed", { error: emailError });
     }
 
-    if (!record && !notificationSent) {
-      throw new Error("Unable to process contact request at this time. Please try again.");
-    }
-
-    return {
-      record: record ?? ({
-        id: 0,
-        name: payload.name,
-        email: payload.email,
-        phone: payload.phone,
-        company: payload.company,
-        service: payload.service,
-        subService: payload.subService,
-        message: payload.message,
-        createdAt: new Date(),
-      } as DemoRequest),
-      notificationSent,
-    };
+    return { record, notificationSent };
   }
 }

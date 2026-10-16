@@ -9,11 +9,14 @@ const envSchema = z.object({
     "DATABASE_URL must be a PostgreSQL URL",
   ),
   RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required"),
+  DATABASE_SSL_MODE: z.enum(["require", "disable"]).default("require"),
   ADMIN_EMAIL: z.email(),
   EMAIL_FROM: z.string().min(3).default("Digital Solutions <onboarding@resend.dev>"),
   CORS_ORIGINS: z.string().min(1).default("http://localhost:3000"),
   CONTACT_RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(600_000),
   CONTACT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(2),
+  UPSTASH_REDIS_REST_URL: z.url().optional(),
+  UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
 });
 
 export type AppEnv = z.infer<typeof envSchema> & {
@@ -28,11 +31,22 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     throw new Error(`Invalid environment configuration: ${[...new Set(keys)].join(", ")}`);
   }
 
+  if (result.data.NODE_ENV === "production" && result.data.DATABASE_SSL_MODE === "disable") {
+    throw new Error("Database TLS cannot be disabled in production.");
+  }
+
+  if (Boolean(result.data.UPSTASH_REDIS_REST_URL) !== Boolean(result.data.UPSTASH_REDIS_REST_TOKEN)) {
+    throw new Error("UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be configured together.");
+  }
+
+  const origins = result.data.CORS_ORIGINS.split(",").map((origin) => origin.trim().replace(/\/$/, "")).filter(Boolean);
+  if (origins.includes("*") || origins.some((origin) => !/^https?:\/\/[^/]+$/.test(origin))) {
+    throw new Error("CORS_ORIGINS must contain exact http(s) origins. Wildcards are not permitted.");
+  }
+
   return {
     ...result.data,
-    corsOrigins: result.data.CORS_ORIGINS.split(",")
-      .map((origin) => origin.trim().replace(/\/$/, ""))
-      .filter(Boolean),
+    corsOrigins: origins,
   };
 }
 

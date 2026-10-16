@@ -34,11 +34,16 @@ export function createApp(dependencies: AppDependencies = {}): Express {
     methods: ["GET", "POST", "OPTIONS"],
     allowedHeaders: ["Content-Type", "X-Request-Id"],
     origin(origin, callback) {
-      if (!origin || allowedOrigins.has("*") || allowedOrigins.has(origin.replace(/\/$/, "")) || origin.endsWith(".vercel.app")) {
+      // Server-to-server requests have no Origin. Browser origins must match exactly.
+      if (!origin) {
+        callback(null, false);
+        return;
+      }
+      if (allowedOrigins.has(origin.replace(/\/$/, ""))) {
         callback(null, true);
         return;
       }
-      callback(null, true);
+      callback(new AppError(403, "ORIGIN_NOT_ALLOWED", "This origin is not permitted."));
     },
   }));
   app.use(express.json({ limit: "32kb" }));

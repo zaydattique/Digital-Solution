@@ -63,7 +63,7 @@ test("service pages reuse the catalog and carry inquiry context", async () => {
     readFile(path.join(root, "src/features/services/data/services.ts"), "utf8"),
     readFile(path.join(root, "src/features/services/components/ServiceDetailView.tsx"), "utf8"),
     readFile(path.join(root, "src/features/services/components/ServiceHubView.tsx"), "utf8"),
-    readFile(path.join(root, "src/features/contact/components/BookDemoPage.tsx"), "utf8"),
+    readFile(path.join(root, "app/book-a-demo/page.tsx"), "utf8"),
     readFile(path.join(root, "src/components/layout/AgencyFooter.tsx"), "utf8"),
   ]);
 
@@ -71,8 +71,8 @@ test("service pages reuse the catalog and carry inquiry context", async () => {
   assert.match(detail, /const contactHref = currentGroup/);
   assert.match(detail, /relatedServices\.map/);
   assert.match(hub, /book-a-demo\?service=/);
-  assert.match(contact, /serviceMenuGroups\.map/);
-  assert.match(contact, /new URLSearchParams\(window\.location\.search\)/);
+  assert.match(contact, /serviceMenuGroups\.find/);
+  assert.match(contact, /initialSubService/);
   assert.match(footer, /serviceMenuGroups\.map/);
 });
 
@@ -105,4 +105,45 @@ test("direct-link checkout is separate from the public service directory", async
   assert.match(checkout, /robots: \{ index: false, follow: false/);
   assert.match(legacy, /redirect\("\/checkout"\)/);
   assert.doesNotMatch(catalog, /id: "software-tools"/);
+});
+
+test("SEO route sources use the existing service catalog and exclude checkout", async () => {
+  const [sitemap, robots, llms, seo, detail] = await Promise.all([
+    readFile(path.join(root, "app/sitemap.ts"), "utf8"),
+    readFile(path.join(root, "app/robots.ts"), "utf8"),
+    readFile(path.join(root, "app/llms.txt/route.ts"), "utf8"),
+    readFile(path.join(root, "src/lib/seo.ts"), "utf8"),
+    readFile(path.join(root, "app/services/design/[slug]/page.tsx"), "utf8"),
+  ]);
+  assert.match(sitemap, /serviceMenuGroups/);
+  assert.match(sitemap, /getServiceItemHref/);
+  assert.doesNotMatch(sitemap, /\/checkout|\/services\/software-tools/);
+  assert.match(robots, /publishedOrigin/);
+  assert.match(robots, /"\/checkout"/);
+  assert.match(llms, /serviceMenuGroups/);
+  assert.match(seo, /alternates: \{ canonical: path \}/);
+  assert.match(seo, /BreadcrumbList/);
+  assert.match(detail, /serviceStructuredData/);
+});
+
+test("all indexable route entry points use centrally managed canonical metadata", async () => {
+  const routes = [
+    "app/page.tsx",
+    "app/book-a-demo/page.tsx",
+    "app/reviews/page.tsx",
+    "app/privacy-policy/page.tsx",
+    "app/terms-of-service/page.tsx",
+    "app/services/development/page.tsx",
+    "app/services/ai-automation/page.tsx",
+    "app/services/design/page.tsx",
+    "app/services/marketing-seo/page.tsx",
+    "app/services/development/[slug]/page.tsx",
+    "app/services/ai-automation/[slug]/page.tsx",
+    "app/services/design/[slug]/page.tsx",
+    "app/services/marketing-seo/[slug]/page.tsx",
+  ];
+  await Promise.all(routes.map(async (route) => {
+    const source = await readFile(path.join(root, route), "utf8");
+    assert.match(source, /pageMetadata\(/, route);
+  }));
 });

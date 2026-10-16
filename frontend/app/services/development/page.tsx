@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/src/lib/seo";
 import { Globe, Brain, Share2, Cloud, CheckCircle2 } from "lucide-react";
 import { ServiceHubView } from "@/src/features/services/components/ServiceHubView";
 import { webDevServices } from "@/src/features/services/data/webDevelopmentData";
 import type { HubPageConfig } from "@/src/features/services/types";
 
-export const metadata: Metadata = {
-  title: "Development Services — Digital Solutions",
-  description: "Secure digital products, integrations, and platforms engineered for scale.",
-};
+export const metadata: Metadata = pageMetadata("/services/development", "Web Development & Integration Services", "Web applications, API integrations and reliable digital infrastructure for growing businesses.");
 
 const config: HubPageConfig = {
   title: "Development Services — Digital Solutions",
