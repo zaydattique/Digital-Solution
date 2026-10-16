@@ -3,11 +3,13 @@
 import { MouseEvent, useState } from "react";
 import { Linkedin, Instagram, Facebook, Globe2, Mail, Phone, ArrowUpRight } from "lucide-react";
 import { Brand } from "@/src/components/brand/Brand";
+import { useSite } from "@/src/components/brand/SiteContext";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 import { claimMailSendPermission } from "@/src/lib/mailRateLimit";
 
 export function AgencyFooter() {
   const [mailLimitMessage, setMailLimitMessage] = useState("");
+  const site = useSite();
 
   const handleEmailClick = (event: MouseEvent<HTMLAnchorElement>) => {
     const permission = claimMailSendPermission();
@@ -30,31 +32,15 @@ export function AgencyFooter() {
             <h3 className="main-text">Contact us</h3>
 
             <div className="vx-footer-contact-info">
-              <a href="mailto:dsolutions555@gmail.com" className="vx-footer-contact-link" onClick={handleEmailClick}>
-                <Mail size={16} /> dsolutions555@gmail.com
-              </a>
-              <a href="tel:+923096548143" className="vx-footer-contact-link">
-                <Phone size={16} /> +92 309 6548143
-              </a>
-              <a href="tel:+923293269494" className="vx-footer-contact-link">
-                <Phone size={16} /> +92 329 3269494
-              </a>
+              {site["contact.email"] && <a href={`mailto:${site["contact.email"]}`} className="vx-footer-contact-link" onClick={handleEmailClick}><Mail size={16} /> {site["contact.email"]}</a>}
+              {[site["contact.phone"], site["contact.phoneSecondary"]].filter(Boolean).map(phone => <a key={phone} href={`tel:${phone.replace(/[^+\d]/g, "")}`} className="vx-footer-contact-link"><Phone size={16} /> {phone}</a>)}
               {mailLimitMessage && <p role="status">{mailLimitMessage}</p>}
             </div>
-
             <div className="vx-footer-social-icons">
-              <a href="https://www.linkedin.com/in/abdul-mannan-butt-0382a1379" target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="LinkedIn">
-                <Linkedin size={16} />
-              </a>
-              <a href="https://www.instagram.com/dsolution555/" target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Instagram">
-                <Instagram size={16} />
-              </a>
-              <a href="https://www.facebook.com/profile.php?id=61594256333150" target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Facebook">
-                <Facebook size={16} />
-              </a>
-              <a href="/" className="vx-footer-social-btn" aria-label="Website">
-                <Globe2 size={16} />
-              </a>
+              {site["social.linkedin"] && <a href={site["social.linkedin"]} target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="LinkedIn"><Linkedin size={16} /></a>}
+              {site["social.instagram"] && <a href={site["social.instagram"]} target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Instagram"><Instagram size={16} /></a>}
+              {site["social.facebook"] && <a href={site["social.facebook"]} target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Facebook"><Facebook size={16} /></a>}
+              {site["social.website"] && <a href={site["social.website"]} target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Website"><Globe2 size={16} /></a>}
             </div>
           </div>
 
@@ -74,7 +60,7 @@ export function AgencyFooter() {
 
         {/* Copyright Bar */}
         <div className="vx-footer-copyright-bar">
-          <span>© {new Date().getFullYear()} Digital Solutions. All rights reserved.</span>
+          <span>© {new Date().getFullYear()} {site["brand.name"] || "HavocX Agency"}. All rights reserved.</span>
           <div className="vx-footer-legal-links">
             <a href="/privacy-policy">Privacy Policy</a>
             <a href="/terms-of-service">Terms of Service</a>
