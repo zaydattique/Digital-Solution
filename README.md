@@ -159,7 +159,7 @@ Set only the resulting hash as `CMS_ADMIN_PASSWORD_HASH`. Use a dedicated secret
 
 The `/admin` page is unlisted/noindex, uses an HttpOnly signed session and validates all writes on the backend with `CMS_INTERNAL_TOKEN`. It stores JSON documents in PostgreSQL `site_content`, so apply the reviewed migration `backend/src/db/migrations/0001_site_content.sql` **before enabling admin saves**. The frontend consumes the `identity` and `home` documents on every server-rendered request; favicon, brand, footer and contact URLs follow the shared identity record.
 
-This is a **foundation, not a claim that every old service/project/legal string has been migrated**. Additional CMS sections currently allow draft JSON storage but require their page adapters before changes appear on the public frontend. Do not consider the entire site fully admin-driven yet. Use the original site service routes and client-facing contact form while migration continues.
+This is a **foundation, not a claim that every old service/project/legal string has been migrated**. Other CMS keys are reserved for future migrations but hidden from the admin interface until a real public consumer is connected. Do not consider the entire site fully admin-driven yet. Use the original site service routes and client-facing contact form while migration continues.
 
 Image/video uploads appear under the admin media tab. They do not work until the media provider credentials exist. Converted .webp and .webm delivery assets are saved only after verified provider responses. **The uploaded brand board is a visual reference, not the final favicon/logo; no replacement artwork has been generated.**
 
