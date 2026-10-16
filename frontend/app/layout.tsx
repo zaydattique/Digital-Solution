@@ -5,6 +5,8 @@ import { siteOrigin } from "@/src/lib/seo";
 import { getSiteSettings } from "@/src/lib/site";
 import { SiteProvider } from "@/src/components/brand/SiteContext";
 
+export const dynamic = "force-dynamic";
+
 const nunitoSans = Nunito_Sans({
   variable: "--font-nunito-sans",
   subsets: ["latin"],
