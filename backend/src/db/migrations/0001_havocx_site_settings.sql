@@ -18,6 +18,7 @@ INSERT INTO "site_settings" ("key","value") VALUES
 ('contact.email',''),
 ('contact.phone',''),
 ('contact.phoneSecondary',''),
+('legal.lastUpdated',''),
 ('social.linkedin',''),
 ('social.instagram',''),
 ('social.facebook',''),
