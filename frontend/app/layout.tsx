@@ -1,8 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Nunito_Sans } from "next/font/google";
 import "@/src/features/home/styles/home.css";
-import "@/src/features/home/styles/not-found.css";
-import "@/src/features/services/styles/services.css";
 import { siteOrigin } from "@/src/lib/seo";
 
 const nunitoSans = Nunito_Sans({
