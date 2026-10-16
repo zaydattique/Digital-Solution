@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const service = designServices.find((s) => s.slug === slug);
   if (!service) return {};
   const settings = await getSiteSettings();
-  return pageMetadata(`/services/design/${slug}`, settings[`service.${slug}.title`] || service.title, settings[`service.${slug}.heroSubtitle`] || service.heroSubtitle || service.shortDescription || service.description || service.title);
+  return pageMetadata(`/services/design/${slug}`, settings[`service.${slug}.title`] || service.title, settings[`service.${slug}.heroSubtitle`] || service.heroSubtitle || service.shortDescription || service.title);
 }
 
 export default async function DesignDetailPage({ params }: PageProps) {
