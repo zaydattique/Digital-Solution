@@ -11,12 +11,12 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false, nocache: true },
 };
 
-type Params = { token?: string };
+type Params = { token?: string | string[] };
 type CheckoutProps = { searchParams: Promise<Params> };
 
-function verifyCheckoutLink(raw: string | undefined) {
+function verifyCheckoutLink(raw: string | string[] | undefined) {
   const secret = process.env.CHECKOUT_LINK_SECRET;
-  if (!secret || secret.length < 32 || !raw || raw.length > 512) return null;
+  if (!secret || secret.length < 32 || typeof raw !== "string" || !raw || raw.length > 512) return null;
 
   // Token format: productId.expiryEpochSeconds.hexHmac
   const [productId, expiry, signature, extra] = raw.split(".");
