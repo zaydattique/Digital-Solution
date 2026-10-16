@@ -10,6 +10,7 @@ import { notFound } from "./middleware/not-found.js";
 import { requestContext } from "./middleware/request-context.js";
 import { contactRepository } from "./repositories/contact.repository.js";
 import { createApiRouter } from "./routes/index.js";
+import { createMediaRouter } from "./routes/media.routes.js";
 import { DefaultContactService, type ContactService } from "./services/contact.service.js";
 import { emailService } from "./services/email.service.js";
 
@@ -46,6 +47,7 @@ export function createApp(dependencies: AppDependencies = {}): Express {
       callback(new AppError(403, "ORIGIN_NOT_ALLOWED", "This origin is not permitted."));
     },
   }));
+  app.use("/api/v1/media", express.raw({ type: ["image/jpeg", "image/png", "image/webp", "video/mp4", "video/webm"], limit: "24mb" }), createMediaRouter());
   app.use(express.json({ limit: "32kb" }));
 
   app.get("/", (_request, response) => {
