@@ -37,7 +37,7 @@ try {
   for (const [label, result] of Object.entries({ home, detail, sitemap, robots, llms })) {
     assert.equal(result.response.status, 200, label);
   }
-  assert.match(home.body, /rel="canonical" href="https:\\/\\/seo-ci\\.example\\.test\\/?"\s*\\/?/);
+  assert.ok(home.body.includes('rel="canonical" href="https://seo-ci.example.test"') || home.body.includes('rel="canonical" href="https://seo-ci.example.test/"'), "home canonical should use configured origin");
   assert.match(home.body, /schema\.org/);
   assert.match(detail.body, /BreadcrumbList/);
   assert.match(detail.body, /Service/);
