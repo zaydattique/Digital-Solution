@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import HomePage from "@/src/features/home/components/HomePage";
 
 export const metadata: Metadata = {
-  title: { absolute: "Digital Solutions | AI Workflow Automation" },
+  title: { absolute: "Digital Solutions | Digital Marketing and Creative Services" },
   description:
-    "Digital Solutions designs AI workflows, agents, integrations, and intelligent operations systems around the tools your business already uses.",
+    "Digital marketing, SEO, design and development services focused on visibility, user experience and customer growth.",
 };
 
 export default function Home() {

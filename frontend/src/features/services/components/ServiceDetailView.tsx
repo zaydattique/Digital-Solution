@@ -11,6 +11,7 @@ import { ServiceDeliverables, ServiceTimeline } from "./ServiceContent";
 import { ServicePageHeader } from "./ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
+import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 
 function formatMetric(metric: { value: string; label: string }) {
   if (metric.value.toLowerCase().includes("faster")) {
@@ -67,6 +68,10 @@ type ServiceDetailViewProps = { detail: ServiceDetail; heroImage?: string };
 
 export function ServiceDetailView({ detail, heroImage = "/assets/images/home/hero-workflow.jpg" }: ServiceDetailViewProps) {
   const [activeFaq, setActiveFaq] = useState<FAQItem | null>(null);
+  // Related links use the current service catalog, not a second hard-coded sitemap.
+  const currentGroup = serviceMenuGroups.find((group) => group.services.includes(detail.title));
+  const relatedServices = currentGroup?.services.filter((service) => service !== detail.title).slice(0, 4) ?? [];
+
 
   useEffect(() => {
     if (!activeFaq) return;
@@ -181,6 +186,34 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
             </div>
           </div>
         </div>
+      </section>
+
+      <section className="ds-service-section" aria-labelledby="related-services-heading">
+        <div className="ds-service-section-heading">
+          <div>
+            <span className="ds-service-section-kicker">Explore more services</span>
+            <h2 id="related-services-heading">Find the right support for your project.</h2>
+          </div>
+          <p className="ds-service-section-intro">Explore related capabilities or contact our team to discuss your goals.</p>
+        </div>
+        <nav aria-label="Related services and categories">
+          <div className="ds-service-hub-grid">
+            {relatedServices.map((service) => (
+              <a className="ds-service-hub-card" key={service} href={getServiceItemHref(service, currentGroup?.id ?? "")}>
+                <h3>{service}</h3>
+                <span className="ds-service-hub-card-link">Explore service <ArrowRight size={15} aria-hidden="true" /></span>
+              </a>
+            ))}
+          </div>
+          <p className="ds-service-section-intro">
+            {serviceMenuGroups.map((group, index) => (
+              <span key={group.id}>
+                {index > 0 ? " · " : ""}
+                <a href={`/services/${group.id}`}>{group.title}</a>
+              </span>
+            ))}
+          </p>
+        </nav>
       </section>
 
       <section className="ds-service-cta" data-service-reveal>

@@ -3,6 +3,7 @@
 import { MouseEvent, useState } from "react";
 import { Linkedin, Instagram, Facebook, Globe2, Mail, Phone, ArrowUpRight } from "lucide-react";
 import { Brand } from "@/src/components/brand/Brand";
+import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 import { claimMailSendPermission } from "@/src/lib/mailRateLimit";
 import "@/src/features/home/styles/footer.css";
 
@@ -52,59 +53,24 @@ export function AgencyFooter() {
               <a href="https://www.facebook.com/profile.php?id=61594256333150" target="_blank" rel="noopener noreferrer" className="vx-footer-social-btn" aria-label="Facebook">
                 <Facebook size={16} />
               </a>
-              <a href="#top" className="vx-footer-social-btn" aria-label="Website">
+              <a href="/" className="vx-footer-social-btn" aria-label="Website">
                 <Globe2 size={16} />
               </a>
             </div>
           </div>
 
-          {/* Column 2: Development */}
-          <div className="vx-footer-col">
-            <h4>Development</h4>
-            <ul>
-              <li><a href="/services/development">Web &amp; App Engineering</a></li>
-              <li><a href="/services/development">AI Product Development</a></li>
-              <li><a href="/services/development">API &amp; Systems Integration</a></li>
-              <li><a href="/services/development">Cloud &amp; DevOps</a></li>
-              <li><a href="/services/development">Quality Automation</a></li>
-            </ul>
-          </div>
-
-          {/* Column 3: AI Automation */}
-          <div className="vx-footer-col">
-            <h4>AI Automation</h4>
-            <ul>
-              <li><a href="/services/ai-automation">Workflow Automation</a></li>
-              <li><a href="/services/ai-automation">AI Agents &amp; Copilots</a></li>
-              <li><a href="/services/ai-automation">Process Intelligence</a></li>
-              <li><a href="/services/ai-automation">Document Intelligence</a></li>
-              <li><a href="/services/ai-automation">Governance &amp; Observability</a></li>
-            </ul>
-          </div>
-
-          {/* Column 4: Marketing & SEO (Separated) */}
-          <div className="vx-footer-col">
-            <h4>Marketing &amp; SEO</h4>
-            <ul>
-              <li><a href="/services/marketing-seo">Meta &amp; Google Ads</a></li>
-              <li><a href="/services/marketing-seo">Technical SEO</a></li>
-              <li><a href="/services/marketing-seo">Performance Marketing</a></li>
-              <li><a href="/services/marketing-seo">Conversion Funnels</a></li>
-              <li><a href="/services/marketing-seo">Growth Strategy</a></li>
-            </ul>
-          </div>
-
-          {/* Column 5: Product Design (Separated) */}
-          <div className="vx-footer-col">
-            <h4>Product Design</h4>
-            <ul>
-              <li><a href="/services/design">UX &amp; UI Design</a></li>
-              <li><a href="/services/design">Figma Systems</a></li>
-              <li><a href="/services/design">Product Strategy</a></li>
-              <li><a href="/services/design">Interactive Prototypes</a></li>
-              <li><a href="/services/design">Design Tokens</a></li>
-            </ul>
-          </div>
+          {serviceMenuGroups.map((group) => (
+            <div className="vx-footer-col" key={group.id}>
+              <h4><a href={`/services/${group.id}`}>{group.title}</a></h4>
+              <ul>
+                {group.services.map((service) => (
+                  <li key={service}>
+                    <a href={getServiceItemHref(service, group.id)}>{service}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
         {/* Copyright Bar */}
@@ -113,7 +79,7 @@ export function AgencyFooter() {
           <div className="vx-footer-legal-links">
             <a href="/privacy-policy">Privacy Policy</a>
             <a href="/terms-of-service">Terms of Service</a>
-            <a href="#top" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
+            <a href="/#top" style={{ display: "inline-flex", alignItems: "center", gap: "4px" }}>
               Back to top <ArrowUpRight size={13} />
             </a>
           </div>

@@ -18,7 +18,7 @@ import {
   X,
 } from "lucide-react";
 import { Brand } from "@/src/components/brand/Brand";
-import { BrandBar } from "@/src/components/brand/BrandBar";
+
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
 import { clientReviews, heroImages } from "@/src/features/home/data/content";
@@ -95,78 +95,78 @@ const siteSearchItems: SiteSearchItem[] = [
 const processSteps = [
   {
     step: "01",
-    title: "Identify",
-    shortCopy: "We surface the highest value AI opportunities, the ones you cannot see yet.",
-    heading: "From whiteboard to production.",
-    description: "Every engagement starts by mapping your reality to the highest value AI opportunities, so by the time we build, we already know exactly what will move the needle.",
+    title: "Discover",
+    shortCopy: "Understand your audience, business goals and current marketing channels.",
+    heading: "Start with the right questions.",
+    description: "We review your goals, current channels and customer journey to identify the work that matters most.",
     cmdLogs: [
-      { text: "$ Digital Solutions deployment process", type: "cmd" },
-      { text: "✓ Requirements mapped", type: "done" },
-      { text: "✓ Architecture designed", type: "done" },
-      { text: "→ Surfacing high-value AI opportunities..", type: "active" },
-      { text: "• Live in discovery", type: "live" },
+      { text: "$ Digital Solutions discovery", type: "cmd" },
+      { text: "01  Review audience and customer needs", type: "done" },
+      { text: "02  Assess current channels", type: "done" },
+      { text: "03  Define project priorities", type: "active" },
+      { text: "→ Output: clear project brief", type: "live" },
     ],
-    features: ["Workflow Opportunity Mapping", "ROI & Impact Modeling", "Custom AI Feasibility Assessment"],
+    features: ["Audience research", "Channel and website audit", "Clear project scope"],
   },
   {
     step: "02",
-    title: "Design",
-    shortCopy: "We architect the solution around your reality, not a template.",
-    heading: "Tailored AI & System Architecture.",
-    description: "We design custom guardrails, human-in-the-loop approvals, and secure API architecture so every workflow fits seamlessly inside your team's stack.",
+    title: "Plan",
+    shortCopy: "Set priorities and agree on a practical delivery roadmap.",
+    heading: "A plan your team can follow.",
+    description: "We turn research into a focused strategy with defined deliverables, responsibilities and milestones.",
     cmdLogs: [
-      { text: "$ Digital Solutions architecture process", type: "cmd" },
-      { text: "✓ Operational guardrails defined", type: "done" },
-      { text: "✓ Security & privacy compliance checked", type: "done" },
-      { text: "→ Designing custom system specs..", type: "active" },
-      { text: "• System blueprint ready", type: "live" },
+      { text: "$ Digital Solutions planning", type: "cmd" },
+      { text: "01  Define outcomes and deliverables", type: "done" },
+      { text: "02  Agree on priorities", type: "done" },
+      { text: "03  Review the delivery schedule", type: "active" },
+      { text: "→ Output: practical roadmap", type: "live" },
     ],
-    features: ["Human-in-the-Loop Guardrails", "Security & Compliance Audits", "Enterprise Architecture Blueprint"],
+    features: ["Channel strategy", "Design direction", "Project roadmap"],
   },
   {
     step: "03",
-    title: "Build",
-    shortCopy: "We build it AI natively, by people who build with AI.",
-    heading: "Native AI Development & Integration.",
-    description: "Full-stack development, agentic workflows, RAG engines, and cloud software built with sub-second execution speed and enterprise governance.",
+    title: "Create",
+    shortCopy: "Build campaigns and digital experiences around the agreed goals.",
+    heading: "Put strategy into production.",
+    description: "Our work spans marketing, design and development, with regular reviews of the deliverables and user experience.",
     cmdLogs: [
-      { text: "$ Digital Solutions build & test runner", type: "cmd" },
-      { text: "✓ Next.js & Node services compiled", type: "done" },
-      { text: "✓ Agents trained & tested in sandbox", type: "done" },
-      { text: "→ Integrating APIs & vector stores..", type: "active" },
-      { text: "• Build passed all integration suites", type: "live" },
+      { text: "$ Digital Solutions delivery", type: "cmd" },
+      { text: "01  Produce approved assets", type: "done" },
+      { text: "02  Develop and integrate", type: "done" },
+      { text: "03  Review against the brief", type: "active" },
+      { text: "→ Output: ready-for-review work", type: "live" },
     ],
-    features: ["Autonomous AI & RAG Agents", "Sub-Second Latency Cloud APIs", "Full-Stack Web & Mobile Apps"],
+    features: ["Campaign assets", "Website and UX delivery", "Quality review"],
   },
   {
     step: "04",
-    title: "Implement",
-    shortCopy: "We put it to work, deployed into real operations and measured.",
-    heading: "Smooth Operational Rollout.",
-    description: "Staging validation, permission controls, webhooks, and telemetry are wired together so live production launches reliably without disrupting existing workflows.",
+    title: "Launch",
+    shortCopy: "Check quality, tracking and readiness before publication.",
+    heading: "Launch with clarity.",
+    description: "We review the user journey, technical performance and measurement setup before the agreed launch.",
     cmdLogs: [
-      { text: "$ Digital Solutions deployment pipeline", type: "cmd" },
-      { text: "✓ Staging validation completed", type: "done" },
-      { text: "✓ Team permissions & webhooks set", type: "done" },
-      { text: "→ Deploying to production environment..", type: "active" },
-      { text: "• Live in production", type: "live" },
+      { text: "$ Digital Solutions launch checklist", type: "cmd" },
+      { text: "01  Review content and experience", type: "done" },
+      { text: "02  Check analytics configuration", type: "done" },
+      { text: "03  Approve the release", type: "active" },
+      { text: "→ Output: launch checklist", type: "live" },
     ],
-    features: ["Zero-Downtime Deployment", "Real-Time Telemetry & Dashboards", "Automated Fail-Safe Retries"],
+    features: ["Launch QA", "Measurement setup", "Content review"],
   },
   {
     step: "05",
-    title: "Enable",
-    shortCopy: "We train your people to own it, so value compounds after we leave.",
-    heading: "Team Empowerment & Compounding ROI.",
-    description: "We train your team to operate, govern, and monitor the intelligent systems, ensuring performance scales long after initial deployment.",
+    title: "Improve",
+    shortCopy: "Review results and prioritize ongoing improvements.",
+    heading: "Keep learning from performance.",
+    description: "We use the available performance data to identify opportunities for stronger campaigns and experiences.",
     cmdLogs: [
-      { text: "$ Digital Solutions enablement module", type: "cmd" },
-      { text: "✓ Documentation & SOPs generated", type: "done" },
-      { text: "✓ Internal team training completed", type: "done" },
-      { text: "→ Handoff completed & telemetry live..", type: "active" },
-      { text: "● Live in production & compounding ROI", type: "live" },
+      { text: "$ Digital Solutions review", type: "cmd" },
+      { text: "01  Gather performance data", type: "done" },
+      { text: "02  Review user journeys", type: "done" },
+      { text: "03  Prioritize improvements", type: "active" },
+      { text: "→ Output: next-step recommendations", type: "live" },
     ],
-    features: ["Comprehensive Team SOPs", "Interactive Handoff Training", "Long-Term Value Compounding"],
+    features: ["Performance review", "Conversion improvements", "Ongoing support options"],
   },
 ];
 
@@ -453,7 +453,7 @@ export default function HomePage() {
       <main className="vx-frame" id="top">
         <section
           className="vx-hero"
-          aria-label="Digital Solutions AI automation services"
+          aria-label="Digital Solutions digital marketing and creative services"
           onMouseEnter={() => setPaused(true)}
           onMouseLeave={() => setPaused(false)}
           onFocus={() => setPaused(true)}
@@ -757,12 +757,12 @@ export default function HomePage() {
 
           <div className="vx-frost-content">
             <div className="vx-frost-copy">
-              <span>ENTERPRISE DIGITAL AGENCY &amp; AUTOMATION LAB</span>
-              <h1><i>Smart Solutions.</i><i>Digital Growth.</i></h1>
-              <p>We architect full-stack digital solutions—from autonomous AI agents and enterprise web applications to conversion-focused UI/UX design and high-ROAS Meta &amp; Google marketing funnels.</p>
+              <span>DIGITAL MARKETING &amp; CREATIVE SERVICES</span>
+              <h1><i>Make your brand</i><i>impossible to miss.</i></h1>
+              <p>We help businesses build stronger visibility, better digital experiences and clearer customer journeys through marketing, design and development.</p>
               <div className="vx-frost-actions">
-                <a href="#services" className="vx-frost-actions"><span>Explore Our Services </span><ArrowRight size={15} aria-hidden="true" /></a>
-                <a href="/book-a-demo" className="vx-frost-actions"><span>Contact Us </span><ArrowRight size={15} aria-hidden="true" /></a>
+                <a href="#services" className="vx-frost-actions"><span>Explore services </span><ArrowRight size={15} aria-hidden="true" /></a>
+                <a href="/book-a-demo" className="vx-frost-actions"><span>Discuss a project </span><ArrowRight size={15} aria-hidden="true" /></a>
               </div>
             </div>
 
@@ -789,7 +789,7 @@ export default function HomePage() {
         </section>
 
         {/* Agency Brand & Ecosystem Marquee Bar */}
-        <div data-home-reveal className="vx-home-reveal"><BrandBar /></div>
+        
 
         <section
           className="vx-philosophy"
@@ -806,8 +806,8 @@ export default function HomePage() {
           <div className="vx-philosophy-content">
             <p className="vx-philosophy-eyebrow"><span aria-hidden="true" /> OUR PHILOSOPHY</p>
             <h2 id="philosophy-title">
-              <span>Human intelligence,</span>
-              <em>amplified by systems.</em>
+              <span>Clear strategy.</span>
+              <em>Better customer experiences.</em>
             </h2>
 
             <div
@@ -832,7 +832,7 @@ export default function HomePage() {
             </div>
 
             <p className="vx-philosophy-mission">
-              Our mission is not to replace the people behind the work. <strong>It&apos;s to help them move further.</strong>
+              We focus on the work that connects your marketing to measurable business goals. <strong>From the first brief through launch and improvement.</strong>
             </p>
           </div>
         </section>
@@ -1030,7 +1030,7 @@ export default function HomePage() {
         <section className="vx-deck" id="services" data-home-reveal>
           <div className="vx-services-showcase">
             <div className="vx-services-showcase-heading">
-              <span>What We Deliver</span>
+              <span>What we do</span>
               <h2>Marketing and Digital Services</h2>
               <p>Explore the services behind stronger visibility, clearer customer experiences and reliable digital delivery.</p>
             </div>
