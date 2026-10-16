@@ -29,8 +29,8 @@ export function createMediaRouter() {
       res.status(503).json({ success: false, error: { code: "MEDIA_STORAGE_UNCONFIGURED", message: "Media storage is not configured." } }); return;
     }
     try {
-      let bytes: Buffer = req.body as Buffer;
-      let format: "image" | "video" = video ? "video" : "image";
+      let bytes: Buffer = req.body;
+      const format: "image" | "video" = video ? "video" : "image";
       if (image) {
         const meta = await sharp(bytes, { limitInputPixels: 40_000_000, failOn: "error" }).metadata();
         if (!["jpeg", "png", "webp"].includes(meta.format ?? "")) throw new Error("Image bytes do not match an allowed format");
