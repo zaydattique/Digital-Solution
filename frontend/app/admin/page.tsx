@@ -5,11 +5,11 @@ import { adminLogin, adminLogout, hasAdminSession, saveSiteDocument } from "./ac
 import { MediaUploader } from "@/src/features/media/components/MediaUploader";
 
 export const metadata: Metadata = { title: "Admin | HavocX Agency", robots: { index: false, follow: false, nocache: true } };
-const KEYS = ["identity", "home", "services", "projects", "footer", "contact", "seo", "media"] as const;
+const KEYS = ["identity", "home", "media"] as const;
 const examples: Record<string, object> = {
   identity: bootstrapIdentity,
   home: bootstrapHome,
-  services: {}, projects: {}, footer: {}, contact: {}, seo: {}, media: {},
+  media: {},
 };
 
 export default async function AdminPage({ searchParams }: {
@@ -39,7 +39,7 @@ export default async function AdminPage({ searchParams }: {
       ) : (
         <section className="ds-admin-card">
           <h1>Content management</h1>
-          <p>Edit the site records backed by PostgreSQL. Only published records override site defaults. JSON objects are required.</p>
+          <p>Edit the connected brand, homepage, and media records backed by PostgreSQL. JSON objects are required. Other site sections are not yet connected to the admin.</p>
           <nav aria-label="Content categories" className="ds-admin-tabs">
             {KEYS.map((item) => <a key={item} href={`/admin?key=${item}`} aria-current={item === key ? "page" : undefined}>{item}</a>)}
           </nav>
