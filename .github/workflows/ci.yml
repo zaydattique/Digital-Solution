@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - "fix/phase-5-*"
+      - "test/phase-7-*"
   pull_request:
     branches:
       - main
@@ -91,3 +92,26 @@ jobs:
       - run: npm ci
       - run: npm run db:migrate
       - run: npx vitest run tests/db.integration.test.ts
+
+  browser-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      CI: "1"
+      SITE_URL: "https://seo-ci.example.test"
+      NEXT_TELEMETRY_DISABLED: "1"
+      NEXT_PUBLIC_API_URL: "http://localhost:4000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e
