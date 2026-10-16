@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getSiteSettings } from "./site";
 
 // A single public origin drives canonicals, structured data, the sitemap and robots.
 // Indexing stays disabled until the deployment has a verified public domain.
@@ -21,21 +22,25 @@ export function absoluteUrl(path: string): string {
   return new URL(path.startsWith("/") ? path : `/${path}`, siteOrigin).toString();
 }
 
-export function pageMetadata(path: string, title: string, description: string): Metadata {
+export async function pageMetadata(path: string, title: string, description: string): Promise<Metadata> {
+  const site = await getSiteSettings();
+  const brand = site["brand.name"] || "HavocX Agency";
+  const displayTitle = title.replace(/Digital Solutions|HavocX Agency/g, brand);
   return {
-    title,
+    title: displayTitle,
     description,
     alternates: { canonical: path },
     robots: publishedOrigin ? { index: true, follow: true } : { index: false, follow: false },
     openGraph: {
       type: "website",
       url: absoluteUrl(path),
-      siteName: "HavocX Agency",
-      title,
+      siteName: brand,
+      title: displayTitle,
       description,
       locale: "en_US",
+      ...(site["brand.ogImageUrl"] ? { images: [site["brand.ogImageUrl"]] } : {}),
     },
-    twitter: { card: "summary", title, description },
+    twitter: { card: site["brand.ogImageUrl"] ? "summary_large_image" : "summary", title: displayTitle, description },
   };
 }
 
