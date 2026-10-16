@@ -5,7 +5,6 @@ import { Linkedin, Instagram, Facebook, Globe2, Mail, Phone, ArrowUpRight } from
 import { Brand } from "@/src/components/brand/Brand";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 import { claimMailSendPermission } from "@/src/lib/mailRateLimit";
-import "@/src/features/home/styles/footer.css";
 
 export function AgencyFooter() {
   const [mailLimitMessage, setMailLimitMessage] = useState("");
