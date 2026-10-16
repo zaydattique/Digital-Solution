@@ -3,6 +3,7 @@ import { Nunito_Sans } from "next/font/google";
 import "@/src/features/home/styles/home.css";
 import "@/src/features/home/styles/not-found.css";
 import "@/src/features/services/styles/services.css";
+import { siteOrigin } from "@/src/lib/seo";
 
 const nunitoSans = Nunito_Sans({
   variable: "--font-nunito-sans",
@@ -10,12 +11,15 @@ const nunitoSans = Nunito_Sans({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteOrigin),
   title: {
     default: "Digital Solutions | Digital Marketing, Design and Development",
     template: "%s | Digital Solutions",
   },
   description:
     "Digital Solutions provides digital marketing, technical SEO, experience design, web development and workflow automation services.",
+  applicationName: "Digital Solutions",
+  openGraph: { siteName: "Digital Solutions", locale: "en_US", type: "website" },
   icons: {
     icon: "/favicon.svg",
     shortcut: "/favicon.svg",
@@ -23,8 +27,8 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0EA5E9",
-  colorScheme: "light",
+  themeColor: "#050d20",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({
