@@ -44,7 +44,7 @@ export async function pageMetadata(path: string, title: string, description: str
   };
 }
 
-export function serviceStructuredData(path: string, name: string, description: string, hubPath: string) {
+export function serviceStructuredData(path: string, name: string, description: string, hubPath: string, companyName = "HavocX Agency") {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -54,7 +54,7 @@ export function serviceStructuredData(path: string, name: string, description: s
         name,
         description,
         url: absoluteUrl(path),
-        provider: { "@type": "Organization", name: "HavocX Agency", url: siteOrigin },
+        provider: { "@type": "Organization", name: companyName, url: siteOrigin },
       },
       {
         "@type": "BreadcrumbList",
