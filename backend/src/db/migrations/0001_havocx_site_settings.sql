@@ -14,6 +14,7 @@ INSERT INTO "site_settings" ("key","value") VALUES
 ('home.heroTitle','Make your brand impossible to miss.'),
 ('home.heroDescription','Marketing, design and development services built around your audience and goals.'),
 ('home.heroImageUrl',''),
+('home.heroVideoUrl',''),
 ('contact.email',''),
 ('contact.phone',''),
 ('contact.phoneSecondary',''),
