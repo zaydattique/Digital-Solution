@@ -9,6 +9,30 @@ import type { AppEnv } from "../config/env.js";
 // A constrained set of public site documents avoids using the admin API as an arbitrary JSON store.
 const allowedKeys = new Set(["identity", "home", "services", "projects", "footer", "contact", "seo", "media"]);
 const contentSchema = z.object({ value: z.record(z.string(), z.unknown()) }).strict();
+const optionalHttps = z.union([z.literal(""), z.url().startsWith("https://")]);
+const identitySchema = z.object({
+  name: z.string().trim().min(2).max(100),
+  tagline: z.string().max(180),
+  description: z.string().max(500),
+  domain: z.url().startsWith("https://"),
+  logoUrl: optionalHttps,
+  faviconUrl: optionalHttps,
+  ogImageUrl: optionalHttps,
+  email: z.union([z.literal(""), z.email()]),
+  phones: z.array(z.string().min(5).max(35)).max(5),
+  socials: z.record(z.string().min(1).max(30), z.url().startsWith("https://")),
+}).partial().strict();
+const homeSchema = z.object({
+  eyebrow: z.string().max(200),
+  headline: z.string().min(2).max(160),
+  description: z.string().max(800),
+  heroImages: z.array(z.object({
+    src: z.url().startsWith("https://"),
+    alt: z.string().max(180),
+    position: z.string().max(60),
+  }).strict()).max(12),
+}).partial().strict();
+
 
 function tokenMatches(actual: string | undefined, expected: string | undefined): boolean {
   if (!actual || !expected) return false;
@@ -43,7 +67,8 @@ export function createContentRouter(env: AppEnv): Router {
       const key = String(request.params.key);
       if (!allowedKeys.has(key)) { response.status(404).json({ success: false }); return; }
       const parsed = contentSchema.safeParse(request.body);
-      if (!parsed.success || JSON.stringify(parsed.data.value).length > 100_000) {
+      const validTyped = parsed.success && (key === "identity" ? identitySchema.safeParse(parsed.data.value).success : key === "home" ? homeSchema.safeParse(parsed.data.value).success : true);
+      if (!parsed.success || !validTyped || JSON.stringify(parsed.data.value).length > 100_000) {
         response.status(400).json({ success: false, error: { code: "INVALID_CONTENT" } });
         return;
       }
