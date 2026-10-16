@@ -176,7 +176,11 @@ export default function SoftwareCheckoutPage({ order }: { order: Order }) {
 
             <div className="ds-payment-details-note">
               Payment account numbers are shared and confirmed by our team before payment so you always use the current details.
-              <a href={`https://wa.me/${whatsappContacts[0]?.number ?? ""}?text=${encodeURIComponent("Please send me the current payment details.")}`} target="_blank" rel="noreferrer">Request payment details on WhatsApp</a>
+              {whatsappContacts[0] ? (
+                <a href={`https://wa.me/${whatsappContacts[0].number}?text=${encodeURIComponent("Please send me the current payment details.")}`} target="_blank" rel="noopener noreferrer">Request payment details on WhatsApp</a>
+              ) : (
+                <a href="/book-a-demo">Request payment details through the contact form</a>
+              )}
             </div>
 
             <div className="ds-checkout-form-heading ds-checkout-form-heading--proof">
