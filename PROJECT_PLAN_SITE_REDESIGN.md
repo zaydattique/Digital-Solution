@@ -348,3 +348,15 @@ Working branch: `test/phase-7-browser-qa`, stacked on Phase 6. No production dep
 - [ ] Production performance/Core Web Vitals, edge defenses, provider email and bank settlement tests are owned by deployment operator.
 
 **Phase 7 status: automated browser QA implemented with initial Chromium evidence. Complete browser matrix and visual/accessibility review are explicit gates.**
+
+## Single stylesheet cleanup checkpoint (2026-10-16)
+
+Working branch: `refactor/single-stylesheet`, stacked on browser QA branch. No additional stylesheet created.
+
+- [x] Existing `frontend/src/features/home/styles/home.css` retained as the ONE authored stylesheet. Necessary styles from the existing not-found, service, footer, contact, legal, reviews/working approach, and checkout CSS sources were moved into named functional sections without introducing specificity-based overrides.
+- [x] Seven redundant imported stylesheets and their original import statements were removed. The orphaned, now unreachable Software Tools catalog stylesheet was deleted rather than carrying 49 KB of unused declarations into the public bundle.
+- [x] Root layout retains a single `home.css` import. A structural test asserts exactly one source stylesheet under frontend/src and prevents drift.
+- [ ] Confirm cross-browser CI on final commit before marking this migration regression-verified. Manual screenshot parity for desktop/mobile against an approved reference remains a separate design sign-off.
+- [ ] Actual Translucent Sans font licensing and source remain unverified. Existing readable fallback remains in use; no guessed binary or unauthorized font copy was added.
+
+This change is code consolidation, NOT permission to replace the original design with additional overriding CSS. The initial cascade order of the root CSS owners was preserved, and other page-specific sections are segregated by their existing selector namespaces.
