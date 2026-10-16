@@ -3,7 +3,7 @@ import { expect, test } from "@playwright/test";
 test("homepage has a usable marketing inquiry path", async ({ page }) => {
   await page.goto("/");
   await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-  await expect(page.locator('a[href="/book-a-demo"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/book-a-demo"]:visible').first()).toBeVisible();
   await expect(page.locator('meta[name="description"]')).toHaveAttribute("content", /digital marketing|Digital marketing/i);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", "https://seo-ci.example.test");
 });
@@ -47,5 +47,5 @@ test("visible pages avoid horizontal overflow at supported widths", async ({ pag
 test("contact form displays errors without submitting incomplete data", async ({ page }) => {
   await page.goto("/book-a-demo");
   await page.getByRole("button", { name: /send request/i }).click();
-  await expect(page.getByRole("alert")).toContainText("name");
+  await expect(page.locator(".ds-booking-form-message--error")).toContainText("name");
 });
