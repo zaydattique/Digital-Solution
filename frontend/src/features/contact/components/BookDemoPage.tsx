@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useState } from "react";
 import { ServicePageHeader } from "@/src/features/services/components/ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ApiClientError, submitContactRequest } from "@/src/lib/api/contact";
@@ -50,21 +50,20 @@ const initialForm: BookingForm = {
   message: "",
 };
 
-export default function BookDemoPage() {
-  const [form, setForm] = useState<BookingForm>(initialForm);
+export default function BookDemoPage({
+  initialService = "",
+  initialSubService = "",
+}: { initialService?: string; initialSubService?: string }) {
+  const [form, setForm] = useState<BookingForm>(() => ({
+    ...initialForm,
+    service: initialService,
+    subService: initialSubService,
+  }));
   const [countryCode, setCountryCode] = useState("+92");
   const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Prefill service context from internal links without trusting arbitrary values.
-    const params = new URLSearchParams(window.location.search);
-    const group = serviceMenuGroups.find((item) => item.id === params.get("service"));
-    if (!group) return;
-    const focus = group.services.find((item) => item === params.get("focus")) ?? "";
-    setForm((current) => ({ ...current, service: group.title, subService: focus }));
-  }, []);
 
 
   const updateField = (field: keyof BookingForm, value: string) => {
