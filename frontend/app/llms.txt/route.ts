@@ -1,9 +1,11 @@
 import { serviceMenuGroups, getServiceItemHref } from "@/src/features/services/data/services";
 import { absoluteUrl, publishedOrigin } from "@/src/lib/seo";
 
-export function GET() {
+export async function GET() {
+  const site = await getSiteSettings();
+  const brand = site["brand.name"] || "HavocX Agency";
   const lines = [
-    "# Digital Solutions",
+    `# ${brand}`,
     "",
     "> Digital marketing, SEO, experience design, website development and workflow automation services.",
     "",
@@ -14,12 +16,12 @@ export function GET() {
     ]),
     "",
     "## Other public pages",
-    `- [Contact Digital Solutions](${absoluteUrl("/book-a-demo")})`,
+    `- [Contact ${brand}](${absoluteUrl("/book-a-demo")})`,
     `- [Working approach](${absoluteUrl("/reviews")})`,
     `- [Privacy policy](${absoluteUrl("/privacy-policy")})`,
     `- [Terms of service](${absoluteUrl("/terms-of-service")})`,
     "",
-    "The site describes client services. It does not claim to operate a proprietary AI product ecosystem.",
+    "The site describes client services, not a proprietary AI product ecosystem.",
   ];
   if (!publishedOrigin) {
     return new Response("Public origin not configured.\n", { status: 503, headers: { "Content-Type": "text/plain; charset=utf-8", "Cache-Control": "no-store" } });
