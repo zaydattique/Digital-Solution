@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/src/lib/seo";
 import { Zap, Brain, BarChart3, FileText, ShieldCheck } from "lucide-react";
 import { ServiceHubView } from "@/src/features/services/components/ServiceHubView";
 import { aiAutomationServices } from "@/src/features/services/data/aiAutomationData";
 import type { HubPageConfig } from "@/src/features/services/types";
 
-export const metadata: Metadata = {
-  title: "AI Automation Services — Digital Solutions",
-  description: "AI agents and dependable workflows designed around how your teams actually work.",
-};
+export const metadata: Metadata = pageMetadata("/services/ai-automation", "Business Automation & AI Services", "Workflow automation, connected systems, document processes and practical AI integrations.");
 
 const config: HubPageConfig = {
   title: "AI Automation Services — Digital Solutions",
