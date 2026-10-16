@@ -10,21 +10,22 @@ const nunitoSans = Nunito_Sans({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(siteOrigin),
-  title: {
-    default: "HavocX Agency | Digital Marketing, Strategy & Creative",
-    template: "%s | HavocX Agency",
-  },
-  description:
-    "HavocX Agency provides digital marketing, technical SEO, experience design, web development and workflow automation services.",
-  applicationName: "HavocX Agency",
-  openGraph: { siteName: "HavocX Agency", locale: "en_US", type: "website" },
-  icons: {
-    icon: "/favicon.svg",
-    shortcut: "/favicon.svg",
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const identity = await getSiteIdentity();
+  const icon = identity.faviconUrl.startsWith("https://") ? identity.faviconUrl : undefined;
+  const preview = identity.ogImageUrl.startsWith("https://") ? [identity.ogImageUrl] : undefined;
+  return {
+    metadataBase: new URL(siteOrigin),
+    title: {
+      default: `${identity.name} | Digital Marketing, Strategy & Creative`,
+      template: `%s | ${identity.name}`,
+    },
+    description: identity.description,
+    applicationName: identity.name,
+    openGraph: { siteName: identity.name, locale: "en_US", type: "website", images: preview },
+    icons: icon ? { icon, shortcut: icon } : undefined,
+  };
+}
 
 export const viewport: Viewport = {
   themeColor: "#050d20",
