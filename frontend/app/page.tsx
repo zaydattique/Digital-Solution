@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata, publishedOrigin, siteOrigin, absoluteUrl } from "@/src/lib/seo";
 import HomePage from "@/src/features/home/components/HomePage";
 
-export const metadata: Metadata = pageMetadata("/", "Digital Solutions | Digital Marketing and Creative Services", "Digital marketing, SEO, design and development services focused on visibility, user experience and customer growth.");
+export const metadata: Metadata = pageMetadata("/", "HavocX Agency | Digital Marketing and Creative Services", "Digital marketing, SEO, design and development services focused on visibility, user experience and customer growth.");
 
 export default function Home() {
   return (
@@ -26,13 +26,13 @@ export default function Home() {
                 {
                   "@type": "Organization",
                   "@id": absoluteUrl("/#organization"),
-                  name: "Digital Solutions",
+                  name: "HavocX Agency",
                   url: siteOrigin,
                 },
                 {
                   "@type": "WebSite",
                   "@id": absoluteUrl("/#website"),
-                  name: "Digital Solutions",
+                  name: "HavocX Agency",
                   url: siteOrigin,
                   publisher: { "@id": absoluteUrl("/#organization") },
                   inLanguage: "en",
