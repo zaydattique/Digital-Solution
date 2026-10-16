@@ -27,7 +27,7 @@ test("frontend owns no backend implementation or server route", async () => {
   await assert.rejects(readFile(path.join(root, "app", "api", "contact", "route.ts"), "utf8"));
 });
 
-test("contact form uses the centralized environment-based API client", async () => {
+test("contact form uses the centralized same-origin API client", async () => {
   const [component, client] = await Promise.all([
     readFile(path.join(root, "src", "features", "contact", "components", "BookDemoPage.tsx"), "utf8"),
     readFile(path.join(root, "src", "lib", "api", "contact.ts"), "utf8"),
@@ -35,7 +35,7 @@ test("contact form uses the centralized environment-based API client", async () 
 
   assert.match(component, /submitContactRequest/);
   assert.doesNotMatch(component, /fetch\(/);
-  assert.match(client, /process\.env\.NEXT_PUBLIC_API_URL/);
+  assert.match(client, /fetch\("/api\/v1\/contact"/);
   assert.match(client, /\/api\/v1\/contact/);
   assert.doesNotMatch(client, /https?:\/\/[^"'`]+\.vercel\.app/);
 });
