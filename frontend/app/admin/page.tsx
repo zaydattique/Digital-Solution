@@ -8,7 +8,7 @@ const groups = {
   "Brand": ["brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl", "brand.description"],
   "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl"],
   "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
-  "Legal pages": ["legal.lastUpdated"],
+  "Legal pages": ["legal.lastUpdated", "legal.privacyBody", "legal.termsBody"],
   "Private checkout contacts": ["checkout.whatsappNumber"],
   "Social profiles": ["social.linkedin", "social.instagram", "social.facebook", "social.website"],
   "Service page copy and images": [...new Set(Object.values(SERVICE_ITEM_ROUTES).map((route) => route.split("/").pop()).filter((slug): slug is string => Boolean(slug)))].flatMap((slug) => [`service.${slug}.title`, `service.${slug}.heroSubtitle`, `service.${slug}.shortDescription`, `service.${slug}.imageUrl`]),
