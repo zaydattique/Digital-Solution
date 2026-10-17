@@ -5,7 +5,6 @@ import { useSite } from "@/src/components/brand/SiteContext";
 import { Brand } from "@/src/components/brand/Brand";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
-import "./editorial.css";
 
 const projects = [
   { number: "01", name: "D Square Clinic", discipline: "Healthcare / Web experience", image: "/assets/images/projects/dsquare-landing.jpg", href: "https://dsquareclinic.com/" },
