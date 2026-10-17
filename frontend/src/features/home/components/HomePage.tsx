@@ -6,7 +6,7 @@ import { Brand } from "@/src/components/brand/Brand";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 
-const projects = [
+const defaultProjects = [
   { number: "01", name: "D Square Clinic", discipline: "Healthcare / Web experience", image: "/assets/images/projects/dsquare-landing.jpg", href: "https://dsquareclinic.com/" },
   { number: "02", name: "Alooverse", discipline: "Hospitality / Digital commerce", image: "https://alooverse.alooverse.workers.dev/hero/potato-landed.webp", href: "https://alooverse.alooverse.workers.dev/" },
   { number: "03", name: "T.E.G Cleaning", discipline: "Local services / Digital redesign", image: "/assets/images/services/menu-development.jpg", href: "https://tegcarpetfurniturecleaning.com/" },
@@ -25,6 +25,7 @@ export default function HomePage() {
   const heroDescription = site["home.heroDescription"] || "Digital strategy, distinctive design and considered engineering for brands ready to move forward.";
   const heroImage = site["home.heroImageUrl"];
   const heroVideo = site["home.heroVideoUrl"];
+  const projects = defaultProjects.map((project,index) => ({ ...project, name: site[`project.${index+1}.title`] || project.name, image: site[`project.${index+1}.imageUrl`] || project.image, href: site[`project.${index+1}.href`] || project.href, discipline: site[`project.${index+1}.discipline`] || project.discipline }));
   return <div className="hx-editorial" id="top">
     <header className="hx-nav">
       <a className="hx-nav-brand" href="/" aria-label={name + " home"}><Brand compact /></a>
