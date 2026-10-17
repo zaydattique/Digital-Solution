@@ -45,7 +45,7 @@ export default async function Admin() {
         {keys.map(key => <form action={saveSetting} key={key} style={{ padding: 18, border: "1px solid #315177", borderRadius: 12, display: "grid", gap: 12 }}>
           <label htmlFor={key}>{key}</label>
           <input type="hidden" name="key" value={key} />
-          <textarea id={key} name="value" defaultValue={settings[key] ?? ""} rows={key.includes("Description") ? 4 : 2} maxLength={3000} style={{ padding: 10, color: "#050d20", width: "100%" }} />
+          <textarea id={key} name="value" defaultValue={settings[key] ?? ""} rows={key.endsWith("Body") ? 14 : key.includes("Description") ? 4 : 2} maxLength={key.endsWith("Body") ? 12000 : 3000} style={{ padding: 10, color: "#050d20", width: "100%" }} />
           <button type="submit" style={{ background: "#2779f5", color: "white", padding: 12 }}>Save</button>
         </form>)}
       </div>
