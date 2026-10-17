@@ -18,13 +18,16 @@ async function collectSourceFiles(directory) {
   return files.flat();
 }
 
-test("frontend owns no backend implementation or server route", async () => {
+test("frontend contains only narrow public API proxy, never backend implementation", async () => {
   const sourceFiles = await collectSourceFiles(root);
   const contents = await Promise.all(sourceFiles.map((file) => readFile(file, "utf8")));
   const source = contents.join("\n");
 
   assert.doesNotMatch(source, /@backend|drizzle-orm|from ["']postgres["']|from ["']resend["']/);
-  await assert.rejects(readFile(path.join(root, "app", "api", "contact", "route.ts"), "utf8"));
+  const handler = await readFile(path.join(root, "app", "api", "v1", "contact", "route.ts"), "utf8");
+  assert.match(handler, /backendAddress\("api\/v1\/contact"\)/);
+  assert.match(handler, /export async function POST/);
+  assert.doesNotMatch(handler, /X-Admin-Key|INTERNAL_CMS_TOKEN|process\.env\.BACKEND_URL/);
 });
 
 test("contact form uses the same-origin routed API client", async () => {
@@ -164,4 +167,19 @@ test("public application uses exactly one authored stylesheet", async () => {
   assert.deepEqual(styles, ["src/features/home/styles/home.css"]);
   const layout = await readFile(path.join(root, "app/layout.tsx"), "utf8");
   assert.match(layout, /home\/styles\/home\.css/);
+});
+
+test("Vercel exposes only frontend, using one private backend binding", async () => {
+  const config = JSON.parse(await readFile(path.resolve(root, "..", "vercel.json"), "utf8"));
+  assert.deepEqual(Object.keys(config.services).sort(), ["backend", "frontend"]);
+  assert.equal(config.services.backend.root, "backend");
+  assert.equal(config.services.frontend.root, "frontend");
+  assert.deepEqual(config.rewrites, [{ source: "/(.*)", destination: { service: "frontend" } }]);
+  assert.deepEqual(config.services.frontend.bindings, [
+    { type: "service", service: "backend", format: "url", env: "BACKEND_URL" },
+  ]);
+  assert.equal(config.services.backend.bindings, undefined);
+  const client = await readFile(path.join(root, "src/lib/api/contact.ts"), "utf8");
+  assert.match(client, /fetch\("\/api\/v1\/contact"/);
+  assert.doesNotMatch(client, /BACKEND_URL|NEXT_PUBLIC_API_URL/);
 });
