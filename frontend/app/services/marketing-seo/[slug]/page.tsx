@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { pageMetadata, serviceStructuredData } from "@/src/lib/seo";
+import { getSiteSettings } from "@/src/lib/site";
 import { notFound } from "next/navigation";
 import { marketingSeoSubServices } from "@/src/features/services/data/marketingSeoData";
 import { ServiceDetailView } from "@/src/features/services/components/ServiceDetailView";
@@ -17,7 +18,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const detail = marketingSeoSubServices[slug];
   if (!detail) return {};
 
-  return pageMetadata(`/services/marketing-seo/${slug}`, detail.title, detail.description || detail.headline || detail.title);
+  const settings = await getSiteSettings();
+  return pageMetadata(`/services/marketing-seo/${slug}`, settings[`service.${slug}.title`] || detail.title, settings[`service.${slug}.heroSubtitle`] || detail.description || detail.headline || detail.title);
 }
 
 export default async function MarketingSeoSubServicePage({ params }: PageProps) {
@@ -28,11 +30,12 @@ export default async function MarketingSeoSubServicePage({ params }: PageProps) 
     notFound();
   }
 
+  const settings = await getSiteSettings();
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData(`/services/marketing-seo/${slug}`, detail.title, detail.description || detail.headline || detail.title, "/services/marketing-seo")).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData(`/services/marketing-seo/${slug}`, detail.title, detail.description || detail.headline || detail.title, "/services/marketing-seo", settings["brand.name"] || "HavocX Agency")).replace(/</g, "\\u003c") }}
       />
       <ServiceDetailView detail={detail} heroImage="/assets/images/services/menu-marketing-seo.jpg" />
     </>

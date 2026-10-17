@@ -15,6 +15,7 @@ const envSchema = z.object({
   CORS_ORIGINS: z.string().min(1).default("http://localhost:3000"),
   CONTACT_RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(600_000),
   CONTACT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(2),
+  INTERNAL_CMS_TOKEN: z.string().min(32).optional(),
   UPSTASH_REDIS_REST_URL: z.url().optional(),
   UPSTASH_REDIS_REST_TOKEN: z.string().min(1).optional(),
 });

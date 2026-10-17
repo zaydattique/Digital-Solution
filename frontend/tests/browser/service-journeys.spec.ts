@@ -11,6 +11,7 @@ test("homepage has a usable marketing inquiry path", async ({ page }) => {
 test("service-detail inquiry preselects the correct existing catalog option", async ({ page }) => {
   await page.goto("/services/marketing-seo/technical-seo");
   await expect(page.getByRole("heading", { level: 1 })).toContainText("Technical SEO");
+  await expect(page.locator("html.ds-motion-ready")).toHaveCount(1);
   const inquiry = page.locator('a[href*="/book-a-demo?service="]').first();
   await expect(inquiry).toBeVisible();
   await inquiry.click();
