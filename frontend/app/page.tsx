@@ -3,22 +3,13 @@ import { pageMetadata, publishedOrigin, siteOrigin, absoluteUrl } from "@/src/li
 import HomePage from "@/src/features/home/components/HomePage";
 import { getSiteSettings } from "@/src/lib/site";
 
-export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/", "HavocX Agency | Digital Marketing and Creative Services", "Digital marketing, SEO, design and development services focused on visibility, user experience and customer growth.");; }
+export async function generateMetadata(): Promise<Metadata> { const settings = await getSiteSettings(); return pageMetadata("/", settings["home.heroTitle"] || "HavocX Agency — Creative Digital Agency", settings["brand.description"] || "Strategy, digital experiences, marketing and technology by HavocX Agency."); }
 
 
 export default async function Home() {
   const settings = await getSiteSettings();
   return (
     <>
-      <link
-        rel="preload"
-        as="image"
-        href="/assets/images/home/hero-integrations-768.avif"
-        imageSrcSet="/assets/images/home/hero-integrations-768.avif 768w, /assets/images/home/hero-integrations-1280.avif 1280w, /assets/images/home/hero-integrations-1920.avif 1920w"
-        imageSizes="100vw"
-        type="image/avif"
-        fetchPriority="high"
-      />
       {publishedOrigin && (
         <script
           type="application/ld+json"
