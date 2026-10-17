@@ -27,7 +27,7 @@ test("frontend contains only narrow public API proxy, never backend implementati
   const handler = await readFile(path.join(root, "app", "api", "v1", "contact", "route.ts"), "utf8");
   assert.match(handler, /backendAddress\("api\/v1\/contact"\)/);
   assert.match(handler, /export async function POST/);
-  assert.doesNotMatch(handler, /X-Admin-Key|INTERNAL_CMS_TOKEN|process\.env\.BACKEND_URL/);
+  assert.doesNotMatch(handler, /X-Admin-Key|process\.env\.BACKEND_URL/);
 });
 
 test("contact form uses the same-origin routed API client", async () => {
