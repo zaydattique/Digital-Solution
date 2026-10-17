@@ -40,9 +40,10 @@ export default async function RootLayout({
 }>) {
   const siteSettings = await getSiteSettings();
   return (
-    <html lang="en" style={{ "--font-primary": "var(--font-nunito-sans)" } as React.CSSProperties}>
+    <html lang="en">
       <body
         className={`${primaryFont.variable} antialiased`}
+        style={{ "--font-primary": "var(--font-nunito-sans)" } as React.CSSProperties}
       >
         <SiteProvider settings={siteSettings}>{children}</SiteProvider>
       </body>
