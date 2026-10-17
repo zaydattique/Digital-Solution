@@ -18,7 +18,7 @@ export function ServicePageHeader({
   return (
     <div className="ds-service-header-wrap">
       <header className="ds-service-header">
-        <a href="/" aria-label="Digital Solutions home">
+        <a href="/" aria-label="HavocX Agency home">
           <Brand compact />
         </a>
 
@@ -26,7 +26,7 @@ export function ServicePageHeader({
           <a href={backHref} className="ds-service-header-back">
             <ChevronLeft size={15} /> {backLabel}
           </a>
-          <a href="/#services">Services</a>
+          <a href="/#expertise">Services</a>
         </nav>
 
         <div>
@@ -48,7 +48,7 @@ export function ServicePageHeader({
       {menuOpen && (
         <nav aria-label="Mobile service page navigation" className="ds-service-mobile-nav">
           <a href={backHref} onClick={() => setMenuOpen(false)}>{backLabel}</a>
-          <a href="/#services" onClick={() => setMenuOpen(false)}>Services</a>
+          <a href="/#expertise" onClick={() => setMenuOpen(false)}>Services</a>
           <a href="/book-a-demo" onClick={() => setMenuOpen(false)}>Discuss a project</a>
         </nav>
       )}

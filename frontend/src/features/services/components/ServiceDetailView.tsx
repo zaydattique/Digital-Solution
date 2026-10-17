@@ -55,7 +55,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
   }, []);
 
   return (
-    <div className="ds-services-page">
+    <div className="ds-services-page hx-subpage hx-service-detail">
       <ServicePageHeader backHref="/#services" backLabel="Back to Services" />
 
       <section className="ds-service-detail-hero" data-service-reveal>

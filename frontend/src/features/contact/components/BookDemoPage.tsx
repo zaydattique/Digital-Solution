@@ -160,7 +160,7 @@ export default function BookDemoPage({
   };
 
   return (
-    <div className="ds-booking-page">
+    <div className="ds-booking-page hx-contact-page">
       <ServicePageHeader backHref="/" backLabel="Back to Home" />
 
       <main className="ds-booking-main">

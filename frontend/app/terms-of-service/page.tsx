@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { pageMetadata } from "@/src/lib/seo";
 import { LegalPage } from "@/src/features/legal/components/LegalPage";
 
-export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/terms-of-service", "Terms of Service | HavocX Agency", "Read terms governing use of the Digital Solutions website and its services.");; }
+export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/terms-of-service", "Terms of Service | HavocX Agency", "Read terms governing use of the HavocX Agency website and its services."); }
 
 
 export default function TermsOfServicePage() {

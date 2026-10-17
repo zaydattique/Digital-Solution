@@ -7,8 +7,9 @@ export const metadata = { title: "Content Admin | HavocX", robots: { index: fals
 const groups = {
   "Brand": ["brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl", "brand.description"],
   "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl"],
+  "Featured projects": ["project.1.title","project.1.imageUrl","project.1.href","project.1.discipline","project.2.title","project.2.imageUrl","project.2.href","project.2.discipline","project.3.title","project.3.imageUrl","project.3.href","project.3.discipline"],
   "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
-  "Legal pages": ["legal.lastUpdated"],
+  "Legal pages": ["legal.lastUpdated", "legal.privacyBody", "legal.termsBody"],
   "Private checkout contacts": ["checkout.whatsappNumber"],
   "Social profiles": ["social.linkedin", "social.instagram", "social.facebook", "social.website"],
   "Service page copy and images": [...new Set(Object.values(SERVICE_ITEM_ROUTES).map((route) => route.split("/").pop()).filter((slug): slug is string => Boolean(slug)))].flatMap((slug) => [`service.${slug}.title`, `service.${slug}.heroSubtitle`, `service.${slug}.shortDescription`, `service.${slug}.imageUrl`]),
@@ -45,7 +46,7 @@ export default async function Admin() {
         {keys.map(key => <form action={saveSetting} key={key} style={{ padding: 18, border: "1px solid #315177", borderRadius: 12, display: "grid", gap: 12 }}>
           <label htmlFor={key}>{key}</label>
           <input type="hidden" name="key" value={key} />
-          <textarea id={key} name="value" defaultValue={settings[key] ?? ""} rows={key.includes("Description") ? 4 : 2} maxLength={3000} style={{ padding: 10, color: "#050d20", width: "100%" }} />
+          <textarea id={key} name="value" defaultValue={settings[key] ?? ""} rows={key.endsWith("Body") ? 14 : key.includes("Description") ? 4 : 2} maxLength={key.endsWith("Body") ? 12000 : 3000} style={{ padding: 10, color: "#050d20", width: "100%" }} />
           <button type="submit" style={{ background: "#2779f5", color: "white", padding: 12 }}>Save</button>
         </form>)}
       </div>

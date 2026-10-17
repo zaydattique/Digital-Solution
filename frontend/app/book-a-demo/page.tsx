@@ -3,7 +3,7 @@ import { pageMetadata } from "@/src/lib/seo";
 import BookDemoPage from "@/src/features/contact/components/BookDemoPage";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
 
-export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/book-a-demo", "Contact HavocX Agency | Discuss a Project", "Contact Digital Solutions about digital marketing, SEO, design, website development and workflow automation.");; }
+export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/book-a-demo", "Contact HavocX Agency | Discuss a Project", "Contact HavocX Agency about digital marketing, SEO, design, website development and workflow automation."); }
 
 
 type ContactRouteProps = {

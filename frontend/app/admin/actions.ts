@@ -41,7 +41,7 @@ export async function logOut() {
 export async function saveSetting(form: FormData) {
   if (!await isAdminAuthenticated()) redirect("/admin/login");
   const key = form.get("key"), value = form.get("value");
-  if (typeof key !== "string" || typeof value !== "string" || value.length > 3000) throw new Error("Invalid setting");
+  if (typeof key !== "string" || typeof value !== "string" || value.length > (key.startsWith("legal.") && key.endsWith("Body") ? 12000 : 3000)) throw new Error("Invalid setting");
   const endpoint = backendAddress(`api/v1/site/${encodeURIComponent(key)}`);
   const token = process.env.INTERNAL_CMS_TOKEN;
   if (!endpoint || !token) throw new Error("Site content service is not configured");

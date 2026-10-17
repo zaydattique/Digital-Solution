@@ -19,7 +19,7 @@ export async function LegalPage({ type }: LegalPageProps) {
     : `The terms that apply when you use the ${company} website or engage our services.`;
 
   return (
-    <main className="ds-legal-page">
+    <main className="ds-legal-page hx-subpage hx-legal">
       <section className="ds-legal-hero">
         <div className="ds-legal-hero-inner">
           <a href="/" className="ds-legal-back"><ArrowLeft size={16} /> Back to home</a>
@@ -31,7 +31,7 @@ export async function LegalPage({ type }: LegalPageProps) {
       </section>
 
       <section className="ds-legal-content" aria-label={title}>
-        {isPrivacy ? <PrivacyContent company={company} /> : <TermsContent company={company} />}
+        {(isPrivacy ? settings["legal.privacyBody"] : settings["legal.termsBody"]) ? <article className="ds-legal-article hx-managed-legal"><h2>{title}</h2><div style={{ whiteSpace: "pre-wrap" }}>{isPrivacy ? settings["legal.privacyBody"] : settings["legal.termsBody"]}</div></article> : (isPrivacy ? <PrivacyContent company={company} /> : <TermsContent company={company} />)}
         <aside className="ds-legal-contact">
           <Mail size={20} aria-hidden="true" />
           <div>
