@@ -5,9 +5,9 @@ import { siteSettings } from "../db/schema.js";
 
 export const SITE_KEYS = [
   "brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl",
-  "brand.description", "home.heroTitle", "home.heroDescription", "home.heroImageUrl",
+  "brand.description", "home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl",
   "contact.email", "contact.phone", "contact.phoneSecondary",
-  "legal.lastUpdated", "checkout.whatsappNumber", "social.linkedin", "social.instagram", "social.facebook", "social.website",
+  "legal.lastUpdated", "legal.privacyBody", "legal.termsBody", "checkout.whatsappNumber", "social.linkedin", "social.instagram", "social.facebook", "social.website",
 ] as const;
 
 export function verifyAdminKey(value: string | undefined): boolean {
@@ -35,7 +35,7 @@ export function createSiteRouter() {
       const payload: unknown = req.body;
       const value: unknown = typeof payload === "object" && payload !== null && "value" in payload ? payload.value : undefined;
       const editableServiceField = /^service\\.[a-z0-9-]{3,64}\\.(title|heroSubtitle|shortDescription|imageUrl)$/.test(key);
-      if ((!SITE_KEYS.includes(key as typeof SITE_KEYS[number]) && !editableServiceField) || typeof value !== "string" || value.length > 3000) {
+      if ((!SITE_KEYS.includes(key as typeof SITE_KEYS[number]) && !editableServiceField) || typeof value !== "string" || value.length > (key.startsWith("legal.") && key.endsWith("Body") ? 12000 : 3000)) {
         res.status(400).json({ success: false, error: { code: "INVALID_SETTING", message: "Invalid site setting" } }); return;
       }
       if (key.endsWith("Url") || key.startsWith("social.")) {
