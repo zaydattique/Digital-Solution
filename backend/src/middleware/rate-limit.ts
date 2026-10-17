@@ -1,4 +1,4 @@
-import { createHmac } from "node:crypto";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import type { RequestHandler } from "express";
 import { rateLimit } from "express-rate-limit";
 import type { AppEnv } from "../config/env.js";
@@ -8,6 +8,25 @@ const reject = (response: Parameters<RequestHandler>[1]) => response.status(429)
   success: false,
   error: { code: "RATE_LIMITED", message: "Too many contact requests. Please try again later." },
 });
+
+
+// Trust only a short-lived signed visitor pseudonym from the bound frontend.
+// Unsigned or malformed headers never control the Redis key.
+function visitorIdentity(request: Parameters<RequestHandler>[0], secret: string | undefined): string {
+  if (secret && secret.length >= 32) {
+    const visitor = request.get("X-HavocX-Visitor");
+    const issued = request.get("X-HavocX-Issued-At");
+    const signature = request.get("X-HavocX-Signature");
+    if (visitor && /^[a-f0-9]{64}$/.test(visitor)
+      && issued && /^\d{10}$/.test(issued)
+      && signature && /^[a-f0-9]{64}$/.test(signature)
+      && Math.abs(Math.floor(Date.now() / 1000) - Number(issued)) <= 120) {
+      const expected = createHmac("sha256", secret).update(`${visitor}.${issued}`).digest();
+      if (timingSafeEqual(expected, Buffer.from(signature, "hex"))) return visitor;
+    }
+  }
+  return request.ip ?? "unknown";
+}
 
 export function createContactRateLimit(env: AppEnv): RequestHandler {
   // A local store is suitable for development and tests, not distributed production traffic.
@@ -39,7 +58,7 @@ export function createContactRateLimit(env: AppEnv): RequestHandler {
     try {
       const windowId = Math.floor(Date.now() / windowMs);
       // Keyed hash means client IP addresses are not stored in Redis as raw text.
-      const visitorHash = createHmac("sha256", token).update(request.ip ?? "unknown").digest("hex");
+      const visitorHash = createHmac("sha256", token).update(visitorIdentity(request, env.INTERNAL_CMS_TOKEN)).digest("hex");
       const key = `ds:contact:rate:${windowId}:${visitorHash}`;
       const result = await fetch(endpoint, {
         method: "POST",
