@@ -33,9 +33,9 @@ export default function HomePage() {
         <a href="#work" onClick={() => setMenuOpen(false)}>Work</a>
         <a href="#expertise" onClick={() => setMenuOpen(false)}>Expertise</a>
         <a href="#approach" onClick={() => setMenuOpen(false)}>Approach</a>
-        <a href="/contact" onClick={() => setMenuOpen(false)}>Contact</a>
+        <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
       </nav>
-      <a className="hx-nav-cta" href="/contact">Let&apos;s talk <ArrowUpRight size={17} /></a>
+      <a className="hx-nav-cta" href="#contact">Let&apos;s talk <ArrowUpRight size={17} /></a>
       <button type="button" className="hx-menu" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
     </header>
     <main>
@@ -65,7 +65,7 @@ export default function HomePage() {
         <div className="hx-service-list">{serviceMenuGroups.map((group, index)=><div className="hx-service-item" key={group.id}><a href={`/services/${group.id}`} className="hx-service-heading"><span className="hx-service-index">0{index + 1}</span><h3>{group.title}</h3><ArrowUpRight size={27}/></a><div className="hx-service-body"><p>{group.description}</p><div className="hx-tags">{group.services.map(s=><a href={getServiceItemHref(s,group.id)} key={s}>{s} ↗</a>)}</div></div></div>)}</div>
       </div></section>
       <section className="hx-process hx-container" id="approach"><div className="hx-section-eyebrow"><span>(04 / OUR APPROACH)</span><span>How we create</span></div><div className="hx-process-grid"><div><h2>Good work<br />starts with <em>clarity.</em></h2><p>Our process is collaborative, intentional and built around what your business actually needs.</p></div><div className="hx-steps">{principles.map(step=><div className="hx-step" key={step.number}><span>{step.number}</span><div><h3>{step.title}</h3><p>{step.body}</p></div></div>)}</div></div></section>
-      <section className="hx-cta"><div className="hx-container"><p className="hx-kicker">/ YOUR NEXT CHAPTER</p><h2>Have something<br /><em>in mind?</em></h2><a href="/contact">Start a conversation <ArrowUpRight size={24}/></a><span className="hx-cta-glow" aria-hidden="true" /></div></section>
+      <section className="hx-cta"><div className="hx-container"><p className="hx-kicker">/ YOUR NEXT CHAPTER</p><h2>Have something<br /><em>in mind?</em></h2><a href="#contact">Start a conversation <ArrowUpRight size={24}/></a><span className="hx-cta-glow" aria-hidden="true" /></div></section>
     </main>
     <AgencyFooter />
   </div>;
