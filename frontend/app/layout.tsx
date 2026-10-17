@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Manrope } from "next/font/google";
 import "@/src/features/home/styles/home.css";
+import "@/src/features/home/components/editorial.css";
 import { siteOrigin } from "@/src/lib/seo";
 import { getSiteSettings } from "@/src/lib/site";
 import { SiteProvider } from "@/src/components/brand/SiteContext";
