@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { ArrowDownRight, ArrowRight, ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, Menu, X } from "lucide-react";
 import { useSite } from "@/src/components/brand/SiteContext";
 import { Brand } from "@/src/components/brand/Brand";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
