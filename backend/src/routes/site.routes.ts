@@ -7,6 +7,7 @@ export const SITE_KEYS = [
   "brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl",
   "brand.description", "home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl",
   "contact.email", "contact.phone", "contact.phoneSecondary",
+  "project.1.title", "project.1.imageUrl", "project.1.href", "project.1.discipline", "project.2.title", "project.2.imageUrl", "project.2.href", "project.2.discipline", "project.3.title", "project.3.imageUrl", "project.3.href", "project.3.discipline",
   "legal.lastUpdated", "legal.privacyBody", "legal.termsBody", "checkout.whatsappNumber", "social.linkedin", "social.instagram", "social.facebook", "social.website",
 ] as const;
 
@@ -38,7 +39,7 @@ export function createSiteRouter() {
       if ((!SITE_KEYS.includes(key as typeof SITE_KEYS[number]) && !editableServiceField) || typeof value !== "string" || value.length > (key.startsWith("legal.") && key.endsWith("Body") ? 12000 : 3000)) {
         res.status(400).json({ success: false, error: { code: "INVALID_SETTING", message: "Invalid site setting" } }); return;
       }
-      if (key.endsWith("Url") || key.startsWith("social.")) {
+      if (key.endsWith("Url") || key.endsWith(".href") || key.startsWith("social.")) {
         if (value && (!/^https:\/\//.test(value) || (() => { try { return new URL(value).username !== "" || new URL(value).password !== ""; } catch { return true; } })())) {
           res.status(400).json({ success: false, error: { code: "INVALID_URL", message: "Please use an absolute HTTPS URL" } }); return;
         }
