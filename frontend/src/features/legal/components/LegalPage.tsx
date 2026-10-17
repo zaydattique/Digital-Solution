@@ -31,7 +31,7 @@ export async function LegalPage({ type }: LegalPageProps) {
       </section>
 
       <section className="ds-legal-content" aria-label={title}>
-        {isPrivacy ? <PrivacyContent company={company} /> : <TermsContent company={company} />}
+        {(isPrivacy ? settings["legal.privacyBody"] : settings["legal.termsBody"]) ? <article className="ds-legal-article hx-managed-legal"><h2>{title}</h2><div style={{ whiteSpace: "pre-wrap" }}>{isPrivacy ? settings["legal.privacyBody"] : settings["legal.termsBody"]}</div></article> : (isPrivacy ? <PrivacyContent company={company} /> : <TermsContent company={company} />)}
         <aside className="ds-legal-contact">
           <Mail size={20} aria-hidden="true" />
           <div>
