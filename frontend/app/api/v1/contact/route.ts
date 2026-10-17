@@ -1,3 +1,5 @@
+import { createHmac } from "node:crypto";
+import { isIP } from "node:net";
 import { backendAddress } from "@/src/lib/site";
 
 // Public exception to the private backend: contact submissions only.
@@ -68,10 +70,26 @@ export async function POST(request: Request): Promise<Response> {
   if (!endpoint) return error(503, "CONTACT_UNAVAILABLE", "The contact form is temporarily unavailable.");
 
   try {
-    // Only the vetted contact payload and content-type reach the private backend.
+    // Vercel overwrites its forwarded IP headers at the trusted ingress. Sign a hash,
+    // never the raw address, so the private backend can rate-limit per visitor.
+    const secret = process.env.INTERNAL_CMS_TOKEN;
+    const forwarded = process.env.VERCEL
+      ? request.headers.get("x-vercel-forwarded-for")
+      : request.headers.get("x-forwarded-for");
+    const clientIP = forwarded?.split(",")[0]?.trim();
+    const upstreamHeaders = new Headers({ "Content-Type": "application/json" });
+    if (secret && secret.length >= 32 && clientIP && isIP(clientIP)) {
+      const visitor = createHmac("sha256", secret).update(clientIP).digest("hex");
+      const issuedAt = String(Math.floor(Date.now() / 1000));
+      const proof = createHmac("sha256", secret).update(`${visitor}.${issuedAt}`).digest("hex");
+      upstreamHeaders.set("X-HavocX-Visitor", visitor);
+      upstreamHeaders.set("X-HavocX-Issued-At", issuedAt);
+      upstreamHeaders.set("X-HavocX-Signature", proof);
+    }
+    // Only the vetted contact payload and signed visitor identifier reach the private backend.
     const upstream = await fetch(endpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: upstreamHeaders,
       body: JSON.stringify(payload),
       cache: "no-store",
       signal: AbortSignal.timeout(15_000),
