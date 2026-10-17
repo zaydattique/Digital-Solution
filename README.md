@@ -17,7 +17,7 @@ For an integrated Vercel Services run from the repository root:
 vercel dev -L
 ```
 
-The root `vercel.json` owns service builds, internal bindings and public URL routing.
+The root `vercel.json` owns service builds, internal bindings and public URL routing. Only `frontend` is publicly exposed.
 
 ## Vercel Services configuration
 
@@ -25,10 +25,10 @@ The proposed service topology is:
 
 | Service | Directory | Framework | Public URL |
 | --- | --- | --- | --- |
-| `frontend` | `frontend/` | Next.js | `/*`, except API |
-| `backend` | `backend/` | Express | `/api/*` |
+| `frontend` | `frontend/` | Next.js | `/*`, including contact proxy |
+| `backend` | `backend/` | Express | Internal only; no public rewrite |
 
-The **frontend** service binds to **backend** using `BACKEND_URL` (service binding, server-side only). Vercel sets `BACKEND_URL` automatically for frontend functions. **Never add BACKEND_URL yourself** and do not read this binding inside browser code or middleware. The browser contact form calls the same-origin `/api/v1/contact`, which Vercel routes directly to the backend. Backend Express routes already include the `/api` prefix. The backend does not bind to the frontend.
+The **frontend** service binds to **backend** using `BACKEND_URL` (service binding, server-side only). Vercel sets `BACKEND_URL` automatically for frontend functions. **Never add BACKEND_URL yourself** and do not read this binding inside browser code or middleware. The browser contact form calls the same-origin `/api/v1/contact`, handled by a narrowly scoped Next.js frontend route that validates and forwards requests over `BACKEND_URL`. There is no public rewrite to backend. Backend Express routes already include the `/api` prefix. Internal CMS and media APIs stay private. The backend does not bind to the frontend.
 
 Confirmed with Vercel services docs: https://vercel.com/docs/services
 
@@ -36,7 +36,7 @@ Confirmed with Vercel services docs: https://vercel.com/docs/services
 
 1. Sign in to the intended Vercel account. Connect or authorize the GitHub account/organization that has access to `zaydattique/Digital-Solution`.
 2. Choose **Add New -> Project**, import the repository, and use the **repository root** as the project root. Do **not** select `frontend/` or `backend/` for this multi-service project.
-3. Vercel's Services mode reads the root `vercel.json`. Review the two names, path rewrites and binding before deploying.
+3. Vercel Services reads root `vercel.json`. The names `frontend`/`backend`, frontend-only public routing and one-way backend binding are confirmed.
 4. Provision the environment variables below in this Vercel project. A different Google account does not automatically copy databases, secrets, domain ownership or deployments.
 5. Prepare/run the reviewed Drizzle migration from `backend/` using `npm run db:migrate`; use database backup procedures before running it against live data.
 6. Configure DNS for `havocx.agency` in the account that actually controls the domain. Set `SITE_URL=https://havocx.agency`, attach the domain to the new Vercel project, then run staging/production smoke checks.
@@ -81,3 +81,9 @@ GitHub Actions also runs real PostgreSQL migrations/persistence and browser test
 Public routes include homepage, four service hubs, 20 service detail routes, `/book-a-demo`, and legal pages. `/checkout` is deliberately unlisted and requires a signed link. The previous software-tools service is not publicly offered.
 
 For detailed phase history, see [PROJECT_PLAN_SITE_REDESIGN.md](PROJECT_PLAN_SITE_REDESIGN.md), [DESIGN_REDESIGN.md](DESIGN_REDESIGN.md) and [AGENTS.md](AGENTS.md).
+
+### Confirmed service routing (2026-10-17)
+
+The operator confirmed **frontend** and **backend** names, one public frontend catch-all, internal-only backend and the sole service binding `frontend → backend` through Vercel's generated `BACKEND_URL`. The frontend implements a narrow POST route at `/api/v1/contact`, not a generic API passthrough. Internal settings and media APIs remain accessible only to server functions with the internal binding and authorization.
+
+Self-deployment smoke checks: a valid POST to `https://havocx.agency/api/v1/contact` should reach the internal backend, invalid payloads should return 400, and foreign Origin requests should be rejected. `GET /api/v1/site` and `POST /api/v1/media` on the **public** domain should return 404. `/admin` is a protected frontend server route; internal writes require authorization. The private backend's distributed rate limiter receives the frontend's service-to-service network address, so verify visitor-specific limits on your real Vercel deployment. Do not claim that the proxy preserves visitor IPs without a verified trusted-forwarding design.
