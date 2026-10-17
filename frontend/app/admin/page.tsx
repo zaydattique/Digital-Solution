@@ -7,6 +7,7 @@ export const metadata = { title: "Content Admin | HavocX", robots: { index: fals
 const groups = {
   "Brand": ["brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl", "brand.description"],
   "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl"],
+  "Featured projects": ["project.1.title","project.1.imageUrl","project.1.href","project.1.discipline","project.2.title","project.2.imageUrl","project.2.href","project.2.discipline","project.3.title","project.3.imageUrl","project.3.href","project.3.discipline"],
   "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
   "Legal pages": ["legal.lastUpdated", "legal.privacyBody", "legal.termsBody"],
   "Private checkout contacts": ["checkout.whatsappNumber"],
