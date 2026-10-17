@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Nunito_Sans } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "@/src/features/home/styles/home.css";
 import { siteOrigin } from "@/src/lib/seo";
 import { getSiteSettings } from "@/src/lib/site";
@@ -7,9 +7,10 @@ import { SiteProvider } from "@/src/components/brand/SiteContext";
 
 export const dynamic = "force-dynamic";
 
-const nunitoSans = Nunito_Sans({
+const primaryFont = Manrope({
   variable: "--font-nunito-sans",
   subsets: ["latin"],
+  display: "swap",
 });
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -28,7 +29,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 
 export const viewport: Viewport = {
-  themeColor: "#050d20",
+  themeColor: "#050c1c",
   colorScheme: "dark",
 };
 
@@ -39,9 +40,9 @@ export default async function RootLayout({
 }>) {
   const siteSettings = await getSiteSettings();
   return (
-    <html lang="en">
+    <html lang="en" style={{ "--font-primary": "var(--font-nunito-sans)" } as React.CSSProperties}>
       <body
-        className={`${nunitoSans.variable} antialiased`}
+        className={`${primaryFont.variable} antialiased`}
       >
         <SiteProvider settings={siteSettings}>{children}</SiteProvider>
       </body>
