@@ -389,3 +389,17 @@ This change is code consolidation, NOT permission to replace the original design
 - [ ] Current branch CI/browser regression results must pass on the final SHA before merge.
 
 **Status: Vercel Services + admin/media foundation is in progress on a draft stacked PR. Not ready for production promotion or a blanket claim that all site data is editable.**
+
+## Final Vercel Services routing confirmation (2026-10-17)
+
+The owner explicitly confirmed:
+- Service names: `frontend` and `backend`.
+- Only `frontend` is publicly routable, using `/(.*)` rewrite.
+- `backend` stays internal with **no public rewrite**.
+- Exactly one Vercel binding: `frontend -> backend`, `BACKEND_URL`. No reverse binding.
+- Browser contact submission remains `POST /api/v1/contact` at the public frontend; the existing Express `/api/v1/contact` route is called through a narrowly scoped Next.js server route, not through an unrestricted backend rewrite.
+- Public access to `/api/v1/site`, `/api/v1/media`, and `/api/ready` must be 404. Admin edit and media uploads use protected frontend server actions with private service binding.
+- `vercel.json` updated in place, repo structural tests now assert the topology, HTTP smoke test rejects unsafe contact requests and direct public CMS reads.
+- Production hosting, visitor-IP-aware throttling across a private frontend proxy, secrets and provider integrations still need verification on the user's Vercel account.
+
+**The topology is confirmed. Do not reintroduce the public backend `/api/(.*)` rewrite.**
