@@ -1,4 +1,5 @@
-import { ArrowLeft, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
+import { ServicePageHeader } from "@/src/features/services/components/ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { getSiteSettings } from "@/src/lib/site";
 
@@ -20,9 +21,9 @@ export async function LegalPage({ type }: LegalPageProps) {
 
   return (
     <main className="ds-legal-page hx-subpage hx-legal">
+      <ServicePageHeader />
       <section className="ds-legal-hero">
         <div className="ds-legal-hero-inner">
-          <a href="/" className="ds-legal-back"><ArrowLeft size={16} /> Back to home</a>
           <span className="ds-legal-kicker">{company}</span>
           <h1>{title}</h1>
           <p>{intro}</p>
