@@ -45,19 +45,19 @@ export default function HomePage() {
         </div>
         <div className="hx-hero-content">
           <p className="hx-kicker"><span className="hx-kicker-dot" /> Independent digital & creative agency <span className="hx-kicker-index">/ 2026</span></p>
-          <h1 id="hx-hero-title">{heroTitle}</h1>
+          <div className="hx-cinematic-title"><h1 id="hx-hero-title">{heroTitle}</h1><span className="hx-ghost-type" aria-hidden="true">HAVOCX&nbsp;AGENCY&nbsp; / &nbsp;CREATIVE&nbsp;IMPACT</span></div>
           <div className="hx-hero-bottom"><p>{heroDescription}</p><a className="hx-circle-link" href="#work" aria-label="Explore our work"><ArrowDownRight size={28} /></a></div>
         </div>
-        <div className="hx-hero-bottomline"><span>STRATEGY — DESIGN — TECHNOLOGY</span><span>SCROLL TO EXPLORE ↓</span></div>
+        <div className="hx-hero-filmstrip" aria-hidden="true"><div className="hx-filmstrip-band"><span>IDEAS IN MOTION</span><span>DESIGN THAT MOVES</span><span>BUILT FOR IMPACT</span><span>IDEAS IN MOTION</span></div></div><div className="hx-hero-bottomline"><span>STRATEGY — DESIGN — TECHNOLOGY</span><span>SCROLL TO EXPLORE ↓</span></div>
       </section>
-      <section className="hx-intro hx-container" id="about">
+      <section className="hx-cinema-interlude" aria-label="Our creative perspective"><div className="hx-interlude-art" aria-hidden="true"><span className="hx-art-disc"/><span className="hx-art-wave"/></div><div className="hx-interlude-copy"><span>AN INDEPENDENT CREATIVE STUDIO</span><strong>DESIGN.<br/>DEVELOP.<br/><i>DISRUPT.</i></strong></div></section><section className="hx-intro hx-container" id="about">
         <div className="hx-section-eyebrow"><span>(01 / THE STUDIO)</span><span>What makes us different</span></div>
         <div className="hx-intro-grid"><h2>Not more noise.<br /><em>More impact.</em></h2><div><p>We connect strategy, design and engineering to make ambitious ideas feel unmistakably real. Built for people, designed to perform.</p><a className="hx-text-link" href="#expertise">Explore what we do <ArrowUpRight size={19}/></a></div></div>
       </section>
       <section className="hx-work hx-container" id="work">
         <div className="hx-section-eyebrow"><span>(02 / SELECTED WORK)</span><span>Ideas made tangible</span></div>
         <div className="hx-section-title"><h2>Made to <em>matter.</em></h2><p>A selection of real digital experiences and work.</p></div>
-        <div className="hx-projects">{projects.map((project, index) => <a className={index === 0 ? "hx-project hx-project-featured" : "hx-project"} href={project.href} key={project.number} target="_blank" rel="noopener noreferrer"><div className="hx-project-image"><img src={project.image} alt={project.name + " project preview"} loading="lazy" /><span className="hx-project-open"><ArrowUpRight size={24}/></span></div><div className="hx-project-meta"><span>{project.number} / {project.discipline}</span><h3>{project.name}</h3><ArrowUpRight size={22}/></div></a>)}</div>
+        <div className="hx-projects hx-projects-cinematic">{projects.map((project, index) => <a className={index === 0 ? "hx-project hx-project-featured" : "hx-project"} href={project.href} key={project.number} target="_blank" rel="noopener noreferrer"><div className="hx-project-image"><img src={project.image} alt={project.name + " project preview"} loading="lazy" /><span className="hx-project-open"><ArrowUpRight size={24}/></span></div><div className="hx-project-meta"><span>{project.number} / {project.discipline}</span><h3>{project.name}</h3><ArrowUpRight size={22}/></div></a>)}</div>
       </section>
       <section className="hx-services" id="expertise"><div className="hx-container">
         <div className="hx-section-eyebrow"><span>(03 / EXPERTISE)</span><span>Connected capabilities</span></div>
