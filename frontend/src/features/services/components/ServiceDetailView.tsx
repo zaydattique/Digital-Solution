@@ -55,21 +55,21 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
   }, []);
 
   return (
-    <div className="ds-services-page hx-subpage hx-service-detail">
+    <div className="hx-subpage hx-service-detail">
       <ServicePageHeader backHref="/#expertise" backLabel="Back to Services" />
 
-      <section className="ds-service-detail-hero" data-service-reveal>
-        <div className="ds-service-hero-media" aria-hidden="true">
+      <section className="hx-detail-hero" data-service-reveal>
+        <div className="hx-detail-media" aria-hidden="true">
           <ResponsiveImage source={publishedImage} widths={[480, 768, 1280]} sizes="100vw" alt="" loading="eager" fetchPriority="high" decoding="sync" />
         </div>
-        <div className="ds-service-detail-hero-inner">
-          <span className="ds-service-kicker">{detail.eyebrow || "Agency service"}</span>
+        <div className="hx-detail-inner">
+          <span className="hx-detail-kicker">{detail.eyebrow || "Agency service"}</span>
           <h1>{publishedTitle}</h1>
-          <p className="ds-service-hero-lede">{publishedHero}</p>
-          <p className="ds-service-hero-description">{publishedSummary}</p>
-          <div className="ds-service-actions">
-            <a href={contactHref} className="ds-service-primary">Discuss your project <ArrowRight size={16} /></a>
-            <a href="#deliverables" className="ds-service-secondary">View deliverables</a>
+          <p className="hx-detail-lede">{publishedHero}</p>
+          <p className="hx-detail-description">{publishedSummary}</p>
+          <div className="hx-detail-actions">
+            <a href={contactHref} className="hx-detail-primary">Discuss your project <ArrowRight size={16} /></a>
+            <a href="#deliverables" className="hx-detail-secondary">View deliverables</a>
           </div>
         </div>
       </section>
@@ -161,7 +161,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
           <h2>Need help with {detail.title.toLowerCase()}?</h2>
           <p>Talk with our team about the right scope, sequence, and next step for your team.</p>
         </div>
-        <a href={contactHref} className="ds-service-primary">Discuss your project <ArrowUpRight size={16} /></a>
+        <a href={contactHref} className="hx-detail-primary">Discuss your project <ArrowUpRight size={16} /></a>
       </section>
 
       <AgencyFooter />
