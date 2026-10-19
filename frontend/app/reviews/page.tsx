@@ -1,15 +1,12 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/src/lib/seo";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
 import "@/src/features/reviews/styles/reviews.css";
 
-export const metadata: Metadata = {
-  title: "How We Work | Digital Solutions",
-  description:
-    "Explore how Digital Solutions approaches digital marketing, design, development and automation projects. See our service capabilities and discuss your goals.",
-};
+export const metadata: Metadata = pageMetadata("/reviews", "How We Work | Digital Solutions", "Learn how Digital Solutions approaches digital marketing, design, development and automation projects.");
 
 const deliveryApproach = [
   {

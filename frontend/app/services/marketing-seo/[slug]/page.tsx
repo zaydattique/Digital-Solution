@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { pageMetadata, serviceStructuredData } from "@/src/lib/seo";
 import { notFound } from "next/navigation";
 import { marketingSeoSubServices } from "@/src/features/services/data/marketingSeoData";
 import { ServiceDetailView } from "@/src/features/services/components/ServiceDetailView";
@@ -16,10 +17,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const detail = marketingSeoSubServices[slug];
   if (!detail) return {};
 
-  return {
-    title: `${detail.title} — Digital Solutions`,
-    description: detail.headline + " " + detail.description,
-  };
+  return pageMetadata(`/services/marketing-seo/${slug}`, detail.title, detail.description || detail.headline || detail.title);
 }
 
 export default async function MarketingSeoSubServicePage({ params }: PageProps) {
@@ -30,5 +28,13 @@ export default async function MarketingSeoSubServicePage({ params }: PageProps) 
     notFound();
   }
 
-  return <ServiceDetailView detail={detail} heroImage="/assets/images/services/menu-marketing-seo.jpg" />;
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceStructuredData(`/services/marketing-seo/${slug}`, detail.title, detail.description || detail.headline || detail.title, "/services/marketing-seo")).replace(/</g, "\\u003c") }}
+      />
+      <ServiceDetailView detail={detail} heroImage="/assets/images/services/menu-marketing-seo.jpg" />
+    </>
+  );
 }

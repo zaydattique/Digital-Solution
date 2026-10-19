@@ -1,11 +1,9 @@
 import type { Metadata } from "next";
+import { pageMetadata } from "@/src/lib/seo";
 import BookDemoPage from "@/src/features/contact/components/BookDemoPage";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
 
-export const metadata: Metadata = {
-  title: "Contact Digital Solutions | Discuss a Project",
-  description: "Contact Digital Solutions to discuss digital marketing, SEO, design, website development and business automation services.",
-};
+export const metadata: Metadata = pageMetadata("/book-a-demo", "Contact Digital Solutions | Discuss a Project", "Contact Digital Solutions about digital marketing, SEO, design, website development and workflow automation.");
 
 type ContactRouteProps = {
   searchParams: Promise<{ service?: string; focus?: string }>;

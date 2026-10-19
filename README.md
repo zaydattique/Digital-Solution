@@ -193,3 +193,24 @@ The existing checkout is a *manual review handoff*: it requests proof via WhatsA
 - Check the current commit's CI run logs, not previous commits. Then verify deployment settings: database readiness, external mail-provider delivery from the deployed environment, correct CORS origins, active shared limiter, edge firewall rules, and manual payment reconciliation.
 - Do not mark production verified from CI alone. No production secrets are committed.
 
+
+## SEO settings for self-managed deployment (Phase 6)
+
+Set `SITE_URL` for the frontend to the site's **actual canonical HTTPS origin**, e.g. `https://your-real-domain.com`, with no subpath, username, query or fragment. This is a server-side variable, not a secret. The value is used consistently for root metadata, canonical URLs, structured data, `/sitemap.xml`, `/robots.txt` and `/llms.txt`.
+
+**Important:** Without a valid production HTTPS `SITE_URL`, the generated site deliberately defaults to `noindex`, robots disallow-all, an empty XML sitemap, and a disabled llms index. This guards against staging or unknown domains being indexed accidentally. Setting a verified domain is mandatory for public discovery.
+
+Current service catalog is the only owner of service URLs. The XML sitemap lists the homepage, four existing service hubs, all 20 existing detail pages, the contact form, legal pages and the retained working-approach page. Standalone `/checkout` and legacy software sales routes are deliberately excluded.
+
+The optional `/llms.txt` is a factual navigation guide, not an SEO ranking signal or guarantee of inclusion in model answers. Structured data describes services and the organization without unapproved contact locations, fictional client reviews or paid products.
+
+Verification from deployed frontend:
+
+```bash
+curl -I https://your-real-domain.com/
+curl https://your-real-domain.com/robots.txt
+curl https://your-real-domain.com/sitemap.xml
+curl https://your-real-domain.com/llms.txt
+```
+
+Check canonical tags and `application/ld+json` in **rendered HTML**, ensure the checkout is excluded from the sitemap and returns `X-Robots-Tag: noindex`, then submit the public sitemap to Search Console and Bing Webmaster when you have account access. CI also executes `frontend/tests/seo.smoke.mjs` against a built Next.js server with a reserved test-only hostname. This is deployment-independent smoke verification, not a claim that search engines have indexed production pages.
