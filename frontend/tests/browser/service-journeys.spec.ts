@@ -117,3 +117,21 @@ test("primary navigation and footer typography stay consistent between public te
     expect.soft(appearance.footerColor,`footer surface at ${route}`).toBe(baseline.footerColor);
   }
 });
+
+
+test("editorial layouts withstand lengthy content without overflow or clipped headings", async ({ page }) => {
+  for (const route of ["/", "/services/marketing-seo", "/services/marketing-seo/technical-seo", "/book-a-demo", "/privacy-policy"]) {
+    await page.goto(route, {waitUntil:"domcontentloaded"});
+    const state = await page.evaluate(() => {
+      const title = document.querySelector("h1");
+      if (!title) return {overflow:true, clipped:true};
+      title.textContent = "Strategic design and development for ambitious companies in complicated industries ".repeat(5);
+      const overflow = document.documentElement.scrollWidth > document.documentElement.clientWidth + 2;
+      const rect = title.getBoundingClientRect();
+      const style = getComputedStyle(title);
+      return {overflow, clipped:rect.width <= 0 || rect.height <= 0 || style.visibility === "hidden"};
+    });
+    expect.soft(state.overflow, `Long title overflow: ${route}`).toBe(false);
+    expect.soft(state.clipped, `Long title invisible: ${route}`).toBe(false);
+  }
+});
