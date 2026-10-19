@@ -37,7 +37,7 @@ export default function HomePage() {
         </div>
         <div className="hx-hero-bottomline"><span>STRATEGY — DESIGN — TECHNOLOGY</span><span>SCROLL TO EXPLORE ↓</span></div>
       </section>
-      <section className="hx-intro hx-container" id="about">
+      <section className="hx-cinema-interlude" aria-label="Our creative perspective"><div className="hx-interlude-art" aria-hidden="true"><span className="hx-art-disc"/><span className="hx-art-wave"/></div><div className="hx-interlude-copy"><span>AN INDEPENDENT CREATIVE STUDIO</span><strong>DESIGN.<br/>DEVELOP.<br/><i>DISRUPT.</i></strong></div></section><section className="hx-intro hx-container" id="about">
         <div className="hx-section-eyebrow"><span>(01 / THE STUDIO)</span><span>What makes us different</span></div>
         <div className="hx-intro-grid"><h2>Not more noise.<br /><em>More impact.</em></h2><div><p>We connect strategy, design and engineering to make ambitious ideas feel unmistakably real. Built for people, designed to perform.</p><a className="hx-text-link" href="#expertise">Explore what we do <ArrowUpRight size={19}/></a></div></div>
       </section>
