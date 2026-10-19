@@ -99,3 +99,21 @@ test("shared navigation exposes all service categories and closes with Escape", 
     await expect(trigger).toHaveAttribute("aria-expanded","false");
   }
 });
+
+
+test("primary navigation and footer typography stay consistent between public templates", async ({ page }) => {
+  const paths=["/","/services/marketing-seo","/services/marketing-seo/technical-seo","/book-a-demo","/privacy-policy","/terms-of-service","/reviews"];
+  let baseline: {font:string;headerColor:string;footerColor:string}|undefined;
+  for(const route of paths){
+    await page.goto(route,{waitUntil:"domcontentloaded"});
+    const appearance=await page.evaluate(()=>{
+      const header=document.querySelector("header.hx-nav")!;
+      const footer=document.querySelector("footer.hx-footer")!;
+      return {font:getComputedStyle(header).fontFamily,headerColor:getComputedStyle(header).backgroundColor,footerColor:getComputedStyle(footer).backgroundColor};
+    });
+    if(!baseline)baseline=appearance;
+    expect.soft(appearance.font,`header font at ${route}`).toBe(baseline.font);
+    expect.soft(appearance.headerColor,`header surface at ${route}`).toBe(baseline.headerColor);
+    expect.soft(appearance.footerColor,`footer surface at ${route}`).toBe(baseline.footerColor);
+  }
+});
