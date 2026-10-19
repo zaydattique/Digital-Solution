@@ -21,7 +21,7 @@ export function ServiceDetailView({detail,heroImage: _heroImage}: {detail:Servic
  useEffect(()=>{document.documentElement.classList.add("ds-motion-ready");return()=>document.documentElement.classList.remove("ds-motion-ready")},[]);
  return <div className="hx-subpage hx-service-detail"><ServicePageHeader/>
  <main>
- <section className="hx-subhero"><div className="hx-subcontainer">
+ <section className="hx-subhero hx-detail-page-hero">{publishedImage&&<div className="hx-detail-art" style={{backgroundImage:`url("${publishedImage.replace(/["\\]/g,"")}")`}} aria-hidden="true"/>}<div className="hx-subcontainer">
   <span className="hx-subeyebrow">/ {currentGroup?.title||"Agency service"}</span>
   <h1>{publishedTitle}</h1>
   <p>{publishedHero||publishedSummary}</p>
