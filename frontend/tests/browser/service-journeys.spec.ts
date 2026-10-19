@@ -77,3 +77,19 @@ test("all public marketing routes render with the shared navbar, footer and no p
     expect.soft(overflow, `Horizontal overflow at ${path}`).toBe(false);
   }
 });
+
+
+test("shared navigation exposes all service categories and closes with Escape", async ({ page }) => {
+  await page.goto("/");
+  const trigger = page.getByRole("button", { name: /services/i });
+  await expect(trigger).toHaveAttribute("aria-expanded","false");
+  await trigger.click();
+  await expect(trigger).toHaveAttribute("aria-expanded","true");
+  const mega = page.locator("#hx-service-menu");
+  await expect(mega.getByRole("link", {name:/Marketing & SEO/i})).toBeVisible();
+  await expect(mega.getByRole("link", {name:/Design & Experience/i})).toBeVisible();
+  await expect(mega.getByRole("link", {name:/Web & Development/i})).toBeVisible();
+  await expect(mega.getByRole("link", {name:/Automation & AI/i})).toBeVisible();
+  await page.keyboard.press("Escape");
+  await expect(trigger).toHaveAttribute("aria-expanded","false");
+});
