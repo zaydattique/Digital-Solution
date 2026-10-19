@@ -158,3 +158,38 @@ Backend URL source code mein hardcoded nahi hai; browser client sirf `NEXT_PUBLI
 - Unknown routes aur runtime errors consistent JSON response dete hain.
 
 Detailed migration record aur acceptance criteria [PROJECT_REVAMP_PLAN.md](./PROJECT_REVAMP_PLAN.md) mein hain.
+
+
+## Backend and checkout operational security (Phase 5)
+
+The API accepts inquiries only after PostgreSQL persistence. Notification failures are logged and do not erase a saved lead. The API uses `GET /api/health` for liveness and `GET /api/ready` for real PostgreSQL readiness checks.
+
+### Required production configuration
+
+Set the existing backend environment values `DATABASE_URL`, `RESEND_API_KEY`, `ADMIN_EMAIL`, `EMAIL_FROM`, and `CORS_ORIGINS`. CORS_ORIGINS accepts **exact** HTTP(S) origins separated by commas. Explicitly include each approved production or preview domain. Wildcard origins are rejected.
+
+For **production contact rate limiting**, set `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN` together. The app uses a per-IP HMAC-hashed fixed-window Redis counter across server instances. If Redis is unavailable or the credentials are missing in production, the contact endpoint returns 503 instead of silently degrading to an unshared limit. Local development/tests may use a process-local limit. This is application abuse protection, not a substitute for CDN, provider WAF, DDoS capacity, or proxy/IP configuration. Configure the hosting firewall and test concurrent real edge traffic before release.
+
+`DATABASE_SSL_MODE` defaults to `require`. `disable` is reserved for local/disposable integration databases and is rejected in production.
+
+### Direct-link checkout security
+
+`/checkout` is unlisted, `noindex`, noncacheable and frame-protected. It requires a short-lived, HMAC-signed link. Set **`CHECKOUT_LINK_SECRET`** as a random 32+ character secret in the **frontend server environment**, not as a `NEXT_PUBLIC_` variable. Without it, checkout access is denied.
+
+To issue a 24-hour single-product checkout link, run the following on your own trusted machine with `CHECKOUT_LINK_SECRET` securely exported and one existing `productId` from `frontend/src/features/services/data/softwareToolsData.ts`:
+
+```bash
+node -e 'const c=require("node:crypto");const id=process.argv[1];const secret=process.env.CHECKOUT_LINK_SECRET;if(!secret||secret.length<32||!/^[a-z0-9-]+$/.test(id))throw Error("Invalid secret or product ID");const expiry=Math.floor(Date.now()/1000)+86400;const msg=id+"."+expiry;const sig=c.createHmac("sha256",secret).update(msg).digest("hex");console.log("/checkout?token="+encodeURIComponent(msg+"."+sig))' chatgpt-plus
+```
+
+Change the example ID to the purchased catalog item. The server checks signature, expiry and product ID, and looks up the authoritative price from the existing catalog. **Do not use price supplied through URL parameters, receipts or messages to confirm a purchase.** A signed checkout link is a bearer credential: only send it privately, rotate the secret to revoke all active links, and do not publish it in an indexable page.
+
+The existing checkout is a *manual review handoff*: it requests proof via WhatsApp/email and explicitly does not settle or verify a bank transfer. An administrator must independently verify settlement with the bank/payment provider before activating a subscription. Without a provider webhook or authenticated back-office reconciliation, automatic payment completion is **not implemented**. Do not claim otherwise.
+
+### Verification and release
+
+- GitHub Actions `.github/workflows/ci.yml` runs `npm ci`, lint, TypeScript checking, tests and production builds for both applications.
+- A separate disposable PostgreSQL CI service runs migrations and a real lead insert/read/delete test with a simulated email-provider outage. No actual customer information or real email account is used in CI.
+- Check the current commit's CI run logs, not previous commits. Then verify deployment settings: database readiness, external mail-provider delivery from the deployed environment, correct CORS origins, active shared limiter, edge firewall rules, and manual payment reconciliation.
+- Do not mark production verified from CI alone. No production secrets are committed.
+

@@ -47,4 +47,18 @@ describe("DefaultContactService", () => {
     expect(result.record.id).toBe(1);
     expect(result.notificationSent).toBe(false);
   });
+  it("does not send email or invent a record when database persistence fails", async () => {
+    const repository: ContactRepository = {
+      create: vi.fn(async () => { throw new Error("Database unavailable"); }),
+    };
+    const notifications: EmailService = {
+      sendContactNotification: vi.fn(async () => {}),
+    };
+
+    await expect(
+      new DefaultContactService(repository, notifications).submit(validContactRequest),
+    ).rejects.toThrow("Database unavailable");
+    expect(notifications.sendContactNotification).not.toHaveBeenCalled();
+  });
+
 });

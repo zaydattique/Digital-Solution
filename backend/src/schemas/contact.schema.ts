@@ -10,7 +10,7 @@ export const contactRequestSchema = z.object({
     .trim()
     .min(1, "Name is required.")
     .max(60, "Name must be 60 characters or fewer.")
-    .regex(/^[a-zA-Z\s'.-]+$/, "Name can only contain alphabetic letters and spaces."),
+    .regex(/^[\p{L}\p{M} .'-]+$/u, "Name can only contain letters and name punctuation."),
   email: z.string().trim().email("A valid email is required.").max(100, "Email must be 100 characters or fewer."),
   phone: z.string().trim().min(7, "Phone number is required."),
   company: requiredText("Company", 100),
