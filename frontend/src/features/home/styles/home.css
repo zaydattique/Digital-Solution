@@ -3792,15 +3792,15 @@ button:focus-visible {
 
 .ds-services-page { min-height: 100vh; background: #f5f8fc; color: #102033; }
 
-.ds-service-header-wrap { position: absolute; top: 20px; left: 0; right: 0; z-index: 50; padding: 0 46px; }
-.ds-service-header { width: min(100%, 1400px); min-height: 68px; margin: 0 auto; padding: 8px 12px 8px 28px; display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 32px; background: rgba(7, 22, 48, .86); border: 1px solid rgba(41, 140, 246, .48); border-radius: 999px; box-shadow: 0 16px 40px rgba(1, 12, 32, .28), inset 0 1px 0 rgba(255,255,255,.08); backdrop-filter: blur(18px); }
-.ds-service-header .vx-brand-logo { height: 50px; max-width: 190px; }
-.ds-service-header-nav { display: flex; justify-content: center; align-items: center; gap: clamp(24px, 3.2vw, 52px); }
-.ds-service-header-nav a, .ds-service-header-back { display: inline-flex; align-items: center; gap: 6px; color: rgba(255,255,255,.82); font-size: 14px; font-weight: 700; letter-spacing: .01em; transition: color 180ms ease; }
-.ds-service-header-nav a:hover, .ds-service-header-back:hover { color: #fff; }
-.ds-service-header-back { color: #fff; }
-.ds-service-header-cta { display: inline-flex; align-items: center; gap: 8px; padding: 13px 19px; border-radius: 999px; background: linear-gradient(135deg, #2f8cff, #0969d4); color: #fff; font-size: 12px; font-weight: 850; box-shadow: 0 8px 22px rgba(28, 126, 244, .3); transition: transform 180ms ease, box-shadow 180ms ease; }
-.ds-service-header-cta:hover { transform: translateY(-1px); box-shadow: 0 12px 28px rgba(28,126,244,.42); }
+
+
+
+
+
+
+
+
+
 .ds-service-menu-toggle { display: none; align-items: center; justify-content: center; width: 42px; height: 42px; border: 1px solid rgba(255,255,255,.22); border-radius: 50%; background: transparent; color: #fff; cursor: pointer; }
 .ds-service-mobile-nav { display: none; }
 
@@ -3897,10 +3897,10 @@ button:focus-visible {
 .ds-service-cta .hx-detail-primary { flex: 0 0 auto; background: #39a6ff; color: #07162a; }
 
 @media (max-width: 800px) {
-  .ds-service-header-wrap { top: 12px; padding: 0 14px; }
-  .ds-service-header { min-height: 60px; padding: 7px 8px 7px 17px; grid-template-columns: 1fr auto; gap: 10px; }
-  .ds-service-header .vx-brand-logo { height: 39px; max-width: 154px; }
-  .ds-service-header-nav, .ds-service-header-cta { display: none; }
+
+
+
+
   .ds-service-menu-toggle { display: inline-flex; }
   .ds-service-mobile-nav { display: grid; gap: 4px; width: min(100%, 520px); margin: 8px auto 0; padding: 10px; border: 1px solid #b9d7ee; background: #071a37; box-shadow: 0 14px 30px rgba(1,12,32,.22); }
   .ds-service-mobile-nav a { padding: 11px 12px; color: #e6f2ff; font-size: 14px; font-weight: 700; }
@@ -3935,9 +3935,9 @@ button:focus-visible {
 
 /* Phone-specific spacing and touch ergonomics shared by every service page. */
 @media (max-width: 560px) {
-  .ds-service-header-wrap { padding-inline: 10px; }
-  .ds-service-header { min-height: 58px; padding: 6px 7px 6px 13px; }
-  .ds-service-header .vx-brand-logo { width: auto; max-width: 142px; }
+
+
+
   .ds-service-menu-toggle { width: 44px; height: 44px; }
   .ds-service-mobile-nav { max-height: calc(100dvh - 86px); overflow-y: auto; border-radius: 18px; }
   .ds-service-mobile-nav a { display: flex; min-height: 44px; align-items: center; }
