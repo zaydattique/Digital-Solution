@@ -61,7 +61,33 @@ try {
   assert.match(checkout.body, /Checkout link unavailable/);
   assert.match(checkout.response.headers.get("x-robots-tag") ?? "", /noindex/);
   assert.match(checkout.response.headers.get("cache-control") ?? "", /no-store/);
-  console.info("SEO HTTP smoke: canonical, schema, sitemap, robots, llms, checkout OK");
+  const forbidden = await fetch(origin + "/api/v1/site", { signal: AbortSignal.timeout(12000) });
+  assert.equal(forbidden.status, 404, "Internal site content API must not be public");
+  const missing = await fetch(origin + "/api/v1/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ name: "Only name" }),
+  });
+  assert.equal(missing.status, 400, "Proxy must validate fields before invoking a private backend");
+  const crossorigin = await fetch(origin + "/api/v1/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Origin: "https://untrusted.example" },
+    body: JSON.stringify({
+      name: "Test Person", email: "test@example.com", phone: "+1 5555555555",
+      company: "Test", service: "Design", subService: "UX", message: "Test inquiry",
+    }),
+  });
+  assert.equal(crossorigin.status, 403, "Cross-origin browser contact requests must be denied");
+  const valid = await fetch(origin + "/api/v1/contact", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      name: "Test Person", email: "test@example.com", phone: "+1 5555555555",
+      company: "Test", service: "Design", subService: "UX", message: "Test inquiry",
+    }),
+  });
+  assert.equal(valid.status, 503, "Local production server without a binding must fail closed");
+  console.info("SEO and private-service HTTP smoke: canonicals, 29 pages, no public CMS, restricted contact proxy OK");
 } finally {
   server.kill("SIGTERM");
 }

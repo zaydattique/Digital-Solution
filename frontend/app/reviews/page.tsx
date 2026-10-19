@@ -5,7 +5,8 @@ import { ArrowLeft, ArrowRight } from "lucide-react";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
 
-export const metadata: Metadata = pageMetadata("/reviews", "How We Work | Digital Solutions", "Learn how Digital Solutions approaches digital marketing, design, development and automation projects.");
+export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/reviews", "How We Work | HavocX Agency", "Learn how Digital Solutions approaches digital marketing, design, development and automation projects.");; }
+
 
 const deliveryApproach = [
   {

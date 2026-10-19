@@ -11,11 +11,18 @@ import { ServiceDeliverables, ServiceTimeline } from "./ServiceContent";
 import { ServicePageHeader } from "./ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ResponsiveImage } from "@/src/components/ui/ResponsiveImage";
+import { useSite } from "@/src/components/brand/SiteContext";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 
 type ServiceDetailViewProps = { detail: ServiceDetail; heroImage?: string };
 
 export function ServiceDetailView({ detail, heroImage = "/assets/images/home/hero-workflow.jpg" }: ServiceDetailViewProps) {
+  const site = useSite();
+  const key = `service.${detail.slug}`;
+  const publishedTitle = site[`${key}.title`] || detail.title;
+  const publishedHero = site[`${key}.heroSubtitle`] || detail.heroSubtitle || detail.headline;
+  const publishedSummary = site[`${key}.shortDescription`] || detail.shortDescription || detail.description;
+  const publishedImage = site[`${key}.imageUrl`] || heroImage;
   const currentGroup = serviceMenuGroups.find((group) =>
     group.services.some((name) => getServiceItemHref(name, group.id).endsWith(`/${detail.slug}`)),
   );
@@ -53,13 +60,13 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
 
       <section className="ds-service-detail-hero" data-service-reveal>
         <div className="ds-service-hero-media" aria-hidden="true">
-          <ResponsiveImage source={heroImage} widths={[480, 768, 1280]} sizes="100vw" alt="" loading="eager" fetchPriority="high" decoding="sync" />
+          <ResponsiveImage source={publishedImage} widths={[480, 768, 1280]} sizes="100vw" alt="" loading="eager" fetchPriority="high" decoding="sync" />
         </div>
         <div className="ds-service-detail-hero-inner">
-          <span className="ds-service-kicker">{detail.eyebrow || "Digital Solutions service"}</span>
-          <h1>{detail.title}</h1>
-          <p className="ds-service-hero-lede">{detail.heroSubtitle || detail.headline}</p>
-          <p className="ds-service-hero-description">{detail.shortDescription || detail.description}</p>
+          <span className="ds-service-kicker">{detail.eyebrow || "Agency service"}</span>
+          <h1>{publishedTitle}</h1>
+          <p className="ds-service-hero-lede">{publishedHero}</p>
+          <p className="ds-service-hero-description">{publishedSummary}</p>
           <div className="ds-service-actions">
             <a href={contactHref} className="ds-service-primary">Discuss your project <ArrowRight size={16} /></a>
             <a href="#deliverables" className="ds-service-secondary">View deliverables</a>
@@ -152,7 +159,7 @@ export function ServiceDetailView({ detail, heroImage = "/assets/images/home/her
       <section className="ds-service-cta" data-service-reveal>
         <div>
           <h2>Need help with {detail.title.toLowerCase()}?</h2>
-          <p>Talk with a Digital Solutions specialist about the right scope, sequence, and next step for your team.</p>
+          <p>Talk with our team about the right scope, sequence, and next step for your team.</p>
         </div>
         <a href={contactHref} className="ds-service-primary">Discuss your project <ArrowUpRight size={16} /></a>
       </section>

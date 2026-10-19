@@ -1,3 +1,4 @@
+import { createHmac } from "node:crypto";
 import request from "supertest";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createApp } from "../src/app.js";
@@ -51,6 +52,35 @@ describe("distributed contact limiter", () => {
     const response = await request(createApp({ env, contactService }))
       .post("/api/v1/contact").send(validContactRequest).expect(503);
     expect(response.body.error.code).toBe("RATE_LIMIT_UNAVAILABLE");
+  });
+
+  it("isolates signed public visitors without trusting forged identifiers", async () => {
+    const secret = "signed-service-auth-token-longer-than-thirty-two-chars";
+    const keys: string[] = [];
+    const mock = vi.fn(async (_url: string, options?: RequestInit) => {
+      const commands = JSON.parse(String(options?.body)) as [string, string][][];
+      keys.push(commands[0][1]);
+      return new Response(JSON.stringify([{ result: 1 }, { result: 1 }]), { status: 200 });
+    });
+    vi.stubGlobal("fetch", mock);
+    const app = createApp({ env: { ...env, INTERNAL_CMS_TOKEN: secret }, contactService });
+    const issued = String(Math.floor(Date.now() / 1000));
+    function signedHeaders(visitor: string) {
+      const hash = createHmac("sha256", secret).update(visitor).digest("hex");
+      return {
+        "X-HavocX-Visitor": hash,
+        "X-HavocX-Issued-At": issued,
+        "X-HavocX-Signature": createHmac("sha256", secret).update(`${hash}.${issued}`).digest("hex"),
+      };
+    }
+    await request(app).post("/api/v1/contact").set(signedHeaders("visitor-a")).send(validContactRequest).expect(201);
+    await request(app).post("/api/v1/contact").set(signedHeaders("visitor-b")).send(validContactRequest).expect(201);
+    const forged = signedHeaders("visitor-a");
+    forged["X-HavocX-Signature"] = "0".repeat(64);
+    await request(app).post("/api/v1/contact").set(forged).send(validContactRequest).expect(201);
+    expect(keys).toHaveLength(3);
+    expect(keys[0]).not.toEqual(keys[1]);
+    expect(keys[0]).not.toEqual(keys[2]);
   });
 
   it("fails closed without a shared store in production", async () => {

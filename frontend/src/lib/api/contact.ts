@@ -33,24 +33,6 @@ export class ApiClientError extends Error {
   }
 }
 
-function getApiBaseUrl(): string {
-  const configuredUrl = process.env.NEXT_PUBLIC_API_URL?.trim();
-
-  if (!configuredUrl) {
-    throw new ApiClientError("The contact service is not configured. Please email us directly.");
-  }
-
-  try {
-    const parsedUrl = new URL(configuredUrl);
-    if (parsedUrl.protocol !== "http:" && parsedUrl.protocol !== "https:") {
-      throw new Error("Unsupported protocol");
-    }
-    return parsedUrl.toString().replace(/\/$/, "");
-  } catch {
-    throw new ApiClientError("The contact service configuration is invalid.");
-  }
-}
-
 function getErrorMessage(payload: ApiErrorResponse): string {
   if (typeof payload.error === "string") return payload.error;
   return payload.error?.message ?? "Something went wrong. Please try again or email us directly.";
@@ -61,7 +43,7 @@ export async function submitContactRequest(payload: ContactRequest): Promise<Con
   const timeout = window.setTimeout(() => controller.abort(), 15_000);
 
   try {
-    const response = await fetch(`${getApiBaseUrl()}/api/v1/contact`, {
+    const response = await fetch("/api/v1/contact", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(payload),

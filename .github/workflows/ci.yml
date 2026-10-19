@@ -7,6 +7,7 @@ on:
       - "fix/phase-5-*"
       - "test/phase-7-*"
       - "refactor/single-stylesheet"
+      - "feat/havocx-vercel-services-admin-foundation"
   pull_request:
     branches:
       - main

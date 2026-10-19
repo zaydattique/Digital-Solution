@@ -5,10 +5,11 @@ import { ServiceHubView } from "@/src/features/services/components/ServiceHubVie
 import { aiAutomationServices } from "@/src/features/services/data/aiAutomationData";
 import type { HubPageConfig } from "@/src/features/services/types";
 
-export const metadata: Metadata = pageMetadata("/services/ai-automation", "Business Automation & AI Services", "Workflow automation, connected systems, document processes and practical AI integrations.");
+export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/services/ai-automation", "Business Automation & AI Services", "Workflow automation, connected systems, document processes and practical AI integrations.");; }
+
 
 const config: HubPageConfig = {
-  title: "AI Automation Services — Digital Solutions",
+  title: "AI Automation Services — HavocX Agency",
   eyebrow: "Business automation",
   heading: "Business Automation Services",
   description:
