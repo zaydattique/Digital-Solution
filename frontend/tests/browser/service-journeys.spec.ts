@@ -93,5 +93,9 @@ test("shared navigation exposes all service categories and closes with Escape", 
   await expect(mega.getByRole("link", {name:/Web & Development/i})).toBeVisible();
   await expect(mega.getByRole("link", {name:/Automation & AI/i})).toBeVisible();
   await page.keyboard.press("Escape");
-  await expect(trigger).toHaveAttribute("aria-expanded","false");
+  if (await mobileMenu.isVisible()) {
+    await expect(page.getByRole("button", { name: "Open navigation" })).toHaveAttribute("aria-expanded","false");
+  } else {
+    await expect(trigger).toHaveAttribute("aria-expanded","false");
+  }
 });
