@@ -81,6 +81,8 @@ test("all public marketing routes render with the shared navbar, footer and no p
 
 test("shared navigation exposes all service categories and closes with Escape", async ({ page }) => {
   await page.goto("/");
+  const mobileMenu = page.getByRole("button", { name: "Open navigation" });
+  if (await mobileMenu.isVisible()) await mobileMenu.click();
   const trigger = page.getByRole("button", { name: /services/i });
   await expect(trigger).toHaveAttribute("aria-expanded","false");
   await trigger.click();
