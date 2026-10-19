@@ -50,3 +50,30 @@ test("contact form displays errors without submitting incomplete data", async ({
   await page.getByRole("button", { name: /send request/i }).click();
   await expect(page.locator(".ds-booking-form-message--error")).toContainText("name");
 });
+
+
+const serviceRoutes = {
+  "marketing-seo": ["technical-seo","ai-content-systems","performance-marketing","crm-lifecycle-automation","analytics-attribution"],
+  design: ["product-strategy","ux-ui-design","design-systems","rapid-prototyping","conversion-experience-design"],
+  development: ["web-app-engineering","ai-product-development","api-systems-integration","cloud-devops","quality-automation"],
+  "ai-automation": ["ai-workflow-automation","ai-agents-copilots","process-intelligence","document-intelligence","governance-observability"],
+};
+test("all public marketing routes render with the shared navbar, footer and no page exceptions", async ({ page }) => {
+  test.setTimeout(180000);
+  const paths = ["/","/book-a-demo","/privacy-policy","/terms-of-service","/reviews",
+    ...Object.keys(serviceRoutes).map(group => `/services/${group}`),
+    ...Object.entries(serviceRoutes).flatMap(([group, slugs]) => slugs.map(slug => `/services/${group}/${slug}`))];
+  const exceptions: string[] = [];
+  page.on("pageerror", error => exceptions.push(error.message));
+  for (const path of paths) {
+    exceptions.length = 0;
+    const response = await page.goto(path, {waitUntil:"domcontentloaded"});
+    expect.soft(response?.status(), path).toBe(200);
+    await expect.soft(page.locator("h1").first(), path).toBeVisible();
+    await expect.soft(page.locator("header.hx-nav"), path).toHaveCount(1);
+    await expect.soft(page.locator("footer.hx-footer"), path).toHaveCount(1);
+    expect.soft(exceptions, `JS errors at ${path}`).toEqual([]);
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 2);
+    expect.soft(overflow, `Horizontal overflow at ${path}`).toBe(false);
+  }
+});
