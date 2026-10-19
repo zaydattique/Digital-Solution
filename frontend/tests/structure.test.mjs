@@ -183,3 +183,20 @@ test("Vercel exposes only frontend, using one private backend binding", async ()
   assert.match(client, /fetch\("\/api\/v1\/contact"/);
   assert.doesNotMatch(client, /BACKEND_URL|NEXT_PUBLIC_API_URL/);
 });
+
+test("one shared agency navbar powers homepage, service, contact, and legal views", async () => {
+  const files = await Promise.all([
+    "src/features/home/components/HomePage.tsx",
+    "src/features/services/components/ServiceHubView.tsx",
+    "src/features/services/components/ServiceDetailView.tsx",
+    "src/features/contact/components/BookDemoPage.tsx",
+    "src/features/legal/components/LegalPage.tsx",
+    "app/reviews/page.tsx",
+    "src/features/services/components/ServicePageHeader.tsx",
+  ].map(file => readFile(path.join(root, file), "utf8")));
+  assert.match(files[0], /<ServicePageHeader/);
+  for (const page of files.slice(1,6)) assert.match(page, /ServicePageHeader/);
+  assert.match(files[6], /hx-mega/);
+  assert.match(files[6], /getServiceItemHref/);
+  assert.doesNotMatch(files[2], /backHref="\/#services"/);
+});

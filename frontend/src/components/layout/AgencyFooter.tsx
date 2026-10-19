@@ -10,8 +10,8 @@ export function AgencyFooter(){
  const name=site["brand.name"]||"HavocX Agency";
  const email=site["contact.email"];
  const onEmail=(event:MouseEvent<HTMLAnchorElement>)=>{const permission=claimMailSendPermission();if(!permission.allowed){event.preventDefault();setMessage(permission.message)}};
- return <footer className="hx-footer vx-agency-footer" id="contact"><div className="hx-footer-inner">
-  <div className="hx-footer-top"><div><span className="hx-footer-eyebrow">/ HAVE A PROJECT IN MIND?</span><h2>Let's make<br/><em>it happen.</em></h2></div><a className="hx-footer-contact" href="/book-a-demo">Start a project <ArrowUpRight size={25}/></a></div>
+ return <footer className="hx-footer" id="contact"><div className="hx-footer-inner">
+  <div className="hx-footer-top"><div><span className="hx-footer-eyebrow">/ HAVE A PROJECT IN MIND?</span><h2>Let&apos;s make<br/><em>it happen.</em></h2></div><a className="hx-footer-contact" href="/book-a-demo">Start a project <ArrowUpRight size={25}/></a></div>
   <div className="hx-footer-grid">
     <div className="hx-footer-brand"><a href="/" aria-label={name+" homepage"}><Brand /></a><p>{site["brand.description"]||"Strategy, design and digital experiences built with purpose."}</p>
       {email&&<a href={`mailto:${email}`} onClick={onEmail}><Mail size={16}/>{email}</a>}

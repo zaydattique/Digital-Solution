@@ -22,8 +22,8 @@ test("service-detail inquiry preselects the correct existing catalog option", as
 
 test("service pages link to sibling services and other approved categories", async ({ page }) => {
   await page.goto("/services/marketing-seo/technical-seo");
-  await expect(page.locator('a[href="/services/marketing-seo/performance-marketing"]').first()).toBeVisible();
-  await expect(page.locator('a[href="/services/design"]').first()).toBeVisible();
+  await expect(page.locator('a[href="/services/marketing-seo/performance-marketing"]:visible').first()).toBeVisible();
+  await expect(page.locator('a[href="/services/design"]:visible').first()).toBeVisible();
 });
 
 test("unlisted checkout rejects unsigned price and product changes", async ({ page }) => {
