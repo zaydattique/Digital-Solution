@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { pageMetadata } from "@/src/lib/seo";
-import Link from "next/link";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
+import { ServicePageHeader } from "@/src/features/services/components/ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
 
-export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/reviews", "How We Work | HavocX Agency", "Learn how Digital Solutions approaches digital marketing, design, development and automation projects.");; }
+export async function generateMetadata(): Promise<Metadata> { return pageMetadata("/reviews", "How We Work | HavocX Agency", "Learn how HavocX Agency approaches digital marketing, design, development and automation projects."); }
 
 
 const deliveryApproach = [
@@ -28,47 +28,9 @@ const deliveryApproach = [
  * not displayed until independently verified and cleared for publication.
  */
 export default function ClientReviewsPage() {
-  return (
-    <div className="vx-reviews-page">
-      <div className="vx-reviews-page-inner">
-        <header className="vx-reviews-page-header">
-          <Link href="/" className="vx-reviews-page-back">
-            <ArrowLeft size={16} aria-hidden="true" />
-            <span>Back to home</span>
-          </Link>
-          <span className="vx-reviews-page-eyebrow">Our approach</span>
-          <h1 className="vx-reviews-page-title">Practical work, clear expectations.</h1>
-          <p className="vx-reviews-page-subtitle">
-            Every project starts with a conversation about what your business needs.
-            Our services combine marketing, design and engineering around a defined scope.
-          </p>
-        </header>
-
-        <section className="vx-reviews-full-grid" aria-labelledby="approach-heading">
-          <h2 id="approach-heading" className="vx-reviews-page-subtitle">How an engagement works</h2>
-          {deliveryApproach.map((step, index) => (
-            <article className="vx-reviews-full-card" key={step.title}>
-              <span className="vx-reviews-card-tag">Step {index + 1}</span>
-              <h3>{step.title}</h3>
-              <p>{step.description}</p>
-            </article>
-          ))}
-        </section>
-
-        <section className="vx-reviews-page-cta" aria-labelledby="services-heading">
-          <h2 id="services-heading">Explore our services</h2>
-          <p>Find the support that fits your next marketing or digital project.</p>
-          <ul>
-            {serviceMenuGroups.map((group) => (
-              <li key={group.id}>
-                <Link href={`/services/${group.id}`}>{group.title} <ArrowRight size={15} aria-hidden="true" /></Link>
-              </li>
-            ))}
-          </ul>
-          <Link href="/book-a-demo">Discuss a project <ArrowRight size={16} aria-hidden="true" /></Link>
-        </section>
-      </div>
-      <AgencyFooter />
-    </div>
-  );
+ return <div className="hx-subpage"><ServicePageHeader/><main>
+  <section className="hx-subhero"><div className="hx-subcontainer"><span className="hx-subeyebrow">/ OUR APPROACH</span><h1>Practical work.<br/>Clear expectations.</h1><p>Every project starts with your business needs. We connect creative strategy, design and engineering around a defined scope.</p><div className="hx-subhero-meta"><span>HOW WE WORK</span><span>HAVOCX AGENCY</span></div></div></section>
+  <section className="hx-subcontainer hx-capability-list"><div className="hx-subsection-head"><span>(01 / PROCESS)</span><h2>How we <em>work.</em></h2></div>{deliveryApproach.map((step,index)=><article className="hx-capability" key={step.title}><span>0{index+1}</span><div><h3>{step.title}</h3><p>{step.description}</p></div><ArrowUpRight size={28}/></article>)}</section>
+  <section className="hx-subcta"><div className="hx-subcontainer"><span>/ LET'S COLLABORATE</span><h2>Make your next<br/>idea count.</h2><p>Explore our services or tell us what you are planning.</p><a href="/book-a-demo">Discuss your project <ArrowUpRight size={21}/></a><nav aria-label="Service categories" className="hx-tags" style={{justifyContent:"start",marginTop:36}}>{serviceMenuGroups.map(group=><a href={`/services/${group.id}`} key={group.id}>{group.title} ↗</a>)}</nav></div></section>
+ </main><AgencyFooter/></div>;
 }
