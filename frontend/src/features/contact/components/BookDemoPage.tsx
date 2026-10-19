@@ -5,7 +5,6 @@ import { ServicePageHeader } from "@/src/features/services/components/ServicePag
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { ApiClientError, submitContactRequest } from "@/src/lib/api/contact";
 import { serviceMenuGroups } from "@/src/features/services/data/services";
-import "@/src/features/contact/styles/contact.css";
 
 const ADMIN_EMAIL = "dsolutions555@gmail.com";
 const ADMIN_PHONE = "+923096548143";
