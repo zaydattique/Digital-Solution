@@ -17,7 +17,7 @@ test("reconstructed homepage preserves working inquiry path and CMS hero media",
   assert.match(home,/home\.heroVideoUrl/);
   assert.match(home,/home\.heroImageUrl/);
   assert.match(home,/getServiceItemHref/);
-  assert.match(home,/href="#contact"/);
+  assert.match(home,/href="\/book-a-demo"/);
   assert.match(home,/project\.\$\{index\+1\}/);
   assert.doesNotMatch(home,/Digital Solutions|Nunito_Sans/);
 });
