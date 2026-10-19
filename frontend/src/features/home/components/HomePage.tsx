@@ -1,8 +1,7 @@
 "use client";
-import { useState } from "react";
-import { ArrowDownRight, ArrowUpRight, Menu, X } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
 import { useSite } from "@/src/components/brand/SiteContext";
-import { Brand } from "@/src/components/brand/Brand";
+import { ServicePageHeader } from "@/src/features/services/components/ServicePageHeader";
 import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 import { getServiceItemHref, serviceMenuGroups } from "@/src/features/services/data/services";
 
@@ -19,25 +18,13 @@ const principles = [
 ];
 export default function HomePage() {
   const site = useSite();
-  const [menuOpen, setMenuOpen] = useState(false);
-  const name = site["brand.name"] || "HavocX Agency";
   const heroTitle = site["home.heroTitle"] || "Make your brand impossible to miss.";
   const heroDescription = site["home.heroDescription"] || "Digital strategy, distinctive design and considered engineering for brands ready to move forward.";
   const heroImage = site["home.heroImageUrl"];
   const heroVideo = site["home.heroVideoUrl"];
   const projects = defaultProjects.map((project,index) => ({ ...project, name: site[`project.${index+1}.title`] || project.name, image: site[`project.${index+1}.imageUrl`] || project.image, href: site[`project.${index+1}.href`] || project.href, discipline: site[`project.${index+1}.discipline`] || project.discipline }));
   return <div className="hx-editorial" id="top">
-    <header className="hx-nav">
-      <a className="hx-nav-brand" href="/" aria-label={name + " home"}><Brand compact /></a>
-      <nav aria-label="Primary" className={menuOpen ? "hx-nav-links is-open" : "hx-nav-links"}>
-        <a href="#work" onClick={() => setMenuOpen(false)}>Work</a>
-        <a href="#expertise" onClick={() => setMenuOpen(false)}>Expertise</a>
-        <a href="#approach" onClick={() => setMenuOpen(false)}>Approach</a>
-        <a href="#contact" onClick={() => setMenuOpen(false)}>Contact</a>
-      </nav>
-      <a className="hx-nav-cta" href="#contact">Let&apos;s talk <ArrowUpRight size={17} /></a>
-      <button type="button" className="hx-menu" aria-label={menuOpen ? "Close navigation" : "Open navigation"} aria-expanded={menuOpen} onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X /> : <Menu />}</button>
-    </header>
+    <ServicePageHeader />
     <main>
       <section className="hx-hero" aria-labelledby="hx-hero-title">
         <div className="hx-hero-media" aria-hidden="true">
