@@ -3985,44 +3985,23 @@ button:focus-visible {
 ═══════════════════════════════════════════════════════════ */
 
 /* Main Footer Container */
-.vx-agency-footer {
-  background: var(--vx-black-soft);
-  color: #ffffff;
-  padding: 72px 24px 40px;
-  font-family: inherit;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
 
-.vx-agency-footer-inner {
-  max-width: 1280px;
-  margin: 0 auto;
-}
+
+
 
 /* 5 Column Grid */
-.vx-agency-footer-grid {
-  display: grid;
-  grid-template-columns: 1.3fr 1fr 1fr 1fr 1fr;
-  gap: 40px clamp(20px, 3vw, 44px);
-  margin-bottom: 64px;
-}
+
 
 @media (max-width: 1200px) {
-  .vx-agency-footer-grid {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 36px;
-  }
+
 }
 
 @media (max-width: 840px) {
-  .vx-agency-footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+
 }
 
 @media (max-width: 540px) {
-  .vx-agency-footer-grid {
-    grid-template-columns: 1fr;
-  }
+
 }
 
 /* Column 1: Contact Us */
