@@ -1,4 +1,4 @@
-# Agent Rules for Digital Solutions
+# Agent Rules for HavocX Agency
 
 These instructions apply to all changes in this repository.
 
@@ -71,3 +71,16 @@ These instructions apply to all changes in this repository.
 - Screenshot/performance/accessibility and SEO evidence
 - Risks/blockers and rollback
 - Next phase and necessary approvals
+
+## HavocX identity, CMS and Vercel Services (2026-10-17)
+- The active public identity is **HavocX Agency**, canonical domain **havocx.agency**. "Digital Solutions" is legacy project history only, not current public branding. Never reintroduce the old logo, email or phone numbers.
+- The uploaded HavocX brand-identity board is a visual **idea**, not permission to fabricate or copy logo assets. Use the admin-controlled approved-logo URL or a text fallback until real artwork is provided.
+- Editable company name, description, contact channels, logo, favicon, OG image, home hero, legal revision and 20 service-detail hero fields are owned by PostgreSQL `site_settings`. Change original public components to use one server-provided SiteProvider, not parallel hardcoded copies.
+- Every additional user-facing text/media item intended to be editable must gain a typed/validated admin field and corresponding UI consumer; do not mark the no-hardcoding audit closed while old service-category, legal-body, secondary-media, case-study or footer content remains in code.
+- Keep `frontend/src/features/home/styles/home.css` as the sole authored application CSS owner. Modify original rules, no special "admin override" CSS files.
+- Root `vercel.json` owns **one Vercel project with two services**. `frontend` binds to `backend` using Vercel-generated `BACKEND_URL`; never hardcode, manually configure, expose to the browser, or use the binding during build/middleware.
+- Public browser calls go to same-origin `/api/*`; actual backend Express paths retain `/api`. Confirm public paths, names and binding with operator before merge/deploy.
+- New admin-uploaded images must validate MIME, magic bytes and pixel limits, then convert to compressed WebP. Video must be transcoded to WebM by the configured media provider with a verified result; avoid storing uploads to ephemeral function disk. Never accept SVG until a securely sandboxed sanitizer/validation pipeline is implemented.
+- Admin tokens/passwords, Cloudinary keys and third-party credentials remain server-only. Never commit .env files or distribute proprietary brand/font files. Signed cookie, admin API authorization and no-store response must remain enforced.
+- Public SEO and schema descriptions must use actual approved brand and content; avoid fictional reviews, locations or service-delivery statistics. Preview deployments must remain nonindex.
+- Do not claim that the full CMS coverage audit, live CDN video transcoding, Vercel Services deployment or final production verification has passed without real evidence.

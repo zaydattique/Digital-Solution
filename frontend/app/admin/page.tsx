@@ -1,0 +1,55 @@
+import { redirect } from "next/navigation";
+import { getSiteSettings } from "@/src/lib/site";
+import { SERVICE_ITEM_ROUTES } from "@/src/features/services/data/services";
+import { isAdminAuthenticated, logOut, saveSetting, uploadMedia } from "./actions";
+export const dynamic = "force-dynamic";
+export const metadata = { title: "Content Admin | HavocX", robots: { index: false, follow: false } };
+const groups = {
+  "Brand": ["brand.name", "brand.tagline", "brand.logoUrl", "brand.faviconUrl", "brand.ogImageUrl", "brand.description"],
+  "Homepage": ["home.heroTitle", "home.heroDescription", "home.heroImageUrl", "home.heroVideoUrl"],
+  "Featured projects": ["project.1.title","project.1.imageUrl","project.1.href","project.1.discipline","project.2.title","project.2.imageUrl","project.2.href","project.2.discipline","project.3.title","project.3.imageUrl","project.3.href","project.3.discipline"],
+  "Contact": ["contact.email", "contact.phone", "contact.phoneSecondary"],
+  "Legal pages": ["legal.lastUpdated", "legal.privacyBody", "legal.termsBody"],
+  "Private checkout contacts": ["checkout.whatsappNumber"],
+  "Social profiles": ["social.linkedin", "social.instagram", "social.facebook", "social.website"],
+  "Service page copy and images": [...new Set(Object.values(SERVICE_ITEM_ROUTES).map((route) => route.split("/").pop()).filter((slug): slug is string => Boolean(slug)))].flatMap((slug) => [`service.${slug}.title`, `service.${slug}.heroSubtitle`, `service.${slug}.shortDescription`, `service.${slug}.imageUrl`]),
+};
+export default async function Admin() {
+  if (!await isAdminAuthenticated()) redirect("/admin/login");
+  const settings = await getSiteSettings();
+  return <main style={{ background: "#050d20", color: "white", minHeight: "100vh", padding: "5vw" }}>
+    <header style={{ display: "flex", justifyContent: "space-between", gap: 16 }}>
+      <div><h1>HavocX content manager</h1><p>Changes are stored in PostgreSQL and shown across the public site.</p></div>
+      <form action={logOut}><button type="submit">Sign out</button></form>
+    </header>
+    <section aria-label="Media uploads" style={{ marginTop: 40, padding: 20, border: "1px solid #315177", borderRadius: 14 }}>
+      <h2>Upload approved brand and campaign media</h2>
+      <p>JPEG/PNG/WebP images become compressed WebP. MP4/WebM videos are converted to WebM by the configured media provider. You must own the upload rights. Maximum 8 MB images or 24 MB videos.</p>
+      <form action={uploadMedia} style={{ display: "grid", gap: 14, maxWidth: 560 }}>
+        <label htmlFor="media-slot">Asset placement</label>
+        <select id="media-slot" name="key" required style={{ color: "#050d20", padding: 12 }}>
+          <option value="brand.logoUrl">Company logo (use approved file only)</option>
+          <option value="brand.faviconUrl">Favicon</option>
+          <option value="brand.ogImageUrl">Social / Open Graph image</option>
+          <option value="home.heroImageUrl">Homepage hero image</option>
+          <option value="home.heroVideoUrl">Homepage hero video (WebM output)</option>
+          {Object.entries(SERVICE_ITEM_ROUTES).map(([label, route]) => <option key={route} value={`service.${route.split("/").pop()}.imageUrl`}>{label} hero image</option>)}
+        </select>
+        <label htmlFor="media-file">File</label>
+        <input id="media-file" type="file" name="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm" required />
+        <button type="submit" style={{ background: "#2779f5", color: "white", padding: 12 }}>Convert and publish</button>
+      </form>
+    </section>
+    {Object.entries(groups).map(([group, keys]) => <section key={group} aria-label={group} style={{ marginTop: 40 }}>
+      <h2>{group}</h2>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit,minmax(260px,1fr))", gap: 16 }}>
+        {keys.map(key => <form action={saveSetting} key={key} style={{ padding: 18, border: "1px solid #315177", borderRadius: 12, display: "grid", gap: 12 }}>
+          <label htmlFor={key}>{key}</label>
+          <input type="hidden" name="key" value={key} />
+          <textarea id={key} name="value" defaultValue={settings[key] ?? ""} rows={key.endsWith("Body") ? 14 : key.includes("Description") ? 4 : 2} maxLength={key.endsWith("Body") ? 12000 : 3000} style={{ padding: 10, color: "#050d20", width: "100%" }} />
+          <button type="submit" style={{ background: "#2779f5", color: "white", padding: 12 }}>Save</button>
+        </form>)}
+      </div>
+    </section>)}
+  </main>;
+}

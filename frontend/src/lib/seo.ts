@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
+import { getSiteSettings } from "./site";
 
 // A single public origin drives canonicals, structured data, the sitemap and robots.
 // Indexing stays disabled until the deployment has a verified public domain.
-const configured = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL;
+const configured = process.env.SITE_URL ?? process.env.NEXT_PUBLIC_SITE_URL ?? "https://havocx.agency";
 function parseSiteOrigin(value: string | undefined): string | undefined {
   if (!value) return undefined;
   try {
@@ -14,32 +15,36 @@ function parseSiteOrigin(value: string | undefined): string | undefined {
     return undefined;
   }
 }
-export const publishedOrigin = parseSiteOrigin(configured);
+export const publishedOrigin = process.env.VERCEL_ENV === "preview" ? undefined : parseSiteOrigin(configured);
 export const siteOrigin = publishedOrigin ?? "http://localhost:3000";
 
 export function absoluteUrl(path: string): string {
   return new URL(path.startsWith("/") ? path : `/${path}`, siteOrigin).toString();
 }
 
-export function pageMetadata(path: string, title: string, description: string): Metadata {
+export async function pageMetadata(path: string, title: string, description: string): Promise<Metadata> {
+  const site = await getSiteSettings();
+  const brand = site["brand.name"] || "HavocX Agency";
+  const displayTitle = title.replace(/Digital Solutions|HavocX Agency/g, brand);
   return {
-    title,
+    title: displayTitle,
     description,
     alternates: { canonical: path },
     robots: publishedOrigin ? { index: true, follow: true } : { index: false, follow: false },
     openGraph: {
       type: "website",
       url: absoluteUrl(path),
-      siteName: "Digital Solutions",
-      title,
+      siteName: brand,
+      title: displayTitle,
       description,
       locale: "en_US",
+      ...(site["brand.ogImageUrl"] ? { images: [site["brand.ogImageUrl"]] } : {}),
     },
-    twitter: { card: "summary", title, description },
+    twitter: { card: site["brand.ogImageUrl"] ? "summary_large_image" : "summary", title: displayTitle, description },
   };
 }
 
-export function serviceStructuredData(path: string, name: string, description: string, hubPath: string) {
+export function serviceStructuredData(path: string, name: string, description: string, hubPath: string, companyName = "HavocX Agency") {
   return {
     "@context": "https://schema.org",
     "@graph": [
@@ -49,7 +54,7 @@ export function serviceStructuredData(path: string, name: string, description: s
         name,
         description,
         url: absoluteUrl(path),
-        provider: { "@type": "Organization", name: "Digital Solutions", url: siteOrigin },
+        provider: { "@type": "Organization", name: companyName, url: siteOrigin },
       },
       {
         "@type": "BreadcrumbList",

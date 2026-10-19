@@ -1,21 +1,15 @@
 import type { Metadata } from "next";
 import { pageMetadata, publishedOrigin, siteOrigin, absoluteUrl } from "@/src/lib/seo";
 import HomePage from "@/src/features/home/components/HomePage";
+import { getSiteSettings } from "@/src/lib/site";
 
-export const metadata: Metadata = pageMetadata("/", "Digital Solutions | Digital Marketing and Creative Services", "Digital marketing, SEO, design and development services focused on visibility, user experience and customer growth.");
+export async function generateMetadata(): Promise<Metadata> { const settings = await getSiteSettings(); return pageMetadata("/", settings["home.heroTitle"] || "HavocX Agency — Creative Digital Agency", settings["brand.description"] || "Strategy, digital experiences, marketing and technology by HavocX Agency."); }
 
-export default function Home() {
+
+export default async function Home() {
+  const settings = await getSiteSettings();
   return (
     <>
-      <link
-        rel="preload"
-        as="image"
-        href="/assets/images/home/hero-integrations-768.avif"
-        imageSrcSet="/assets/images/home/hero-integrations-768.avif 768w, /assets/images/home/hero-integrations-1280.avif 1280w, /assets/images/home/hero-integrations-1920.avif 1920w"
-        imageSizes="100vw"
-        type="image/avif"
-        fetchPriority="high"
-      />
       {publishedOrigin && (
         <script
           type="application/ld+json"
@@ -26,13 +20,13 @@ export default function Home() {
                 {
                   "@type": "Organization",
                   "@id": absoluteUrl("/#organization"),
-                  name: "Digital Solutions",
+                  name: settings["brand.name"] || "HavocX Agency",
                   url: siteOrigin,
                 },
                 {
                   "@type": "WebSite",
                   "@id": absoluteUrl("/#website"),
-                  name: "Digital Solutions",
+                  name: settings["brand.name"] || "HavocX Agency",
                   url: siteOrigin,
                   publisher: { "@id": absoluteUrl("/#organization") },
                   inLanguage: "en",
