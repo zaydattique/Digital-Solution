@@ -181,3 +181,13 @@ test("contact API rejects malformed payload before private backend forwarding", 
   const payload = await response.json();
   expect(payload.success).toBe(false);
 });
+
+
+test("footer Back to top stays on the current service page", async ({ page }) => {
+  await page.goto("/services/marketing-seo/technical-seo");
+  await page.locator("footer.hx-footer").scrollIntoViewIfNeeded();
+  const urlBefore = page.url();
+  await page.getByRole("button", { name: /back to top/i }).click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
+  expect(page.url()).toBe(urlBefore);
+});
