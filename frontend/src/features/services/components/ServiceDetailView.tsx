@@ -25,7 +25,7 @@ export function ServiceDetailView({detail,heroImage: _heroImage}: {detail:Servic
   <span className="hx-subeyebrow">/ {currentGroup?.title||"Agency service"}</span>
   <h1>{publishedTitle}</h1>
   <p>{publishedHero||publishedSummary}</p>
-  {publishedSummary && <p style={{marginTop:18,maxWidth:750}}>{publishedSummary}</p>}
+  {publishedSummary && publishedSummary !== publishedHero && <p style={{marginTop:18,maxWidth:750}}>{publishedSummary}</p>}
   <div className="hx-subhero-meta"><span>CREATED FOR YOUR BUSINESS</span><a href={contactHref}>Discuss your project ↗</a></div>
  </div></section>
  <section id="deliverables" className="hx-subcontainer hx-capability-list"><div className="hx-subsection-head"><span>(01 / WHAT WE DELIVER)</span><h2>Clear outcomes.<br/><em>Better work.</em></h2></div>
@@ -35,7 +35,7 @@ export function ServiceDetailView({detail,heroImage: _heroImage}: {detail:Servic
  {detail.workflowSteps.map((step,index)=><article key={step.step} className="hx-service-item"><div className="hx-service-heading"><span className="hx-service-index">{String(index+1).padStart(2,"0")}</span><h3>{step.title}</h3><ArrowUpRight size={25}/></div><div className="hx-service-body"><p>{step.desc}</p></div></article>)}</div></section>
  <section className="hx-subcontainer hx-capability-list"><div className="hx-subsection-head"><span>(03 / FOUNDATIONS)</span><h2>Built with <em>care.</em></h2></div><div className="hx-tags" style={{justifyContent:"start",marginBottom:90}}>{detail.techStack.map(item=><span key={item}>{item}</span>)}</div>
  <div className="hx-subsection-head"><span>(04 / QUESTIONS)</span><h2>Good to <em>know.</em></h2></div>
- {detail.faq.map(item=><details key={item.question}><summary><HelpCircle size={17}/>{item.question}<ArrowUpRight size={17}/></summary><p>{item.answer}</p></details>)}
+ {detail.faq.map(item=><details className="ds-service-faq-item" key={item.question}><summary className="ds-service-faq-trigger"><span><HelpCircle aria-hidden="true" size={17}/>{item.question}</span><ArrowUpRight aria-hidden="true" size={17}/></summary><p className="ds-service-faq-answer">{item.answer}</p></details>)}
  </section>
  {relatedServices.length>0&&<section className="hx-subcontainer hx-capability-list"><div className="hx-subsection-head"><span>(05 / EXPLORE)</span><h2>More <em>expertise.</em></h2></div>{relatedServices.map((service,index)=><a className="hx-capability" key={service} href={getServiceItemHref(service,currentGroup?.id??"")}><span>0{index+1}</span><div><h3>{service}</h3></div><ArrowRight size={24}/></a>)}</section>}
  <section className="hx-subcta"><div className="hx-subcontainer"><span>/ YOUR NEXT CHAPTER</span><h2>Ready to make<br/>something better?</h2><p>Tell us what your business needs. We will define the right next step together.</p><a href={contactHref}>Discuss your project <ArrowUpRight size={22}/></a></div></section>
