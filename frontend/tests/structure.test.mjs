@@ -94,7 +94,7 @@ test("service outcomes and testimonials require real evidence", async () => {
     readFile(path.join(root, "src/features/home/components/HomePage.tsx"), "utf8"),
   ]);
   assert.doesNotMatch(detail, /AnimatedMetric|ds-service-hero-stats/);
-  assert.match(detail, /<details key=\{item\.question\}/);
+  assert.match(detail, /<details className="ds-service-faq-item" key=\{item\.question\}/);
   assert.doesNotMatch(reviews, /allClientReviews|4\.9 \/ 5\.0/);
   assert.doesNotMatch(home, /clientReviews|CLIENT TESTIMONIALS/);
 });
