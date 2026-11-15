@@ -20,7 +20,7 @@ export async function LegalPage({ type }: LegalPageProps) {
     : `The terms that apply when you use the ${company} website or engage our services.`;
 
   return (
-    <main className="ds-legal-page hx-subpage hx-legal">
+    <main className="ds-legal-page hx-subpage">
       <ServicePageHeader />
       <section className="ds-legal-hero">
         <div className="ds-legal-hero-inner">

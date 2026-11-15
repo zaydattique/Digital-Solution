@@ -135,3 +135,59 @@ test("editorial layouts withstand lengthy content without overflow or clipped he
     expect.soft(state.clipped, `Long title invisible: ${route}`).toBe(false);
   }
 });
+
+
+test("contact form and legal pages use the same dark design surfaces", async ({ page }) => {
+  await page.goto("/book-a-demo");
+  await expect(page.locator(".ds-booking-page")).toHaveCSS("background-color", "rgb(5, 12, 28)");
+  await expect(page.locator(".ds-booking-form")).toHaveCSS("background-color", "rgb(14, 32, 64)");
+  await expect(page.locator(".ds-booking-form input[name='email']")).toHaveCSS("background-color", "rgb(7, 21, 45)");
+  for (const route of ["/privacy-policy", "/terms-of-service"]) {
+    await page.goto(route);
+    await expect(page.locator(".ds-legal-page")).toHaveCSS("background-color", "rgb(5, 12, 28)");
+    await expect(page.locator(".ds-legal-contact")).toHaveCSS("background-color", "rgb(14, 32, 64)");
+  }
+});
+
+test("service FAQs expand and its tags render as deliberate chips", async ({ page }) => {
+  await page.goto("/services/marketing-seo/technical-seo");
+  const item = page.locator("details.ds-service-faq-item").first();
+  await expect(item).toBeVisible();
+  await item.locator("summary").click();
+  await expect(item).toHaveAttribute("open", "");
+  await expect(item.locator(".ds-service-faq-answer")).toBeVisible();
+  const tag = page.locator(".hx-service-detail .hx-tags span").first();
+  await expect(tag).toHaveCSS("border-top-style", "solid");
+});
+
+test("global navigation stays sticky and mobile drawer locks scrolling", async ({ page }) => {
+  await page.goto("/");
+  await expect(page.locator("header.hx-nav")).toHaveCSS("position", "sticky");
+  const menu = page.getByRole("button", { name: "Open navigation" });
+  if (await menu.isVisible()) {
+    await menu.click();
+    await expect(page.locator("body")).toHaveCSS("overflow", "hidden");
+    await page.keyboard.press("Escape");
+    await expect(page.getByRole("button", { name: "Open navigation" })).toHaveAttribute("aria-expanded", "false");
+    await expect(page.locator("body")).not.toHaveCSS("overflow", "hidden");
+  }
+});
+
+test("contact API rejects malformed payload before private backend forwarding", async ({ request }) => {
+  const response = await request.post("/api/v1/contact", {
+    data: { name: "Testing", unexpectedField: "should not be forwarded" },
+  });
+  expect(response.status()).toBe(400);
+  const payload = await response.json();
+  expect(payload.success).toBe(false);
+});
+
+
+test("footer Back to top stays on the current service page", async ({ page }) => {
+  await page.goto("/services/marketing-seo/technical-seo");
+  await page.locator("footer.hx-footer").scrollIntoViewIfNeeded();
+  const urlBefore = page.url();
+  await page.getByRole("button", { name: /back to top/i }).click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
+  expect(page.url()).toBe(urlBefore);
+});
