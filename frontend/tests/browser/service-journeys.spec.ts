@@ -227,7 +227,7 @@ test("contact form accepts valid data and confirms success after the API respond
 test("retired software tools listing redirects to the contact page", async ({ page }) => {
   const response = await page.goto("/services/software-tools", { waitUntil: "domcontentloaded" });
   expect(response?.status()).toBe(200);
-  await expect(page).toHaveURL(/\\/book-a-demo$/);
+  await expect.poll(() => new URL(page.url()).pathname).toBe("/book-a-demo");
   await expect(page.locator("header.hx-nav")).toHaveCount(1);
   await expect(page.getByRole("heading", { level: 1 })).toContainText("project");
 });
