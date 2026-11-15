@@ -200,3 +200,20 @@ test("one shared agency navbar powers homepage, service, contact, and legal view
   assert.match(files[6], /getServiceItemHref/);
   assert.doesNotMatch(files[2], /backHref="\/#services"/);
 });
+
+
+test("retired vx styling and 404 skin cannot silently return", async () => {
+  const [css, brand, notFound, admin] = await Promise.all([
+    readFile(path.join(root, "src/features/home/styles/home.css"), "utf8"),
+    readFile(path.join(root, "src/components/brand/Brand.tsx"), "utf8"),
+    readFile(path.join(root, "app/not-found.tsx"), "utf8"),
+    readFile(path.join(root, "app/admin/actions.ts"), "utf8"),
+  ]);
+  assert.doesNotMatch(css, /\\.vx-[a-z]/);
+  assert.doesNotMatch(css, /\\.ds-not-found/);
+  assert.match(brand, /hx-brand/);
+  assert.match(notFound, /ServicePageHeader/);
+  assert.match(notFound, /AgencyFooter/);
+  assert.doesNotMatch(notFound, /Digital Solutions/);
+  assert.ok(admin.includes("^service[.][a-z0-9-]{3,64}[.]imageUrl$"));
+});
