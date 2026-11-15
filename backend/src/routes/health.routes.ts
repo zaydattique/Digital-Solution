@@ -10,7 +10,7 @@ export function createHealthRouter(): Router {
     response.status(200).json({
       success: true,
       data: {
-        service: "digital-solutions-api",
+        service: "havocx-agency-api",
         status: "ok",
       },
     });
