@@ -191,3 +191,43 @@ test("footer Back to top stays on the current service page", async ({ page }) =>
   await expect.poll(() => page.evaluate(() => window.scrollY)).toBeLessThan(50);
   expect(page.url()).toBe(urlBefore);
 });
+
+
+test("unknown routes use the same branded header, footer and real HTTP 404", async ({ page }) => {
+  const response = await page.goto("/a-service-that-does-not-exist");
+  expect(response?.status()).toBe(404);
+  await expect(page.locator("header.hx-nav")).toHaveCount(1);
+  await expect(page.locator("footer.hx-footer")).toHaveCount(1);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("That page");
+  await expect(page.getByText("Digital Solutions")).toHaveCount(0);
+  await expect(page.locator(".ds-not-found-page")).toHaveCount(0);
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > document.documentElement.clientWidth + 2);
+  expect(overflow).toBe(false);
+});
+
+test("contact form accepts valid data and confirms success after the API responds", async ({ page }) => {
+  await page.route("**/api/v1/contact", (route) => route.fulfill({
+    status: 201,
+    contentType: "application/json",
+    body: JSON.stringify({ success: true, data: { message: "Request received" } }),
+  }));
+  await page.goto("/book-a-demo");
+  await page.locator('input[name="name"]').fill("Sample Client");
+  await page.locator('input[name="email"]').fill("client@example.com");
+  await page.locator('input[name="phone"]').fill("3001234567");
+  await page.locator('input[name="company"]').fill("Client Studio");
+  await page.locator('select[name="service"]').selectOption("Marketing & SEO");
+  await page.locator('select[name="subService"]').selectOption("Technical SEO");
+  await page.locator('textarea[name="message"]').fill("Please review our website redesign proposal.");
+  await page.getByRole("button", { name: /Send request/i }).click();
+  await expect(page.getByRole("status")).toContainText("Request received");
+  await expect(page.locator('input[name="name"]')).toHaveValue("");
+});
+
+test("private software tools route retains noindex and current agency branding", async ({ page }) => {
+  const response = await page.goto("/services/software-tools", { waitUntil: "domcontentloaded" });
+  expect(response?.status()).toBe(200);
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
+  await expect(page.locator("header.hx-nav")).toHaveCount(1);
+  await expect(page.getByText("Digital Solutions")).toHaveCount(0);
+});
