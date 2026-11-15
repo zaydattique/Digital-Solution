@@ -21,7 +21,7 @@ export function AgencyFooter(){
     </div>
     {serviceMenuGroups.map(group=><div className="hx-footer-links" key={group.id}><h3><a href={`/services/${group.id}`}>{group.title}</a></h3>{group.services.map(service=><a href={getServiceItemHref(service,group.id)} key={service}>{service}</a>)}</div>)}
   </div>
-  <div className="hx-footer-bottom"><span>© {new Date().getFullYear()} {name}. All rights reserved.</span><div><a href="/privacy-policy">Privacy Policy</a><a href="/terms-of-service">Terms of Service</a><a href="/#top">Back to top ↑</a></div></div>
+  <div className="hx-footer-bottom"><span>© {new Date().getFullYear()} {name}. All rights reserved.</span><div><a href="/privacy-policy">Privacy Policy</a><a href="/terms-of-service">Terms of Service</a><button type="button" onClick={() => window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" })}>Back to top ↑</button></div></div>
  </div></footer>
 }
 export default AgencyFooter;
