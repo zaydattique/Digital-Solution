@@ -26,8 +26,9 @@ jobs:
       - name: Resolve patched backend dependencies
         working-directory: backend
         run: |
-          npm install zod@4.6.7 --save-exact --package-lock-only --ignore-scripts
-          npm audit fix --package-lock-only --ignore-scripts
+          npm pkg set dependencies.zod=4.6.7
+          npm pkg set overrides.body-parser=2.4.0 overrides.qs=6.16.1 overrides.ip-address=10.7.4
+          npm install --package-lock-only --ignore-scripts
           npm ci
           npm audit --omit=dev --audit-level=high
       - name: Commit patched dependency lockfile
