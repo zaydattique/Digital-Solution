@@ -32,3 +32,15 @@ describe("contactRequestSchema", () => {
     expect(result.success).toBe(false);
   });
 });
+
+describe("service CMS key validation", () => {
+  it("accepts published service fields but never arbitrary or escaped keys", async () => {
+    const { isEditableServiceSetting } = await import("../src/routes/site.routes.js");
+    expect(isEditableServiceSetting("service.technical-seo.title")).toBe(true);
+    expect(isEditableServiceSetting("service.ai-agents-copilots.imageUrl")).toBe(true);
+    expect(isEditableServiceSetting("service.ux-ui-design.heroSubtitle")).toBe(true);
+    expect(isEditableServiceSetting("service.technical-seo.badField")).toBe(false);
+    expect(isEditableServiceSetting("service\\\\.technical-seo\\\\.title")).toBe(false);
+    expect(isEditableServiceSetting("service.../title")).toBe(false);
+  });
+});

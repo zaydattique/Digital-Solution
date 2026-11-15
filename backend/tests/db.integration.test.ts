@@ -62,4 +62,30 @@ describe.skipIf(process.env.RUN_DB_INTEGRATION !== "1")("real PostgreSQL contact
     }
   });
 
+  it("persists valid per-service CMS copy and rejects malformed keys", async () => {
+    const token = "integration-cms-token-12345678901234567890";
+    const oldToken = process.env.INTERNAL_CMS_TOKEN;
+    const key = "service.integration-proof.heroSubtitle";
+    process.env.INTERNAL_CMS_TOKEN = token;
+    try {
+      const app = createApp({ env: loadEnv(), contactService: {
+        submit: vi.fn(async () => { throw new Error("Not used"); }),
+      } });
+      await request(app).put("/api/v1/site/" + key).send({ value: "Blocked" }).expect(401);
+      await request(app).put("/api/v1/site/service-invalid-key")
+        .set("X-Admin-Key", token).send({ value: "Blocked" }).expect(400);
+      await request(app).put("/api/v1/site/" + key)
+        .set("X-Admin-Key", token).send({ value: "A CMS integration proof" }).expect(200);
+      const response = await request(app).get("/api/v1/site").expect(200);
+      expect(response.body.data[key]).toBe("A CMS integration proof");
+      const rows = await getDatabase().select().from(siteSettings).where(eq(siteSettings.key, key));
+      expect(rows).toHaveLength(1);
+      expect(rows[0].value).toBe("A CMS integration proof");
+    } finally {
+      await getDatabase().delete(siteSettings).where(eq(siteSettings.key, key));
+      if (oldToken === undefined) delete process.env.INTERNAL_CMS_TOKEN;
+      else process.env.INTERNAL_CMS_TOKEN = oldToken;
+    }
+  });
+
 });

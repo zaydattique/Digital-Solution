@@ -8,7 +8,7 @@ export function Brand({ compact = false, light = false }: BrandProps) {
   const name = site["brand.name"] || "HavocX Agency";
   const logo = site["brand.logoUrl"];
   return (
-    <span className={`vx-brand${compact ? " vx-brand--compact" : ""}`} style={{ display: "inline-flex", alignItems: "center", maxWidth: "100%" }}>
+    <span className={`hx-brand${compact ? " hx-brand--compact" : ""}`} style={{ display: "inline-flex", alignItems: "center", maxWidth: "100%" }}>
       {logo ? (
         // The approved logo URL is supplied from the authenticated CMS.
         // eslint-disable-next-line @next/next/no-img-element

@@ -23,7 +23,7 @@ describe("Express API", () => {
       .get("/api/health")
       .expect(200);
 
-    expect(response.body.data).toEqual({ service: "digital-solutions-api", status: "ok" });
+    expect(response.body.data).toEqual({ service: "havocx-agency-api", status: "ok" });
     expect(response.headers["x-request-id"]).toBeTypeOf("string");
   });
 

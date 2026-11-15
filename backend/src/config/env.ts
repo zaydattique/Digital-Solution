@@ -11,7 +11,7 @@ const envSchema = z.object({
   RESEND_API_KEY: z.string().min(1, "RESEND_API_KEY is required"),
   DATABASE_SSL_MODE: z.enum(["require", "disable"]).default("require"),
   ADMIN_EMAIL: z.email(),
-  EMAIL_FROM: z.string().min(3).default("Digital Solutions <onboarding@resend.dev>"),
+  EMAIL_FROM: z.string().min(3).default("HavocX Agency <onboarding@resend.dev>"),
   CORS_ORIGINS: z.string().min(1).default("http://localhost:3000"),
   CONTACT_RATE_LIMIT_WINDOW_MS: z.coerce.number().int().positive().default(600_000),
   CONTACT_RATE_LIMIT_MAX: z.coerce.number().int().positive().default(2),
