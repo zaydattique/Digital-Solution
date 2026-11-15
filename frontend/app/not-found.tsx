@@ -1,73 +1,34 @@
-import Link from "next/link";
-import { ArrowLeft, Home, Compass } from "lucide-react";
+import { ArrowUpRight, Compass } from "lucide-react";
+import { ServicePageHeader } from "@/src/features/services/components/ServicePageHeader";
+import { AgencyFooter } from "@/src/components/layout/AgencyFooter";
 
 export default function NotFound() {
   return (
-    <div className="ds-not-found-page">
-      {/* Top Header */}
-      <header className="ds-not-found-header">
-        <Link href="/" className="ds-not-found-brand">
-          Digital Solutions<span>.</span>
-        </Link>
-        <Link
-          href="/"
-          className="ds-not-found-back"
-        >
-          <ArrowLeft size={16} aria-hidden="true" /> Back to Home
-        </Link>
-      </header>
-
-      {/* Main 404 Hero */}
-      <main className="ds-not-found-main">
-        {/* Glow ambient backgrounds */}
-        <div className="ds-not-found-glow ds-not-found-glow--one" />
-        <div className="ds-not-found-glow ds-not-found-glow--two" />
-
-        <div className="ds-not-found-copy">
-          <div className="ds-not-found-pill">
-            <Compass size={16} aria-hidden="true" />
-            404 Error — Page Not Found
+    <div className="hx-subpage">
+      <ServicePageHeader />
+      <main>
+        <section className="hx-subhero">
+          <div className="hx-subcontainer">
+            <span className="hx-subeyebrow"><Compass aria-hidden="true" size={16} /> / 404 NOT FOUND</span>
+            <h1>That page isn't here.</h1>
+            <p>The link may have changed. You can return to our work or find the right service below.</p>
+            <div className="hx-subhero-meta">
+              <span>HAVOCX AGENCY</span>
+              <a href="/">Return home <ArrowUpRight aria-hidden="true" size={18} /></a>
+            </div>
           </div>
-
-          <h1 className="ds-not-found-title">
-            4<span>0</span>4
-          </h1>
-
-          <h2 className="ds-not-found-heading">
-            This Service Page Does Not Exist Yet
-          </h2>
-
-          <p className="ds-not-found-description">
-            The page or service you are looking for may have been moved, renamed, or is currently in development.
-          </p>
-
-          <div className="ds-not-found-actions">
-            <Link
-              href="/"
-              className="ds-not-found-primary"
-            >
-              <Home size={16} aria-hidden="true" /> Go to Homepage
-            </Link>
-            <Link
-              href="/services/development"
-              className="ds-not-found-secondary"
-            >
-              Development Services
-            </Link>
-            <Link
-              href="/services/marketing-seo"
-              className="ds-not-found-secondary"
-            >
-              Marketing & SEO Services
-            </Link>
+        </section>
+        <section className="hx-subcontainer hx-capability-list" aria-label="Find your way">
+          <div className="hx-subsection-head">
+            <span>(01 / EXPLORE)</span>
+            <h2>Find your <em>way.</em></h2>
           </div>
-        </div>
+          <a className="hx-capability" href="/services/marketing-seo"><span>01</span><div><h3>Marketing & SEO</h3><p>Grow visibility and connect with the right audience.</p></div><ArrowUpRight aria-hidden="true" size={26} /></a>
+          <a className="hx-capability" href="/services/design"><span>02</span><div><h3>Design & Experience</h3><p>Create purposeful experiences and recognizable brands.</p></div><ArrowUpRight aria-hidden="true" size={26} /></a>
+          <a className="hx-capability" href="/book-a-demo"><span>03</span><div><h3>Start a project</h3><p>Tell us what you're looking to build.</p></div><ArrowUpRight aria-hidden="true" size={26} /></a>
+        </section>
       </main>
-
-      {/* Footer */}
-      <footer className="ds-not-found-footer">
-        © {new Date().getFullYear()} Digital Solutions. Engineered for high performance & scale.
-      </footer>
+      <AgencyFooter />
     </div>
   );
 }
