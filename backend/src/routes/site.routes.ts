@@ -11,6 +11,10 @@ export const SITE_KEYS = [
   "legal.lastUpdated", "legal.privacyBody", "legal.termsBody", "checkout.whatsappNumber", "social.linkedin", "social.instagram", "social.facebook", "social.website",
 ] as const;
 
+export function isEditableServiceSetting(key: string): boolean {
+  return /^service[.][a-z0-9-]{3,64}[.](title|heroSubtitle|shortDescription|imageUrl)$/.test(key);
+}
+
 export function verifyAdminKey(value: string | undefined): boolean {
   const expected = process.env.INTERNAL_CMS_TOKEN;
   if (!expected || expected.length < 32 || !value) return false;
@@ -35,7 +39,7 @@ export function createSiteRouter() {
       const key = req.params.key;
       const payload: unknown = req.body;
       const value: unknown = typeof payload === "object" && payload !== null && "value" in payload ? payload.value : undefined;
-      const editableServiceField = /^service\\.[a-z0-9-]{3,64}\\.(title|heroSubtitle|shortDescription|imageUrl)$/.test(key);
+      const editableServiceField = isEditableServiceSetting(key);
       if ((!SITE_KEYS.includes(key as typeof SITE_KEYS[number]) && !editableServiceField) || typeof value !== "string" || value.length > (key.startsWith("legal.") && key.endsWith("Body") ? 12000 : 3000)) {
         res.status(400).json({ success: false, error: { code: "INVALID_SETTING", message: "Invalid site setting" } }); return;
       }
