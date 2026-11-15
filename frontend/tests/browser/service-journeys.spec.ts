@@ -224,10 +224,10 @@ test("contact form accepts valid data and confirms success after the API respond
   await expect(page.locator('input[name="name"]')).toHaveValue("");
 });
 
-test("private software tools route retains noindex and current agency branding", async ({ page }) => {
+test("retired software tools listing redirects to the contact page", async ({ page }) => {
   const response = await page.goto("/services/software-tools", { waitUntil: "domcontentloaded" });
   expect(response?.status()).toBe(200);
-  await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/i);
+  await expect(page).toHaveURL(/\\/book-a-demo$/);
   await expect(page.locator("header.hx-nav")).toHaveCount(1);
-  await expect(page.getByText("Digital Solutions")).toHaveCount(0);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("project");
 });
