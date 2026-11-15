@@ -209,8 +209,8 @@ test("retired vx styling and 404 skin cannot silently return", async () => {
     readFile(path.join(root, "app/not-found.tsx"), "utf8"),
     readFile(path.join(root, "app/admin/actions.ts"), "utf8"),
   ]);
-  assert.doesNotMatch(css, /\\.vx-[a-z]/);
-  assert.doesNotMatch(css, /\\.ds-not-found/);
+  assert.equal(css.includes(".vx-"), false);
+  assert.equal(css.includes(".ds-not-found"), false);
   assert.match(brand, /hx-brand/);
   assert.match(notFound, /ServicePageHeader/);
   assert.match(notFound, /AgencyFooter/);
